@@ -6,9 +6,9 @@ server:
 #数据连接
 spring:
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/hongyuceramics?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
+    url: jdbc:mysql://47.103.5.82:3306/volunteerDB?useUnicode=true&characterEncoding=utf8&allowMultiQueries=true
     username: root
-    password: 123
+    password: Abc123!_
     driverCdrlassName: com.mysql.jdbc.Driver
 #Mybatis扫描
 mybatis:
