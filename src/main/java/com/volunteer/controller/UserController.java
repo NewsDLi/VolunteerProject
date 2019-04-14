@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.volunteer.constant.ApiResponse;
+import com.volunteer.constant.ResponseStatus;
 import com.volunteer.manager.UserManager;
 import com.volunteer.model.User;
 
@@ -22,7 +24,9 @@ public class UserController {
 	private UserManager userManager;
 	
 	@RequestMapping("/getUser")
-	public User getUser(HttpServletRequest request, HttpServletResponse response){
-		return userManager.getUserInfoByUsername("zhangsan");
+	public ApiResponse<User> getUser(HttpServletRequest request, HttpServletResponse response){
+		ApiResponse<User> apiResponse = new ApiResponse<>();
+		User userInfoByUsername = userManager.getUserInfoByUsername("zhangsan");
+		return apiResponse.build(ResponseStatus.SUCCESS_MESSAGE, userInfoByUsername);
 	}
 }
