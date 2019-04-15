@@ -1,4 +1,4 @@
-package com.volunteer.constant;
+package com.volunteer.response;
 
 /**
  * 
@@ -9,8 +9,8 @@ package com.volunteer.constant;
  */
 public enum ResponseStatus {
 
-	FAIL_MESSAGE("fail", "1000001"),
-	SUCCESS_MESSAGE("success", "1000002");
+	FAIL("fail", "1000001"),
+	SUCCESS("success", "1000002");
 	
 	private ResponseStatus(String message, String code) {
 		this.message = message;

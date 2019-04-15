@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.volunteer.constant.ApiResponse;
-import com.volunteer.constant.ResponseStatus;
 import com.volunteer.manager.UserManager;
 import com.volunteer.model.User;
+import com.volunteer.response.ApiResponse;
+import com.volunteer.response.ResponseStatus;
 
 /**
  * @author NewsDLee
@@ -25,8 +25,7 @@ public class UserController {
 	
 	@RequestMapping("/getUser")
 	public ApiResponse<User> getUser(HttpServletRequest request, HttpServletResponse response){
-		ApiResponse<User> apiResponse = new ApiResponse<>();
 		User userInfoByUsername = userManager.getUserInfoByUsername("zhangsan");
-		return apiResponse.build(ResponseStatus.SUCCESS_MESSAGE, userInfoByUsername);
+		return ApiResponse.build(ResponseStatus.SUCCESS, userInfoByUsername);
 	}
 }

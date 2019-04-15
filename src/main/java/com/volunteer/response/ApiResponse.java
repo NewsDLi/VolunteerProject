@@ -1,4 +1,4 @@
-package com.volunteer.constant;
+package com.volunteer.response;
 
 /**
  * 
@@ -60,8 +60,8 @@ public class ApiResponse<T> {
 		this.date = date;
 	}
 	
-	public ApiResponse<T> build(ResponseStatus successMessage, T date) {
-		return new ApiResponse<>(successMessage.getMessage(), successMessage.getCode(), date);
+	public static <T> ApiResponse<T> build(ResponseStatus successMessage, T date) {
+		return new ApiResponse<T>(successMessage.getMessage(), successMessage.getCode(), date);
 	}
 	
 }
