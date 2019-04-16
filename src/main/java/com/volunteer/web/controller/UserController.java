@@ -1,18 +1,17 @@
-package com.volunteer.controller;
+package com.volunteer.web.controller;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.volunteer.manager.UserManager;
 import com.volunteer.model.PropBean;
 import com.volunteer.model.User;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
+import com.volunteer.web.manager.UserManager;
 
 /**
  * @author NewsDLee
