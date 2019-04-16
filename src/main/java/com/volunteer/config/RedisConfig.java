@@ -1,5 +1,6 @@
 package com.volunteer.config;
 
+import org.apache.commons.pool.impl.GenericObjectPool.Config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -7,6 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
+import redis.clients.jedis.Protocol;
 
 @Configuration
 @ConfigurationProperties(prefix = "spring.redis")
@@ -14,6 +16,9 @@ public class RedisConfig {
 
 	@Value("${spring.redis.host}")
     private String hostName;
+	
+	@Value("${spring.redis.password}")
+	private String password;
 
     @Value("${spring.redis.max-active}")
     private int maxActive;
@@ -40,7 +45,7 @@ public class RedisConfig {
 
     @Bean
     public JedisPool getJedisSentinelPool(){
-    	JedisPool jedisPool = new JedisPool(getJedisPoolConfig(), hostName);
+    	JedisPool jedisPool = new JedisPool(getJedisPoolConfig(), hostName, Protocol.DEFAULT_PORT, Protocol.DEFAULT_TIMEOUT, password, Protocol.DEFAULT_DATABASE);
         return jedisPool;
     }
 }
