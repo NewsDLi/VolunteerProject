@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.volunteer.model.PropBean;
 import com.volunteer.model.User;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
+import com.volunteer.utils.PropBean;
 import com.volunteer.web.manager.UserManager;
 
 /**
@@ -30,7 +30,7 @@ public class UserController {
 	@RequestMapping("/getUser")
 	public ApiResponse<User> getUser(HttpServletRequest request, HttpServletResponse response){
 		User userInfoByUsername = userManager.getUserInfoByUsername("zhangsan");
-		userInfoByUsername.setUsername(pro.getName());
+		userInfoByUsername.setUsername(pro.getAppid());
 		return ApiResponse.build(ResponseStatus.SUCCESS, userInfoByUsername);
 	}
 }
