@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.volunteer.cache.manager.CacheManager;
 import com.volunteer.model.User;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
-import com.volunteer.utils.PropBean;
 import com.volunteer.web.manager.UserManager;
 
 /**
@@ -23,14 +23,25 @@ public class UserController {
 
 	@Autowired
 	private UserManager userManager;
-
+	
 	@Autowired
-	private PropBean pro;
+	private CacheManager cacheManager;
 	
 	@RequestMapping("/getUser")
 	public ApiResponse<User> getUser(HttpServletRequest request, HttpServletResponse response){
 		User userInfoByUsername = userManager.getUserInfoByUsername("zhangsan");
-		userInfoByUsername.setUsername(pro.getAppid());
 		return ApiResponse.build(ResponseStatus.SUCCESS, userInfoByUsername);
+	}
+	
+	@RequestMapping("/setCache")
+	public ApiResponse<String> setCache(HttpServletRequest request, HttpServletResponse response){
+		cacheManager.setObject("asdasd", "asdasd");
+		return ApiResponse.build(ResponseStatus.SUCCESS, null);
+	}
+	
+	@RequestMapping("/getCache")
+	public ApiResponse<String> getCache(HttpServletRequest request, HttpServletResponse response){
+		String object = cacheManager.getObject("asdasd");
+		return ApiResponse.build(ResponseStatus.SUCCESS, object);
 	}
 }
