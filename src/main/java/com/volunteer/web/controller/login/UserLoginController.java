@@ -64,7 +64,7 @@ public class UserLoginController {
             }
             //查询成功
             //如果是微信会员 ---将信息缓存起来
-            if (wechatMessage.getIsWechatMember() == 1 && cacheManager.getValue("WECHAT_MESSAGE" + code) == null){
+            if (cacheManager.getValue("WECHAT_MESSAGE" + code) == null){
                 cacheManager.setValue("WECHAT_USERINFO" + code, httpResponse, TimeInterval.SECONDS_PER_HOUR * 2);
             }
             request.getSession().setAttribute("WECHAT_USERINFO", httpResponse);
