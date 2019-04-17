@@ -17,10 +17,22 @@
 
 	<properties>
 		<java.version>1.8</java.version>
+		<version.feilong-platform>1.12.10</version.feilong-platform>
 	</properties>
 
-	<dependencies>
+	<repositories>
+		<repository>
+			<id>feilong-repository</id>
+			<url>https://raw.github.com/venusdrogon/feilong-platform/repository</url>
+		</repository>
+	</repositories>
 
+	<dependencies>
+		<dependency>
+			<groupId>com.feilong.platform</groupId>
+			<artifactId>feilong-util-all</artifactId>
+			<version>${version.feilong-platform}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -60,6 +72,11 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
 			<version>2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.57</version>
 		</dependency>
 	</dependencies>
 

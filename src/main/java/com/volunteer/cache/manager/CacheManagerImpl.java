@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.volunteer.cache.common.SerializableUtil;
+import com.volunteer.common.SerializableUtil;
 import com.volunteer.cache.exception.CacheException;
 
 import redis.clients.jedis.Jedis;
