@@ -2,7 +2,6 @@ package com.volunteer.web.controller.login;
 
 import com.alibaba.fastjson.JSON;
 import com.feilong.core.TimeInterval;
-import com.feilong.core.Validator;
 import com.feilong.servlet.http.RequestUtil;
 import com.volunteer.cache.manager.CacheManager;
 import com.volunteer.common.WechatMessage;
@@ -10,6 +9,8 @@ import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.utils.HttpsUtils;
 import com.volunteer.utils.PropBean;
 import net.sf.json.JSONObject;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -47,7 +48,7 @@ public class UserLoginController {
         //请求链接
         String returnUrl = parameterMap.get("returnUrl");
         try {
-            if (Validator.isNullOrEmpty(returnUrl)) {
+            if (StringUtils.isBlank(returnUrl)) {
                 returnUrl = "";
             }
             //通过code换取用户信息--先从缓存中获取，没有就从第三方获取
@@ -55,7 +56,7 @@ public class UserLoginController {
             if (httpResponse == null) {
                 httpResponse = getWechatMemberInfo(code);
             }
-            if (Validator.isNullOrEmpty(httpResponse)) {
+            if (StringUtils.isBlank(httpResponse)) {
                 return "redirect:" + returnUrl;
             }
             WechatMessage wechatMessage = JSON.parseObject(httpResponse, WechatMessage.class);
@@ -94,7 +95,7 @@ public class UserLoginController {
             }
             String access_token = jsonObject.getString("access_token");
             String openid = jsonObject.getString("openid");
-            if (Validator.isNullOrEmpty(access_token) && Validator.isNullOrEmpty(openid)) {
+            if (StringUtils.isBlank(access_token) && StringUtils.isBlank(openid)) {
                 return httpResponse;
             }
             //获取用户信息
