@@ -9,10 +9,10 @@ spring:
     password: Abc123!_
     driverCdrlassName: com.mysql.jdbc.Driver
   redis:
-    host: 47.103.5.82
+    host: 124.156.180.89
     port: 6379
     timeout: 1000
-    password: li123456
+    password: dingwei123456
     max-active: 20 # 连接池最大连接数（使用负值表示没有限制）
     max-idle: 50 # 连接池中的最大空闲连接
     min-idle: 20 # 连接池中的最小空闲连接
