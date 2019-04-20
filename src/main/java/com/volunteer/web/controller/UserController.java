@@ -3,6 +3,8 @@ package com.volunteer.web.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,8 @@ import com.volunteer.web.manager.UserManager;
 @RestController
 public class UserController {
 
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 	@Autowired
 	private UserManager userManager;
 	
@@ -30,6 +34,7 @@ public class UserController {
 	@RequestMapping("/getUser")
 	public ApiResponse<User> getUser(HttpServletRequest request, HttpServletResponse response){
 		User userInfoByUsername = userManager.getUserInfoByUsername("zhangsan");
+		logger.info(userInfoByUsername.toString());
 		return ApiResponse.build(ResponseStatus.SUCCESS, userInfoByUsername);
 	}
 	

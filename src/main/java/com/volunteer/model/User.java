@@ -47,4 +47,10 @@ public class User {
 		this.tel = tel;
 	}
 
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", username=" + username + ", password=" + password + ", type=" + type + ", tel="
+				+ tel + "]";
+	}
+
 }
