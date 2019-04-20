@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+</head>
+
+
+<body>
+
+	<div class="place">
+	</div>
+
+	<div class="mainindex">
+		openid：
+		<p th:text="${userInfo.openid}"></p>
+		<br/> 用户名：
+		<p th:text="${userInfo.nickname}"></p>
+		<br/> 性别：
+		<p th:text="${userInfo.sex}"></p>
+		<br/> 省份：
+		<p th:text="${userInfo.province}"></p>
+		<br/> 城市：
+		<p th:text="${userInfo.city}"></p>
+		<br/> 国家：
+		<p th:text="${userInfo.country}"></p>
+		<br/> <img alt="" th:src="${userInfo.headimgurl}"/>
+	</div>
+
+</body>
+
+</html>
