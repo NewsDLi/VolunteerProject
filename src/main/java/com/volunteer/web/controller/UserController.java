@@ -1,21 +1,20 @@
 package com.volunteer.web.controller;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.volunteer.cache.manager.CacheManager;
+import com.volunteer.model.User;
 import com.volunteer.model.UserInfo;
+import com.volunteer.response.ApiResponse;
+import com.volunteer.response.ResponseStatus;
 import com.volunteer.web.manager.UserInfoManager;
+import com.volunteer.web.manager.UserManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.volunteer.cache.manager.CacheManager;
-import com.volunteer.model.User;
-import com.volunteer.response.ApiResponse;
-import com.volunteer.response.ResponseStatus;
-import com.volunteer.web.manager.UserManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author NewsDLee
@@ -35,7 +34,7 @@ public class UserController {
 
 	@Autowired
 	private CacheManager cacheManager;
-	
+
 	@RequestMapping("/getUser")
 	public ApiResponse<User> getUser(HttpServletRequest request, HttpServletResponse response){
 		User userInfoByUsername = userManager.getUserInfoByUsername("zhangsan");
@@ -54,9 +53,11 @@ public class UserController {
 		String object = cacheManager.getObject("asdasd");
 		return ApiResponse.build(ResponseStatus.SUCCESS, object);
 	}
-	@RequestMapping("/getUserInfo")
-	public ApiResponse<UserInfo> getUserInfo(HttpServletRequest request, HttpServletResponse response){
-		UserInfo object = userInfoManager.getUserInfoByOpenId("111");
-		return ApiResponse.build(ResponseStatus.SUCCESS, object);
-	}
+
+    @RequestMapping("/getUserInfo")
+    public ApiResponse<UserInfo> getUserInfo(HttpServletRequest request, HttpServletResponse response){
+        UserInfo object = userInfoManager.getUserInfoByOpenId("111");
+        return ApiResponse.build(ResponseStatus.SUCCESS, object);
+    }
+	
 }
