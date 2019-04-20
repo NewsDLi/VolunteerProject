@@ -8,6 +8,7 @@ import com.volunteer.common.WechatMessage;
 import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.utils.HttpsUtils;
 import com.volunteer.utils.PropBean;
+import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -30,6 +31,9 @@ public class UserLoginController {
 
     @Autowired
     private CacheManager cacheManager;
+
+    @Autowired
+    private WeChatLoginHandler weChatLoginHandler;
 
     @Autowired
     private PropBean prop;
@@ -71,7 +75,7 @@ public class UserLoginController {
             }
             request.getSession().setAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION, httpResponse);
             //登录用户的处理方法
-            //return wechatOAuthSuccess(wechatMessage, request, response, returnUrl);
+            return weChatLoginHandler.wechatOAuthSuccess(wechatMessage, request, response, returnUrl);
         } catch (Exception e) {
             e.printStackTrace();
         }

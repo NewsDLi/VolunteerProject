@@ -3,6 +3,8 @@ package com.volunteer.web.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.volunteer.model.UserInfo;
+import com.volunteer.web.manager.UserInfoManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +29,10 @@ public class UserController {
 	
 	@Autowired
 	private UserManager userManager;
-	
+
+	@Autowired
+	private UserInfoManager userInfoManager;
+
 	@Autowired
 	private CacheManager cacheManager;
 	
@@ -47,6 +52,11 @@ public class UserController {
 	@RequestMapping("/getCache")
 	public ApiResponse<String> getCache(HttpServletRequest request, HttpServletResponse response){
 		String object = cacheManager.getObject("asdasd");
+		return ApiResponse.build(ResponseStatus.SUCCESS, object);
+	}
+	@RequestMapping("/getUserInfo")
+	public ApiResponse<UserInfo> getUserInfo(HttpServletRequest request, HttpServletResponse response){
+		UserInfo object = userInfoManager.getUserInfoByOpenId("111");
 		return ApiResponse.build(ResponseStatus.SUCCESS, object);
 	}
 }

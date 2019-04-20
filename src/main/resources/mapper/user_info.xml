@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.volunteer.web.dao.UserInfoMapper">
+ 
+    <select id="selectUserInfoByOpenId" parameterType="String"  resultType="UserInfo">
+        SELECT info
+        .*
+        FROM
+        user_info
+        info LEFT JOIN user_info_bind bind ON info.id = bind.user_id
+        WHERE
+        bind.wechat_id = ( SELECT id FROM wechat_info WHERE open_id = #{openId} )
+    </select>
+
+
+    <select id="selectUserInfoByMobile" parameterType="String"  resultType="UserInfo">
+        SELECT
+           *
+        FROM
+          user_info
+        WHERE
+          login_phone = #{mobile}
+    </select>
+
+
+</mapper>
