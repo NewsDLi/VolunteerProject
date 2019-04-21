@@ -50,6 +50,9 @@
 	.person_first_career {
 		padding-top: 5px;
 	}
+	.career_count{
+		padding-left: 10%;
+	}
 	.weui-switch:checked, .weui-switch-cp__input:checked,
 		.weui-switch-cp__box {
 		border-color: #04BE02;
