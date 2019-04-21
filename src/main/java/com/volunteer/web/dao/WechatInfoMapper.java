@@ -15,6 +15,6 @@ public interface WechatInfoMapper {
 	/**
 	 * 通过openId查询用户信息
 	 */
-	Boolean saveWechatInfo(WechatInfo wechatInfo);
+	Integer  saveWechatInfo(WechatInfo wechatInfo);
 
 }

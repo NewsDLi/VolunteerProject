@@ -1,12 +1,15 @@
 package com.volunteer.web.controller;
 
 import com.volunteer.cache.manager.CacheManager;
+import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.model.User;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.WechatInfo;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
 import com.volunteer.web.manager.UserInfoManager;
 import com.volunteer.web.manager.UserManager;
+import com.volunteer.web.manager.WechatInfoManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +36,9 @@ public class UserController {
 	private UserInfoManager userInfoManager;
 
 	@Autowired
+	private WechatInfoManager wechatInfoManager;
+
+	@Autowired
 	private CacheManager cacheManager;
 
 	@RequestMapping("/getUser")
@@ -55,9 +61,15 @@ public class UserController {
 	}
 
     @RequestMapping("/getUserInfo")
-    public ApiResponse<UserInfo> getUserInfo(HttpServletRequest request, HttpServletResponse response){
-        UserInfo object = userInfoManager.getUserInfoByOpenId("111");
-        return ApiResponse.build(ResponseStatus.SUCCESS, object);
+    public ApiResponse<Boolean> getUserInfo(HttpServletRequest request, HttpServletResponse response){
+//        UserInfoBindCommand object = userInfoManager.getUserInfoByOpenId("111");
+        WechatInfo wechatInfo= new WechatInfo();
+        wechatInfo.setSex(1);
+        wechatInfo.setId(1L);
+        wechatInfo.setNickName("shiyuan");
+        wechatInfo.setOpenId("shiyuan");
+		wechatInfoManager.saveWechatInfo(wechatInfo);
+        return ApiResponse.build(ResponseStatus.SUCCESS, null);
     }
 	
 }

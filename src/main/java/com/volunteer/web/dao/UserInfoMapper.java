@@ -1,5 +1,6 @@
 package com.volunteer.web.dao;
 
+import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.model.UserInfo;
 import org.springframework.stereotype.Repository;
 
@@ -14,7 +15,7 @@ public interface UserInfoMapper {
 	/**
 	 * 通过openId查询用户信息
 	 */
-	UserInfo selectUserInfoByOpenId(String openId);
+	UserInfoBindCommand selectUserInfoByOpenId(String openId);
 
 
 	/**

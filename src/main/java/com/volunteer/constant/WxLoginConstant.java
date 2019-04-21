@@ -12,11 +12,16 @@ public class WxLoginConstant {
      */
     public static final String WECHAT_USERINFO_SESSION = "WechatUserInfoSession";
     /**
-     * 存放在redis中的用户信息
+     * 存放在redis中的微信用户信息
      */
     public static final String WECHAT_USERINFO = "WechatUserInfo";
     /**
      * 微信接口成功code
      */
     public static final Integer WECHAT_ACCESS_SUCCESS = 27000;
+
+    /**
+     * 存放在redis中的用户信息
+     */
+    public static final String USERINFO = "userinfo";
 }

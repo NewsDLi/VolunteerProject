@@ -1,7 +1,11 @@
 package com.volunteer.web.controller.login.handler;
 
+import com.feilong.core.TimeInterval;
 import com.feilong.core.Validator;
+import com.volunteer.cache.manager.CacheManager;
+import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.common.WechatMessage;
+import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.model.UserInfo;
 import com.volunteer.web.manager.UserInfoManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,15 +21,22 @@ public class WeChatLoginHandler {
     private UserInfoManager userInfoManager;
 
 
-   public String wechatOAuthSuccess(WechatMessage wechatMessage, HttpServletRequest request, HttpServletResponse response,String returnUrl){
+    @Autowired
+    private CacheManager cacheManager;
 
-       UserInfo userInfo = userInfoManager.getUserInfoByOpenId(wechatMessage.getOpenId());
-       //通过openId查询是否有用户信息，，判断为第一次登陆
-       if(Validator.isNullOrEmpty(userInfo)){
-           return  "login";
-       }
 
-       return returnUrl;
+    public UserInfoBindCommand wechatOAuthSuccess(WechatMessage wechatMessage){
+        UserInfoBindCommand userInfo = cacheManager.getObject(WxLoginConstant.USERINFO+wechatMessage.getOpenId());
+        if(Validator.isNotNullOrEmpty(userInfo)){
+            return userInfo;
+        }
+        userInfo = userInfoManager.getUserInfoByOpenId(wechatMessage.getOpenId());
+        if(Validator.isNullOrEmpty(userInfo)){
+            return  userInfo;
+        }
+        cacheManager.setObject(WxLoginConstant.USERINFO+wechatMessage.getOpenId(),userInfo, TimeInterval.SECONDS_PER_HOUR*2);
+        return  userInfo;
+
    }
 
 }

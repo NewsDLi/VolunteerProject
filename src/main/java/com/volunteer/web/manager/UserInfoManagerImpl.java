@@ -1,5 +1,6 @@
 package com.volunteer.web.manager;
 
+import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.model.UserInfo;
 import com.volunteer.web.dao.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,7 @@ public class UserInfoManagerImpl implements UserInfoManager{
 	private UserInfoMapper userInfoMapper;
 
 	@Override
-	public UserInfo getUserInfoByOpenId(String openId) {
+	public UserInfoBindCommand getUserInfoByOpenId(String openId) {
 		return userInfoMapper.selectUserInfoByOpenId(openId);
 	}
 

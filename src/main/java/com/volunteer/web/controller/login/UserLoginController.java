@@ -5,11 +5,16 @@ import com.feilong.core.TimeInterval;
 import com.feilong.core.Validator;
 import com.feilong.servlet.http.RequestUtil;
 import com.volunteer.cache.manager.CacheManager;
+import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.common.WechatMessage;
 import com.volunteer.constant.WxLoginConstant;
+import com.volunteer.model.UserInfo;
+import com.volunteer.model.WechatInfo;
 import com.volunteer.utils.HttpsUtils;
 import com.volunteer.utils.PropBean;
 import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
+import com.volunteer.web.manager.UserInfoManager;
+import com.volunteer.web.manager.WechatInfoManager;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
@@ -37,6 +42,12 @@ public class UserLoginController {
     private WeChatLoginHandler weChatLoginHandler;
 
     @Autowired
+    private UserInfoManager userInfoManager;
+
+    @Autowired
+    private WechatInfoManager wechatInfoManager;
+
+    @Autowired
     private PropBean prop;
 
     /**
@@ -62,12 +73,12 @@ public class UserLoginController {
                 httpResponse = getWechatMemberInfo(code);
             }
             if (StringUtils.isBlank(httpResponse)) {
-                return "login";
+                return "login/1";
             }
             WechatMessage wechatMessage = JSON.parseObject(httpResponse, WechatMessage.class);
             //查询信息失败
             if (Validator.isNullOrEmpty(wechatMessage)) {
-                return "login";
+                return "login/1";
             }
             //查询成功
             //如果是微信会员 ---将信息缓存起来
@@ -76,12 +87,17 @@ public class UserLoginController {
             }
             request.getSession().setAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION, httpResponse);
             //登录用户的处理方法
-            return weChatLoginHandler.wechatOAuthSuccess(wechatMessage, request, response, returnUrl);
+            UserInfoBindCommand userInfo = weChatLoginHandler.wechatOAuthSuccess(wechatMessage);
+            //通过openId查询是否有用户信息，，判断为第一次登陆
+            if(Validator.isNullOrEmpty(userInfo)){
+                return  saveWechatInfo(wechatMessage);
+            }
+            return "redirect:" + returnUrl;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return "redirect:" + returnUrl;
+        return "login/1";
 
     }
 
@@ -90,9 +106,9 @@ public class UserLoginController {
      * 跳转至登录页面
      * @return
      */
-    @RequestMapping("/login")
+    @RequestMapping("/login/{type}")
     public String toLogin(){
-        return "login";
+        return "index";
     }
 
 
@@ -124,6 +140,22 @@ public class UserLoginController {
             e.printStackTrace();
         }
         return httpResponse;
+    }
+
+    private String saveWechatInfo(WechatMessage wechatMessage){
+        try {
+            WechatInfo wechatInfo = new WechatInfo();
+            wechatInfo.setOpenId(wechatMessage.getOpenId());
+            wechatInfo.setNickName(wechatMessage.getNickname());
+            wechatInfo.setCity(wechatMessage.getCity());
+            wechatInfo.setCountry(wechatMessage.getCountry());
+            wechatInfo.setProvince(wechatMessage.getProvince());
+            wechatInfo.setSex(wechatMessage.getSex());
+            wechatInfoManager.saveWechatInfo(wechatInfo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "login";
     }
 
 }
