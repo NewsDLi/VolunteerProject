@@ -20,23 +20,12 @@ public class WeChatLoginHandler {
    public String wechatOAuthSuccess(WechatMessage wechatMessage, HttpServletRequest request, HttpServletResponse response,String returnUrl){
 
        UserInfo userInfo = userInfoManager.getUserInfoByOpenId(wechatMessage.getOpenId());
-        //通过openId查询是否有用户信息，，判断为第一次登陆
+       //通过openId查询是否有用户信息，，判断为第一次登陆
        if(Validator.isNullOrEmpty(userInfo)){
-           //通过Mobile查询是否有用户信息，，判断微信与数据库手机号是否绑定
-           UserInfo userInfoByMobile = userInfoManager.getUserInfoByMobile(wechatMessage.getMobile());
-           return  Validator.isNullOrEmpty(userInfoByMobile) ? "login": returnUrl;
+           return  "login";
        }
 
-       if(userInfo.getLoginPhone().equals(wechatMessage.getMobile())){
-           return  "index";
-       }
        return returnUrl;
    }
 
-   public Boolean saveWechatInfo()
-
-   {
-
-       return true;
-    }
 }

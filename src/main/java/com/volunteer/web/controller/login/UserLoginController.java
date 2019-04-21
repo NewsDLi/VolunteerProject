@@ -2,6 +2,7 @@ package com.volunteer.web.controller.login;
 
 import com.alibaba.fastjson.JSON;
 import com.feilong.core.TimeInterval;
+import com.feilong.core.Validator;
 import com.feilong.servlet.http.RequestUtil;
 import com.volunteer.cache.manager.CacheManager;
 import com.volunteer.common.WechatMessage;
@@ -61,12 +62,12 @@ public class UserLoginController {
                 httpResponse = getWechatMemberInfo(code);
             }
             if (StringUtils.isBlank(httpResponse)) {
-                return "redirect:" + returnUrl;
+                return "login";
             }
             WechatMessage wechatMessage = JSON.parseObject(httpResponse, WechatMessage.class);
             //查询信息失败
-            if (wechatMessage.getErrcode() != 0) {
-                return "redirect:" + returnUrl;
+            if (Validator.isNullOrEmpty(wechatMessage)) {
+                return "login";
             }
             //查询成功
             //如果是微信会员 ---将信息缓存起来
