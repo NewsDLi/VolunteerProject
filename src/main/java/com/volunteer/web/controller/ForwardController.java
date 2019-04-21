@@ -39,11 +39,19 @@ public class ForwardController {
 		return "mypage";
 	}
 	/**
-	 * 跳转至微信登录页面
+	 * 跳转至个人信息
 	 * @return
 	 */
 	@RequestMapping("/myinfo")
 	public String myInfo(){
 		return "myinfo";
+	}
+	/**
+	 * 跳转至义工生涯
+	 * @return
+	 */
+	@RequestMapping("/mycareer")
+	public String mycareer(){
+		return "mycareer";
 	}
 }
