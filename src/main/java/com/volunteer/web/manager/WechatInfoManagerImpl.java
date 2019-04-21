@@ -15,8 +15,8 @@ public class WechatInfoManagerImpl implements WechatInfoManager{
 
 	@Override
 	@Transactional
-	public Integer  saveWechatInfo(WechatInfo wechatInfo) {
-		Integer integer = null;
+	public Long  saveWechatInfo(WechatInfo wechatInfo) {
+		Long integer = null;
 		try {
 			 integer = wechatInfoMapper.saveWechatInfo(wechatInfo);
 		} catch (Exception e) {

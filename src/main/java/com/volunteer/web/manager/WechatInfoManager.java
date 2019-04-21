@@ -8,6 +8,6 @@ public interface WechatInfoManager {
 	/**
 	 *新增微信用户
 	 */
-	Integer  saveWechatInfo(WechatInfo wechatInfo);
+	Long  saveWechatInfo(WechatInfo wechatInfo);
 
 }
