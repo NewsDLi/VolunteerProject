@@ -16,19 +16,20 @@ import javax.servlet.http.HttpSession;
  */
 public class LoginIntecepter implements HandlerInterceptor {
 
+	// 暂时注释 by NewsDLee
 	// 进入 Handler方法之前执行
 	// 用于身份认证、身份授权
 	// 比如身份认证，如果认证通过表示当前用户没有登陆，需要此方法拦截不再向下执行
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
-			throws Exception {
-		HttpSession session = request.getSession();
-		String user = (String) session.getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION); //获取登录的session信息
-		if(user!=null){
-			return true;
-		}
-		else{
-			response.sendRedirect(request.getContextPath()+"/we");  //未登录自动跳转界面
-			return false;
-		}
-	}
+//	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+//			throws Exception {
+//		HttpSession session = request.getSession();
+//		String user = (String) session.getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION); //获取登录的session信息
+//		if(user!=null){
+//			return true;
+//		}
+//		else{
+//			response.sendRedirect(request.getContextPath()+"/weChatLogin");  //未登录自动跳转界面
+//			return false;
+//		}
+//	}
 }

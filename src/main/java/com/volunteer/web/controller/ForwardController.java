@@ -21,7 +21,7 @@ public class ForwardController {
 	public String toIndex(){
 		return "index";
 	}
-	
+
 	/**
 	 * 跳转至微信登录页面
 	 * @return
