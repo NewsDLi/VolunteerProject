@@ -84,6 +84,18 @@ public class UserLoginController {
 
     }
 
+
+    /**
+     * 跳转至登录页面
+     * @return
+     */
+    @RequestMapping("/login")
+    public String toLogin(){
+        return "login";
+    }
+
+
+
     private String getWechatMemberInfo(String code) {
         String httpResponse = null;
         try {

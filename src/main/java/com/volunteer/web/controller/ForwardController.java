@@ -26,27 +26,8 @@ public class ForwardController {
 	 * 跳转至微信登录页面
 	 * @return
 	 */
-	@RequestMapping("/weui")
-	public String toWeUi(){
-		return "weui";
-	}
-	
-	
-	/**
-	 * 跳转至微信ui界面
-	 * @return
-	 */
 	@RequestMapping("/wechartLogin")
 	public String toWechartLogin(){
 		return "wechartLogin";
-	}
-	
-	/**
-	 * 跳转至微信登录页面
-	 * @return
-	 */
-	@RequestMapping("/mypage")
-	public String mypage(){
-		return "mypage";
 	}
 }
