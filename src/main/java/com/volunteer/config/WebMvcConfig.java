@@ -10,10 +10,11 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     /**
      * 注册拦截器
+     * 暂时注释 by NewsDLee
      */
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        //addPathPattern后跟拦截地址，excludePathPatterns后跟排除拦截地址
-        registry.addInterceptor(new LoginIntecepter()).addPathPatterns("/**").excludePathPatterns("/weChatLogin");
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        //addPathPattern后跟拦截地址，excludePathPatterns后跟排除拦截地址
+//        registry.addInterceptor(new LoginIntecepter()).addPathPatterns("/**").excludePathPatterns("/weChatLogin");
+//    }
 }

@@ -261,7 +261,7 @@ $(function () {
                 template: '#' + tpl.id
             };
         }
-        pages.home.url = '#';
+        pages.home.url = 'index';
 
         for (var page in pages) {
             pageManager.push(pages[page]);
