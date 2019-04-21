@@ -21,7 +21,7 @@ public class ForwardController {
 	public String toIndex(){
 		return "index";
 	}
-	
+
 	/**
 	 * 跳转至微信登录页面
 	 * @return
@@ -29,23 +29,5 @@ public class ForwardController {
 	@RequestMapping("/wechartLogin")
 	public String toWechartLogin(){
 		return "wechartLogin";
-	}
-	
-	/**
-	 * 跳转至微信登录页面
-	 * @return
-	 */
-	@RequestMapping("/weui")
-	public String weui(){
-		return "weui";
-	}
-	
-	/**
-	 * 跳转至微信登录页面
-	 * @return
-	 */
-	@RequestMapping("/mypage")
-	public String mypapg(){
-		return "mypage";
 	}
 }
