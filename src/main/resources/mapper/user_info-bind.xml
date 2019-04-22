@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.volunteer.web.dao.WechatInfoMapper">
+ 
+    <insert id="saveUserInfoBind" parameterType="com.volunteer.model.UserInfoBind" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_info_bind(user_id, wechat_id) VALUES
+        (#{userId}, #{wechatId})
+    </insert>
+</mapper>

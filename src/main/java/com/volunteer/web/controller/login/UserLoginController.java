@@ -8,10 +8,13 @@ import com.volunteer.cache.manager.CacheManager;
 import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.common.WechatMessage;
 import com.volunteer.constant.WxLoginConstant;
+import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserInfoBind;
 import com.volunteer.model.WechatInfo;
 import com.volunteer.utils.HttpsUtils;
 import com.volunteer.utils.PropBean;
 import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
+import com.volunteer.web.manager.UserInfoBindManager;
 import com.volunteer.web.manager.UserInfoManager;
 import com.volunteer.web.manager.WechatInfoManager;
 import net.sf.json.JSONObject;
@@ -43,6 +46,9 @@ public class UserLoginController {
 
     @Autowired
     private WechatInfoManager wechatInfoManager;
+
+    @Autowired
+    private UserInfoBindManager userInfoBindManager;
 
     @Autowired
     private PropBean prop;
@@ -104,11 +110,22 @@ public class UserLoginController {
      * 跳转至登录页面
      * @return
      */
-    @GetMapping(value = "/login.json")
-    public String toLogin(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "wechatInfoId",required=false) Integer wechatId){
-        if(wechatId.equals(0)){
+    @PostMapping(value = "/login.json")
+    public String toLogin(HttpServletRequest request,
+                          HttpServletResponse response,
+                          @RequestParam(value = "wechatInfoId",required=false) Long wechatId,
+                          @RequestParam(value = "username") String username,
+                          @RequestParam(value = "password") String password){
 
+        UserInfo userInfo = userInfoManager.getUserInfoByMobile(username);
+        if(Validator.isNullOrEmpty(wechatId)){
+            return "index";
         }
+        UserInfoBind userInfoBind = new UserInfoBind();
+        userInfoBind.setUserId(userInfo.getId());
+        userInfoBind.setWechatId(wechatId);
+        //绑定微信
+        userInfoBindManager.saveUserInfoBind(userInfoBind);
 
         return "index";
     }
