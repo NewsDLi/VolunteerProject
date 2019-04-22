@@ -4,28 +4,23 @@
     <!-- appender是configuration的子节点，是负责写日志的组件。 -->  
     <!-- ConsoleAppender：把日志输出到控制台 -->  
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">      
-        <encoder>      
-            <pattern>%d %p (%file:%line\)- %m%n</pattern>    
-            <charset>UTF-8</charset>     
-        </encoder>      
-    </appender>      
+        <encoder charset="UTF-8" class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss:SSS z}]  %-5p %t %logger{1000}.%method\(%file:%line\) : %m%n</pattern>
+		</encoder>      
+    </appender>     
     <appender name="syslog" class="ch.qos.logback.core.rolling.RollingFileAppender">      
-        <File>log/sys.log</File>      
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">      
-            <fileNamePattern>log/sys.%d.%i.log</fileNamePattern>   
+            <fileNamePattern>log/%d.%i{yyyyMMdd}Daily.log</fileNamePattern>
             <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
             <maxHistory>30</maxHistory>     
             <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">      
                 <maxFileSize>1KB</maxFileSize>      
             </timeBasedFileNamingAndTriggeringPolicy>      
         </rollingPolicy>      
-        <encoder>      
-            <pattern>      
-                %d %p (%file:%line\)- %m%n    
-            </pattern>      
-            <!-- 记录日志的编码 -->  
-            <charset>UTF-8</charset> <!-- 此处设置字符集 -->     
-        </encoder>      
+             <!-- 注意 logback 的括号需要转义 MMdd -->
+		<encoder charset="UTF-8" class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss:SSS z}]  %-5p %t %logger{1000}.%method\(%file:%line\) : %m%n</pattern>
+		</encoder>     
     </appender>      
     <!-- 控制台输出日志级别 -->  
     <root level="info">      

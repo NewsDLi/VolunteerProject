@@ -44,4 +44,4 @@ mybatis:
   type-aliases-package: com.volunteer.model 
 #在application.yml文件中引入日志配置文件  
 logging:
-  config: classpath:logback.xml
+  config: classpath:config/logback.xml
