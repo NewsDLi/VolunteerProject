@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
+    <title>WeUI</title>
+    <link rel="stylesheet" href="css/weui.css"/>
+    <link rel="stylesheet" href="css/example.css"/>
+</head>
+<script src="js/zepto.min.js"></script>
+<script type="text/javascript"
+        src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script src="js/zepto.min.js"></script>
+<script src="js/zepto.weui.js"></script>
+<script src="js/example.js"></script>
+<body ontouchstart>
+<div class="container" id="container"></div>
+
+<div class="page grid js_show">
+    <div class="page-hd border-b w">
+        <h1 class="page-hd-title" style="text-align: center;margin-top: 31px;">
+            留言板
+        </h1>
+    </div>
+    <div class="weui-cells weui-cells_form" style="height:50%">
+        <div class="weui-cell" style="height:100%">
+            <div class="weui-cell__bd" style="height:100%">
+                <textarea class="weui-textarea" style="height:86%" placeholder="请输入文本" maxlength="200" rows="3"
+                          onkeyup="textarea(this);"></textarea>
+                <div class="weui-textarea-counter"><span>0</span>/<i>200</i></div>
+            </div>
+            <i class="weui-icon-clear" onclick="cleararea(this)"></i>
+        </div>
+    </div>
+    <a href="javascript:;" style="width: 20%;float: right;margin-right: 5%;margin-top: 5%;"
+       class="weui-btn weui-btn_primary">发表</a>
+
+
+</div>
+<div class="weui-navbar">
+    <div class="weui-navbar__item weui-bar__item_on">我的</div>
+    <div class="weui-navbar__item">主页</div>
+    <div class="weui-navbar__item ">社区</div>
+</div>
+</body>
+</html>
