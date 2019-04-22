@@ -54,4 +54,12 @@ public class ForwardController {
 	public String mycareer(){
 		return "mycareer";
 	}
+	/**
+	 * 跳转至文件上传
+	 * @return
+	 */
+	@RequestMapping("/import.htm")
+	public String upload(){
+		return "import";
+	}
 }
