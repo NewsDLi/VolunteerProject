@@ -61,5 +61,13 @@ public class ForwardController {
 	public String upload(){
 		return "import";
 	}
+	/**
+	 * 跳转weui页面
+	 * @return
+	 */
+	@RequestMapping("/weui.htm")
+	public String weui(){
+		return "weui";
+	}
 }
 

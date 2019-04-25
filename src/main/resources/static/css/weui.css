@@ -1243,7 +1243,7 @@ i.weui-tabbar__icon,
   display:flex;
   position:absolute;
   z-index:500;
-  top:0;
+  bottom:0;
   width:100%;
   background-color:#FAFAFA;
 }
