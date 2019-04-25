@@ -4,7 +4,6 @@ import java.util.Date;
 
 public class UserRole {
 	private Long id;
-	private Long roleValueId;
 	private String roleName;
 	private Integer roleType;
 	private Date version;
@@ -15,14 +14,6 @@ public class UserRole {
 
 	public void setId(Long id) {
 		this.id = id;
-	}
-
-	public Long getRoleValueId() {
-		return roleValueId;
-	}
-
-	public void setRoleValueId(Long roleValueId) {
-		this.roleValueId = roleValueId;
 	}
 
 	public String getRoleName() {

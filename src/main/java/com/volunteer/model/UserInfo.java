@@ -17,6 +17,7 @@ public class UserInfo {
 	private Integer lifecycle;
 	private Long roleTypeId;
 	private Integer group;
+	private Boolean isGroupLeader;
 
 	public Long getId() {
 		return id;
@@ -128,6 +129,14 @@ public class UserInfo {
 
 	public void setGroup(Integer group) {
 		this.group = group;
+	}
+
+	public Boolean getIsGroupLeader() {
+		return isGroupLeader;
+	}
+
+	public void setIsGroupLeader(Boolean isGroupLeader) {
+		this.isGroupLeader = isGroupLeader;
 	}
 
 }

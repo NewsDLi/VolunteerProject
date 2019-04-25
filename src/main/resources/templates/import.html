@@ -1,96 +1,77 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <meta name="viewport"
-          content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="css/weui.css"/>
-    <link rel="stylesheet" href="css/weuix.css"/>
-    <script src="js/zepto.min.js"></script>
-    <script src="js/zepto.weui.js"></script>
-    <script src="js/lrz.min.js"></script>
-    <script>
-        $(function(){
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<link rel="stylesheet" href="css/weui.css" />
+<link rel="stylesheet" href="css/weuix.css" />
+<script>
+function showFileName(){
+	var uploadId = document.getElementById("upload");
+	var showUploadFileName = document.getElementById("showUploadFileName");
+	var fileUri = uploadId.value;
+	var filename = fileUri.substring(fileUri.lastIndexOf("\\") + 1);
+	showUploadFileName.innerText = filename;
+}
 
-            var tmpl = '<li class="weui-uploader__file" style="background-image:url(#url#)"></li>';
-          var      $uploaderInput = $("#uploaderInput"); //上传按钮+
-         var       $uploaderFiles = $("#uploaderFiles");    //图片列表
-            var $galleryImg = $(".weui-gallery__img");//相册图片地址
-            var $gallery = $(".weui-gallery");
-            $uploaderInput.on("change", function(e){
-                var src, url = window.URL || window.webkitURL || window.mozURL, files = e.target.files;
-                for (var i = 0, len = files.length; i < len; ++i) {
-                    var file = files[i];
+</script>
+<style>
+.fileshi {
+	padding: 4px 10px;
+	height: 20px;
+	line-height: 20px;
+	position: relative;
+	cursor: pointer;
+	color: #888;
+	background: #fafafa;
+	border: 1px solid #ddd;
+	border-radius: 4px;
+	overflow: hidden;
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	width: 80%;
+	text-align: center;
+	margin-left: 7%;
+}
 
-                    if (url) {
-                        src = url.createObjectURL(file);
-                    } else {
-                        src = e.target.result;
-                    }
+.fileshi  input {
+	position: absolute;
+	font-size: 100px;
+	right: 0;
+	top: 0;
+	opacity: 0;
+	filter: alpha(opacity = 0);
+	cursor: pointer
+}
 
-                    $uploaderFiles.append($(tmpl.replace('#url#', src)));
-                }
-            });
-            $uploaderFiles.on("click", "li", function(){
-                $galleryImg.attr("style", this.getAttribute("style"));
-                console.log(this)
-                $gallery.fadeIn(100);
-            });
-            $gallery.on("click", function(){
-                $gallery.fadeOut(100);
-            });
-
-        });
-    </script>
-    <style>
-         .fileshi {
-            padding: 4px 10px;
-            height: 20px;
-            line-height: 20px;
-            position: relative;
-            cursor: pointer;
-            color: #888;
-            background: #fafafa;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            overflow: hidden;
-            display: inline-block;
-            *display: inline;
-            *zoom: 1
-        }
-        .fileshi  input {
-            position: absolute;
-            font-size: 100px;
-            right: 0;
-            top: 0;
-            opacity: 0;
-            filter: alpha(opacity=0);
-            cursor: pointer
-        }
-        .fileshi:hover {
-            color: #444;
-            background: #eee;
-            border-color: #ccc;
-            text-decoration: none
-        }
-    </style>
-    <title>无标题文档</title>
+.fileshi:hover {
+	color: #444;
+	background: #eee;
+	border-color: #ccc;
+	text-decoration: none
+}
+</style>
+<title>无标题文档</title>
 </head>
 
 <body>
-<div>
-    <div class="page-hd">
-        <h1 class="page-hd-title">
-           人员EXCEL导入
-        </h1>
-    </div>
-    <form action="/import.json" enctype="multipart/form-data" method="post">
-        <a href="javascript:;" class="fileshi">选择文件
-            <input id="upload" type="file" name="excelFile"/>
-        </a>
-        <input class="weui-btn weui-btn_primary" style="margin-top: 10%;" type="submit" value="导入"/>
-    </form>
+	<div>
+		<div class="page-hd">
+			<h1 class="page-hd-title">人员EXCEL导入,此处强烈建议，采用下载模板，然后把数据录入模板，最后导入模板中的数据！</h1>
+		</div>
 
-</div>
+		<form action="/import.json" enctype="multipart/form-data" method="post">
+			<a href="javascript:;" class="fileshi">
+			<span id="showUploadFileName">选择文件</span> 
+				<input id="upload" type="file" name="excelFile" onchange="showFileName()"/> 
+			</a> 
+			<input class="weui-btn weui-btn_primary" style="margin-top: 10%;" type="submit" value="导入" />
+		</form>
+		<a href="/export.xlsx"> <input class="weui-btn weui-btn_primary"
+			style="margin-top: 10%;" type="submit" value="下载模板" /></a>
+
+	</div>
 </body>
 </html>

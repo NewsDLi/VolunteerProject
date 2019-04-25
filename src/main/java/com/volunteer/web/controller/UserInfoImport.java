@@ -91,6 +91,10 @@ public class UserInfoImport {
     @RequestMapping(value = "/import.json",method = RequestMethod.POST)
     @ResponseBody
     public ApiResponse<Object> customStatusImport(@RequestParam(value = "excelFile") MultipartFile file, HttpServletRequest request){
+    	String fileName = file.getOriginalFilename();
+    	if (StringUtils.isBlank(fileName)){
+    		return ApiResponse.build(ResponseStatus.FAIL, "");
+    	}
         InputStream cacher = null;
         try {
             cacher = file.getInputStream();
@@ -163,6 +167,8 @@ public class UserInfoImport {
             String group = cell11.getStringCellValue();
             // 角色
             String role = cell12.getStringCellValue();
+            // 是否组长
+            String groupLeader = cell12.getStringCellValue();
             
             // 用户信息
             UserInfo userInfo = new UserInfo();
@@ -172,6 +178,8 @@ public class UserInfoImport {
             userInfo.setWorker(workUnit);
             userInfo.setLoginPhone(phoneNumber);
             userInfo.setGroup(StringUtils.isBlank(group) ? null : Integer.valueOf(group));
+            userInfo.setIsGroupLeader(StringUtils.isBlank(group) ? false : (groupLeader.equals("是") ? true: false));
+            
             
             Map<String,Integer> map = new HashMap<>();
             map.put("lfhd", StringUtils.isBlank(lfhd) ? 0 : Integer.valueOf(lfhd));
