@@ -1,5 +1,4 @@
 package com.volunteer.web.controller;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -21,7 +20,7 @@ public class ForwardController {
 	public String toIndex(){
 		return "index";
 	}
-
+	
 	/**
 	 * 跳转至微信登录页面
 	 * @return
@@ -30,16 +29,6 @@ public class ForwardController {
 	public String toWechartLogin(){
 		return "wechartLogin";
 	}
-	
-	/**
-	 * 跳转至微信登录页面
-	 * @return
-	 */
-	@RequestMapping("/weui")
-	public String toWeui(){
-		return "weui";
-	}
-	
 	/**
 	 * 跳转至微信登录页面
 	 * @return
@@ -48,4 +37,29 @@ public class ForwardController {
 	public String mypage(){
 		return "mypage";
 	}
+	/**
+	 * 跳转至个人信息
+	 * @return
+	 */
+	@RequestMapping("/myinfo")
+	public String myInfo(){
+		return "myinfo";
+	}
+	/**
+	 * 跳转至义工生涯
+	 * @return
+	 */
+	@RequestMapping("/mycareer")
+	public String mycareer(){
+		return "mycareer";
+	}
+	/**
+	 * 跳转至文件上传
+	 * @return
+	 */
+	@RequestMapping("/import.htm")
+	public String upload(){
+		return "import";
+	}
 }
+

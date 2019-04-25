@@ -1,0 +1,18 @@
+@media {
+	.header {
+		height: 70px;
+		width: 100%;
+		display: -webkit-flex;
+		display: flex;
+		-webkit-align-items: center;
+		align-items: center;
+		-webkit-justify-content: center;
+		justify-content: center;
+		border-bottom: 3px solid rgb(238, 241, 246);
+		color: #39728D;
+	}
+	.main_info{
+		padding-top: 10px;
+		padding-bottom: 10px;
+	}
+}

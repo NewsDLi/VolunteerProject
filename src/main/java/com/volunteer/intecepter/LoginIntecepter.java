@@ -28,7 +28,7 @@ public class LoginIntecepter implements HandlerInterceptor {
 //			return true;
 //		}
 //		else{
-//			response.sendRedirect(request.getContextPath()+"/login/index");  //未登录自动跳转界面
+//			response.sendRedirect(request.getContextPath()+"/weChatLogin");  //未登录自动跳转界面
 //			return false;
 //		}
 //	}

@@ -1,7 +1,7 @@
 package com.volunteer.web.dao;
 
-import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.WechatInfo;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -10,17 +10,11 @@ import org.springframework.stereotype.Repository;
  * @desc 查询用户信息
  */
 @Repository
-public interface UserInfoMapper {
+public interface WechatInfoMapper {
 
 	/**
 	 * 通过openId查询用户信息
 	 */
-	UserInfoBindCommand selectUserInfoByOpenId(String openId);
-
-
-	/**
-	 * 通过openId查询用户信息
-	 */
-	UserInfo selectUserInfoByMobile(String mobile);
+	Long  saveWechatInfo(WechatInfo wechatInfo);
 
 }
