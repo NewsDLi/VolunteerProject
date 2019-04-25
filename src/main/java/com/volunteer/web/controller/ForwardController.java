@@ -61,13 +61,14 @@ public class ForwardController {
 	public String upload(){
 		return "import";
 	}
+
 	/**
-	 * 跳转weui页面
+	 * 跳转留言板页面
 	 * @return
 	 */
-	@RequestMapping("/weui.htm")
+	@RequestMapping("/messageBoard")
 	public String weui(){
-		return "weui";
+		return "messageBoard";
 	}
 }
 
