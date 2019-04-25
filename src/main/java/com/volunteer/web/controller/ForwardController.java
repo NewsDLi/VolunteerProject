@@ -30,4 +30,22 @@ public class ForwardController {
 	public String toWechartLogin(){
 		return "wechartLogin";
 	}
+	
+	/**
+	 * 跳转至微信登录页面
+	 * @return
+	 */
+	@RequestMapping("/weui")
+	public String toWeui(){
+		return "weui";
+	}
+	
+	/**
+	 * 跳转至微信登录页面
+	 * @return
+	 */
+	@RequestMapping("/mypage")
+	public String mypage(){
+		return "mypage";
+	}
 }
