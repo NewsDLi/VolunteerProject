@@ -1,26 +1,30 @@
 package com.volunteer.web.dao;
 
-import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.model.UserInfo;
-import org.springframework.stereotype.Repository;
+import com.volunteer.model.UserInfoExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
-/**
- * @author yuan
- * @date 2019年4月15日15:08:52
- * @desc 查询用户信息
- */
-@Repository
 public interface UserInfoMapper {
+    int countByExample(UserInfoExample example);
 
-	/**
-	 * 通过openId查询用户信息
-	 */
-	UserInfoBindCommand selectUserInfoByOpenId(String openId);
+    int deleteByExample(UserInfoExample example);
 
+    int deleteByPrimaryKey(Long id);
 
-	/**
-	 * 通过openId查询用户信息
-	 */
-	UserInfo selectUserInfoByMobile(String mobile);
+    int insert(UserInfo record);
 
+    int insertSelective(UserInfo record);
+
+    List<UserInfo> selectByExample(UserInfoExample example);
+
+    UserInfo selectByPrimaryKey(Long id);
+
+    int updateByExampleSelective(@Param("record") UserInfo record, @Param("example") UserInfoExample example);
+
+    int updateByExample(@Param("record") UserInfo record, @Param("example") UserInfoExample example);
+
+    int updateByPrimaryKeySelective(UserInfo record);
+
+    int updateByPrimaryKey(UserInfo record);
 }

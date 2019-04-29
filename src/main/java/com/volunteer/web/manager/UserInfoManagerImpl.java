@@ -1,8 +1,6 @@
 package com.volunteer.web.manager;
 
 import com.volunteer.common.UserInfoBindCommand;
-import com.volunteer.model.UserInfo;
-import com.volunteer.web.dao.UserInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -1,10 +1,6 @@
 package com.volunteer.web.controller;
 
 import com.volunteer.cache.manager.CacheManager;
-import com.volunteer.common.UserInfoBindCommand;
-import com.volunteer.model.User;
-import com.volunteer.model.UserInfo;
-import com.volunteer.model.WechatInfo;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
 import com.volunteer.web.manager.UserInfoManager;

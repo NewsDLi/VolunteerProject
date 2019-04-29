@@ -1,32 +1,33 @@
 package com.volunteer.model;
 
 public class UserInfoBind {
-	private Long id;
-	private Long userId;
-	private Long wechatId;
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    private Long userId;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private Long wechatId;
 
-	public Long getUserId() {
-		return userId;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Long getWechatId() {
-		return wechatId;
-	}
+    public Long getUserId() {
+        return userId;
+    }
 
-	public void setWechatId(Long wechatId) {
-		this.wechatId = wechatId;
-	}
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
+    public Long getWechatId() {
+        return wechatId;
+    }
+
+    public void setWechatId(Long wechatId) {
+        this.wechatId = wechatId;
+    }
 }

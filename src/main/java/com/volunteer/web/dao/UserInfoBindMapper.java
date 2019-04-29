@@ -1,20 +1,30 @@
 package com.volunteer.web.dao;
 
 import com.volunteer.model.UserInfoBind;
-import com.volunteer.model.WechatInfo;
-import org.springframework.stereotype.Repository;
+import com.volunteer.model.UserInfoBindExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
-/**
- * @author yuan
- * @date 2019年4月15日15:08:52
- * @desc 用户信息绑定微信用户信息
- */
-@Repository
 public interface UserInfoBindMapper {
+    int countByExample(UserInfoBindExample example);
 
-	/**
-	 * 通过openId查询用户信息
-	 */
-	Long  saveUserInfoBind(UserInfoBind userInfoBind);
+    int deleteByExample(UserInfoBindExample example);
 
+    int deleteByPrimaryKey(Long id);
+
+    int insert(UserInfoBind record);
+
+    int insertSelective(UserInfoBind record);
+
+    List<UserInfoBind> selectByExample(UserInfoBindExample example);
+
+    UserInfoBind selectByPrimaryKey(Long id);
+
+    int updateByExampleSelective(@Param("record") UserInfoBind record, @Param("example") UserInfoBindExample example);
+
+    int updateByExample(@Param("record") UserInfoBind record, @Param("example") UserInfoBindExample example);
+
+    int updateByPrimaryKeySelective(UserInfoBind record);
+
+    int updateByPrimaryKey(UserInfoBind record);
 }

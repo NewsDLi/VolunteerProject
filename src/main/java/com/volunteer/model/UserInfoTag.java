@@ -1,50 +1,53 @@
 package com.volunteer.model;
 
 public class UserInfoTag {
-	private Long id;
-	private Long userId;
-	private String tagName;
-	private Integer tagCount;
-	private Integer type;
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    private Long userId;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private String tagName;
 
-	public Long getUserId() {
-		return userId;
-	}
+    private Integer tagCount;
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    private Integer type;
 
-	public String getTagName() {
-		return tagName;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setTagName(String tagName) {
-		this.tagName = tagName;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public Integer getTagCount() {
-		return tagCount;
-	}
+    public Long getUserId() {
+        return userId;
+    }
 
-	public void setTagCount(Integer tagCount) {
-		this.tagCount = tagCount;
-	}
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-	public Integer getType() {
-		return type;
-	}
+    public String getTagName() {
+        return tagName;
+    }
 
-	public void setType(Integer type) {
-		this.type = type;
-	}
+    public void setTagName(String tagName) {
+        this.tagName = tagName == null ? null : tagName.trim();
+    }
 
+    public Integer getTagCount() {
+        return tagCount;
+    }
+
+    public void setTagCount(Integer tagCount) {
+        this.tagCount = tagCount;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
 }

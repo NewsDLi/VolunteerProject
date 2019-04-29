@@ -3,41 +3,43 @@ package com.volunteer.model;
 import java.util.Date;
 
 public class UserRole {
-	private Long id;
-	private String roleName;
-	private Integer roleType;
-	private Date version;
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    private String roleName;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private Integer roleType;
 
-	public String getRoleName() {
-		return roleName;
-	}
+    private Date version;
 
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public Integer getRoleType() {
-		return roleType;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setRoleType(Integer roleType) {
-		this.roleType = roleType;
-	}
+    public String getRoleName() {
+        return roleName;
+    }
 
-	public Date getVersion() {
-		return version;
-	}
+    public void setRoleName(String roleName) {
+        this.roleName = roleName == null ? null : roleName.trim();
+    }
 
-	public void setVersion(Date version) {
-		this.version = version;
-	}
+    public Integer getRoleType() {
+        return roleType;
+    }
 
+    public void setRoleType(Integer roleType) {
+        this.roleType = roleType;
+    }
+
+    public Date getVersion() {
+        return version;
+    }
+
+    public void setVersion(Date version) {
+        this.version = version;
+    }
 }

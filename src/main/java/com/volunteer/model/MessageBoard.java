@@ -3,51 +3,53 @@ package com.volunteer.model;
 import java.util.Date;
 
 public class MessageBoard {
-	private Long id;
-	private Long userId;
-	private String content;
-	private Integer lifecycle;
+    private Long id;
 
-	private Date version;
+    private Long userId;
 
-	public Long getId() {
-		return id;
-	}
+    private String content;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private Integer lifecycle;
 
-	public Long getUserId() {
-		return userId;
-	}
+    private Date version;
 
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    public Long getUserId() {
+        return userId;
+    }
 
-	public Integer getLifecycle() {
-		return lifecycle;
-	}
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
 
-	public void setLifecycle(Integer lifecycle) {
-		this.lifecycle = lifecycle;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	public Date getVersion() {
-		return version;
-	}
+    public void setContent(String content) {
+        this.content = content == null ? null : content.trim();
+    }
 
-	public void setVersion(Date version) {
-		this.version = version;
-	}
+    public Integer getLifecycle() {
+        return lifecycle;
+    }
 
+    public void setLifecycle(Integer lifecycle) {
+        this.lifecycle = lifecycle;
+    }
+
+    public Date getVersion() {
+        return version;
+    }
+
+    public void setVersion(Date version) {
+        this.version = version;
+    }
 }

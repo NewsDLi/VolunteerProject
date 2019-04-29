@@ -3,140 +3,153 @@ package com.volunteer.model;
 import java.util.Date;
 
 public class UserInfo {
-	private Long id;
-	private String name;
-	private Integer sex;
-	private String idCard;
-	private String worker;
-	private String loginPhone;
-	private String descption;
-	private String hobby;
-	private String userPic;
-	private Date version;
-	private Long updateBy;
-	private Integer lifecycle;
-	private Long roleTypeId;
-	private Integer group;
-	private Boolean isGroupLeader;
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    private String name;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private Integer sex;
 
-	public String getName() {
-		return name;
-	}
+    private String idCard;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private String worker;
 
-	public Integer getSex() {
-		return sex;
-	}
+    private String loginPhone;
 
-	public void setSex(Integer sex) {
-		this.sex = sex;
-	}
+    private String descption;
 
-	public String getIdCard() {
-		return idCard;
-	}
+    private String hobby;
 
-	public void setIdCard(String idCard) {
-		this.idCard = idCard;
-	}
+    private String userPic;
 
-	public String getWorker() {
-		return worker;
-	}
+    private Date version;
 
-	public void setWorker(String worker) {
-		this.worker = worker;
-	}
+    private Long updateBy;
 
-	public String getLoginPhone() {
-		return loginPhone;
-	}
+    private Integer lifecycle;
 
-	public void setLoginPhone(String loginPhone) {
-		this.loginPhone = loginPhone;
-	}
+    private Long roleId;
 
-	public String getDescption() {
-		return descption;
-	}
+    private Integer group;
 
-	public void setDescption(String descption) {
-		this.descption = descption;
-	}
+    private Boolean isGroupLeader;
 
-	public String getHobby() {
-		return hobby;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setHobby(String hobby) {
-		this.hobby = hobby;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getUserPic() {
-		return userPic;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setUserPic(String userPic) {
-		this.userPic = userPic;
-	}
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
 
-	public Date getVersion() {
-		return version;
-	}
+    public Integer getSex() {
+        return sex;
+    }
 
-	public void setVersion(Date version) {
-		this.version = version;
-	}
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
 
-	public Long getUpdateBy() {
-		return updateBy;
-	}
+    public String getIdCard() {
+        return idCard;
+    }
 
-	public void setUpdateBy(Long updateBy) {
-		this.updateBy = updateBy;
-	}
+    public void setIdCard(String idCard) {
+        this.idCard = idCard == null ? null : idCard.trim();
+    }
 
-	public Integer getLifecycle() {
-		return lifecycle;
-	}
+    public String getWorker() {
+        return worker;
+    }
 
-	public void setLifecycle(Integer lifecycle) {
-		this.lifecycle = lifecycle;
-	}
+    public void setWorker(String worker) {
+        this.worker = worker == null ? null : worker.trim();
+    }
 
-	public Long getRoleTypeId() {
-		return roleTypeId;
-	}
+    public String getLoginPhone() {
+        return loginPhone;
+    }
 
-	public void setRoleTypeId(Long roleTypeId) {
-		this.roleTypeId = roleTypeId;
-	}
+    public void setLoginPhone(String loginPhone) {
+        this.loginPhone = loginPhone == null ? null : loginPhone.trim();
+    }
 
-	public Integer getGroup() {
-		return group;
-	}
+    public String getDescption() {
+        return descption;
+    }
 
-	public void setGroup(Integer group) {
-		this.group = group;
-	}
+    public void setDescption(String descption) {
+        this.descption = descption == null ? null : descption.trim();
+    }
 
-	public Boolean getIsGroupLeader() {
-		return isGroupLeader;
-	}
+    public String getHobby() {
+        return hobby;
+    }
 
-	public void setIsGroupLeader(Boolean isGroupLeader) {
-		this.isGroupLeader = isGroupLeader;
-	}
+    public void setHobby(String hobby) {
+        this.hobby = hobby == null ? null : hobby.trim();
+    }
 
+    public String getUserPic() {
+        return userPic;
+    }
+
+    public void setUserPic(String userPic) {
+        this.userPic = userPic == null ? null : userPic.trim();
+    }
+
+    public Date getVersion() {
+        return version;
+    }
+
+    public void setVersion(Date version) {
+        this.version = version;
+    }
+
+    public Long getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(Long updateBy) {
+        this.updateBy = updateBy;
+    }
+
+    public Integer getLifecycle() {
+        return lifecycle;
+    }
+
+    public void setLifecycle(Integer lifecycle) {
+        this.lifecycle = lifecycle;
+    }
+
+    public Long getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(Long roleId) {
+        this.roleId = roleId;
+    }
+
+    public Integer getGroup() {
+        return group;
+    }
+
+    public void setGroup(Integer group) {
+        this.group = group;
+    }
+
+    public Boolean getIsGroupLeader() {
+        return isGroupLeader;
+    }
+
+    public void setIsGroupLeader(Boolean isGroupLeader) {
+        this.isGroupLeader = isGroupLeader;
+    }
 }

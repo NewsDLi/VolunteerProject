@@ -1,68 +1,73 @@
 package com.volunteer.model;
 
 public class WechatInfo {
-	private Long id;
-	private String openId;
-	private String nickName;
-	private Integer sex;
-	private String province;
-	private String city;
-	private String country;
+    private Long id;
 
-	public Long getId() {
-		return id;
-	}
+    private String openId;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    private String nickName;
 
-	public String getOpenId() {
-		return openId;
-	}
+    private Integer sex;
 
-	public void setOpenId(String openId) {
-		this.openId = openId;
-	}
+    private String province;
 
-	public String getNickName() {
-		return nickName;
-	}
+    private String city;
 
-	public void setNickName(String nickName) {
-		this.nickName = nickName;
-	}
+    private String country;
 
-	public Integer getSex() {
-		return sex;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public void setSex(Integer sex) {
-		this.sex = sex;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public String getProvince() {
-		return province;
-	}
+    public String getOpenId() {
+        return openId;
+    }
 
-	public void setProvince(String province) {
-		this.province = province;
-	}
+    public void setOpenId(String openId) {
+        this.openId = openId == null ? null : openId.trim();
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public String getNickName() {
+        return nickName;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public void setNickName(String nickName) {
+        this.nickName = nickName == null ? null : nickName.trim();
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public Integer getSex() {
+        return sex;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public void setSex(Integer sex) {
+        this.sex = sex;
+    }
 
+    public String getProvince() {
+        return province;
+    }
+
+    public void setProvince(String province) {
+        this.province = province == null ? null : province.trim();
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city == null ? null : city.trim();
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country == null ? null : country.trim();
+    }
 }

@@ -1,20 +1,30 @@
 package com.volunteer.web.dao;
 
-import com.volunteer.model.UserInfo;
 import com.volunteer.model.WechatInfo;
-import org.springframework.stereotype.Repository;
+import com.volunteer.model.WechatInfoExample;
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
 
-/**
- * @author yuan
- * @date 2019年4月15日15:08:52
- * @desc 查询用户信息
- */
-@Repository
 public interface WechatInfoMapper {
+    int countByExample(WechatInfoExample example);
 
-	/**
-	 * 通过openId查询用户信息
-	 */
-	Long  saveWechatInfo(WechatInfo wechatInfo);
+    int deleteByExample(WechatInfoExample example);
 
+    int deleteByPrimaryKey(Long id);
+
+    int insert(WechatInfo record);
+
+    int insertSelective(WechatInfo record);
+
+    List<WechatInfo> selectByExample(WechatInfoExample example);
+
+    WechatInfo selectByPrimaryKey(Long id);
+
+    int updateByExampleSelective(@Param("record") WechatInfo record, @Param("example") WechatInfoExample example);
+
+    int updateByExample(@Param("record") WechatInfo record, @Param("example") WechatInfoExample example);
+
+    int updateByPrimaryKeySelective(WechatInfo record);
+
+    int updateByPrimaryKey(WechatInfo record);
 }

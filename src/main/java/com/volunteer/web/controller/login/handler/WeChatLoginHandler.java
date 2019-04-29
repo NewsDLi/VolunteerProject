@@ -6,13 +6,9 @@ import com.volunteer.cache.manager.CacheManager;
 import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.common.WechatMessage;
 import com.volunteer.constant.WxLoginConstant;
-import com.volunteer.model.UserInfo;
 import com.volunteer.web.manager.UserInfoManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @Component
 public class WeChatLoginHandler {
