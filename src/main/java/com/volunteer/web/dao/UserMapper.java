@@ -5,7 +5,7 @@ import com.volunteer.model.UserExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-public interface UserMapper1 {
+public interface UserMapper {
     int countByExample(UserExample example);
 
     int deleteByExample(UserExample example);
