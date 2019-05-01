@@ -78,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, name, sex, id_card, worker, login_phone, descption, hobby, user_pic, version, 
-    update_by, lifecycle, role_id, group, is_group_leader
+    update_by, lifecycle, role_id, `group`, is_group_leader
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.volunteer.model.UserInfoExample" >
     select
