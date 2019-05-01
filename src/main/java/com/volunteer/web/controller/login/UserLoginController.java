@@ -84,12 +84,12 @@ public class UserLoginController {
                 httpResponse = getWechatMemberInfo(code);
             }
             if (StringUtils.isBlank(httpResponse)) {
-                return "login";
+                return "index";
             }
             WechatMessage wechatMessage = JSON.parseObject(httpResponse, WechatMessage.class);
             //查询信息失败
             if (Validator.isNullOrEmpty(wechatMessage)) {
-                return "login";
+                return "index";
             }
             //查询成功
             //如果是微信会员 ---将信息缓存起来
@@ -98,14 +98,14 @@ public class UserLoginController {
             UserInfoBindCommand userInfo = weChatLoginHandler.wechatOAuthSuccess(wechatMessage);
             //通过openId查询是否有用户信息，，判断为第一次登陆
             if(Validator.isNullOrEmpty(userInfo)){
-                return  "login";
+                return  "index";
             }
             return "redirect:" + returnUrl;
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        return "login";
+        return "index";
 
     }
 
