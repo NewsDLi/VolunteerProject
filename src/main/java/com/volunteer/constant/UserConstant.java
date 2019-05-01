@@ -8,4 +8,9 @@ package com.volunteer.constant;
  */
 public class UserConstant {
 
+	/**
+	 * 用户存放session中的表示
+	 */
+	public static final String LOGIN_PHONE = "login_phone";
+	
 }
