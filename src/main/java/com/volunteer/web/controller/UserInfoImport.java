@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,6 +130,13 @@ public class UserInfoImport {
     		Map<String, Object> info = (Map<String, Object>) object;
     		// 用户信息
     		UserInfo user = (UserInfo) info.get("userInfo");
+    		// 查询导入的用户是否已经存在
+    		Integer checkUserIsExist = userInfoManager.checkUserIsExist(user.getIdCard());
+    		if(null != checkUserIsExist){
+    			continue;
+    		}
+    		
+    		
     		Long userId = userInfoManager.insertUserInfo(user);
     		// 上过的课程
     		Map<String,Integer> havingClass = (Map<String, Integer>) info.get("havingClass");
@@ -149,6 +157,7 @@ public class UserInfoImport {
     				infoTag.setUserId(userId);
     				infoTag.setTagName(string);
     				infoTag.setType(CommonConstant.TYPE_POST);
+    				infoTag.setTagCount(1);
     				userInfoTagManager.insertUserInfoTag(infoTag);
 				}
     		}
@@ -165,6 +174,7 @@ public class UserInfoImport {
         	return null;
         }
         List<Object> object = new ArrayList<>();
+        Date date = new Date();
         for(int i=2; i<=lastRowNum; i++){
             Row row = sheet.getRow(i);
             if(null == row){
@@ -232,6 +242,9 @@ public class UserInfoImport {
             userInfo.setLoginPhone(phoneNumber);
             userInfo.setGroup(StringUtils.isBlank(group) ? null : Integer.valueOf(group));
             userInfo.setIsGroupLeader(StringUtils.isBlank(group) ? false : (groupLeader.equals("是") ? true: false));
+            userInfo.setLifecycle(1);
+            userInfo.setVersion(date);
+            userInfo.setRoleId(role.equals("教授")? 2L : 1L);
             param.put("userInfo", userInfo);
             
             // 上过的课程
@@ -246,7 +259,7 @@ public class UserInfoImport {
             
             if(StringUtils.isNotBlank(coursed)){
             	// 义工岗位
-            	List<String> asList = Arrays.asList(coursed.split("|"));
+            	List<String> asList = Arrays.asList(coursed.split("\\|"));
             	param.put("post", asList);
             }
             object.add(param);

@@ -31,4 +31,9 @@ public class UserInfoManagerImpl implements UserInfoManager{
 		}
 		return user.getId();
 	}
+
+	@Override
+	public Integer checkUserIsExist(String idCard) {
+		return userInfoMapper.checkUserIsExist(idCard);
+	}
 }

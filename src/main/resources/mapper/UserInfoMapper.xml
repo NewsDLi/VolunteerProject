@@ -115,7 +115,7 @@
       id_card, worker, login_phone, 
       descption, hobby, user_pic, 
       version, update_by, lifecycle, 
-      role_id, group, is_group_leader
+      role_id, `group`, is_group_leader
       )
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
       #{idCard,jdbcType=VARCHAR}, #{worker,jdbcType=VARCHAR}, #{loginPhone,jdbcType=VARCHAR}, 
@@ -367,4 +367,8 @@
       is_group_leader = #{isGroupLeader,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id="checkUserIsExist" parameterType="java.lang.String" resultType="java.lang.Integer">
+  	SELECT 1 FROM user_info WHERE id_card = #{value}
+  </select>
 </mapper>

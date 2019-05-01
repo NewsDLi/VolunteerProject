@@ -20,4 +20,12 @@ public interface UserInfoManager {
 	 * @return
 	 */
 	Long insertUserInfo(UserInfo user);
+
+	/**
+	 * 通过身份证号，查询用户是否存在
+	 * @param idCard
+	 * @return
+	 */
+	Integer checkUserIsExist(String idCard);
+
 }
