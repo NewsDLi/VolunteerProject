@@ -12,7 +12,7 @@ public interface UserInfoManager {
 	UserInfoBindCommand getUserInfoByOpenId(String openId);
 
 	/**
-	 *
+	 *通过手机号码查询用户信息
 	 */
 	List<UserInfo> getUserInfoByMobile(String mobile);
 
@@ -29,5 +29,12 @@ public interface UserInfoManager {
 	 * @return
 	 */
 	Integer checkUserIsExist(String idCard);
+
+	/**
+	 * 更据用户id修改个人介绍以及爱好
+	 * @param id
+	 * @return
+	 */
+	Integer updateUserIfoToDescption(Long id,String descption,String hobby);
 
 }

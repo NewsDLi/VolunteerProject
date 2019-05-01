@@ -1,6 +1,7 @@
 package com.volunteer.web.manager;
 
 import com.volunteer.model.UserInfoExample;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -8,6 +9,7 @@ import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.model.UserInfo;
 import com.volunteer.web.dao.UserInfoMapper;
 
+import javax.xml.validation.Validator;
 import java.util.List;
 
 @Service
@@ -41,5 +43,21 @@ public class UserInfoManagerImpl implements UserInfoManager{
 	@Override
 	public Integer checkUserIsExist(String idCard) {
 		return userInfoMapper.checkUserIsExist(idCard);
+	}
+
+	@Override
+	public Integer updateUserIfoToDescption(Long id, String descption,String hobby) {
+		UserInfoExample userInfoExample = new UserInfoExample();
+		userInfoExample.createCriteria().andIdCardEqualTo(id.toString());
+		UserInfo userInfo = new UserInfo();
+		if(!StringUtils.isBlank(descption)){
+			userInfo.setDescption(descption);
+		}
+		if(!StringUtils.isBlank(hobby)){
+			userInfo.setHobby(hobby);
+		}
+		userInfo.setDescption(descption);
+		int exampleSelective = userInfoMapper.updateByExampleSelective(userInfo, userInfoExample);
+		return exampleSelective;
 	}
 }
