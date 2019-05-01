@@ -1,19 +1,20 @@
 package com.volunteer.web.controller;
 
-import com.volunteer.cache.manager.CacheManager;
-import com.volunteer.response.ApiResponse;
-import com.volunteer.response.ResponseStatus;
-import com.volunteer.web.manager.UserInfoManager;
-import com.volunteer.web.manager.UserManager;
-import com.volunteer.web.manager.WechatInfoManager;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import com.volunteer.cache.manager.CacheManager;
+import com.volunteer.model.WechatInfo;
+import com.volunteer.response.ApiResponse;
+import com.volunteer.response.ResponseStatus;
+import com.volunteer.web.manager.UserInfoManager;
+import com.volunteer.web.manager.WechatInfoManager;
 
 /**
  * @author NewsDLee
@@ -24,9 +25,6 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
 
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
-	@Autowired
-	private UserManager userManager;
 
 	@Autowired
 	private UserInfoManager userInfoManager;
@@ -37,13 +35,6 @@ public class UserController {
 	@Autowired
 	private CacheManager cacheManager;
 
-	@RequestMapping("/getUser")
-	public ApiResponse<User> getUser(HttpServletRequest request, HttpServletResponse response){
-		User userInfoByUsername = userManager.getUserInfoByUsername("zhangsan");
-		logger.info(userInfoByUsername.toString());
-		return ApiResponse.build(ResponseStatus.SUCCESS, userInfoByUsername);
-	}
-	
 	@RequestMapping("/setCache")
 	public ApiResponse<String> setCache(HttpServletRequest request, HttpServletResponse response){
 		cacheManager.setObject("asdasd", "asdasd");

@@ -4,6 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.volunteer.model.UserInfoBind;
+import com.volunteer.web.dao.UserInfoBindMapper;
+
 @Service
 public class UserInfoBindManagerImpl implements UserInfoBindManager{
 

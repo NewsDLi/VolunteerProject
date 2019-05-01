@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.volunteer.constant.CommonConstant;
+import com.volunteer.model.UserInfo;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
 
@@ -97,21 +100,41 @@ public class UserInfoImport {
         try {
             cacher = file.getInputStream();
             
-            getUserInfo(cacher);
-            // 更新商品索引信息
+            // 获取解析excel信息集合
+            List<Object> userInfo = getUserInfo(cacher);
+            boolean isSuccess = doHandleUserInfo(userInfo);
         } catch (IOException e) {
+        	
         }
         return ApiResponse.build(ResponseStatus.SUCCESS, "");
     }
     
-    private void getUserInfo(InputStream inputStream){
+    // 处理excel解析完成的数据
+    private boolean doHandleUserInfo(List<Object> userInfo) {
+    	if (null == userInfo || userInfo.size() == 0){
+    		return false;
+    	}
+    	for (Object object : userInfo) {
+    		Map<String, Object> info = (Map<String, Object>) object;
+    		// 用户信息
+    		UserInfo user = (UserInfo) info.get("userInfo");
+    		// 上过的课程
+    		Map<String,Integer> havingClass = (Map<String, Integer>) info.get("havingClass");
+    		// 义工岗位
+    		List<String> asList = (List<String>) info.get("post");
+    		
+		}
+		return false;
+	}
+
+	private List<Object> getUserInfo(InputStream inputStream){
         // 获取HSSFSheet
     	XSSFSheet sheet = getHSSFSheet(inputStream);
         int lastRowNum = sheet.getLastRowNum();
         if(lastRowNum == 0){
-        	return;
-//            return null;
+        	return null;
         }
+        List<Object> object = new ArrayList<>();
         for(int i=2; i<=lastRowNum; i++){
             Row row = sheet.getRow(i);
             if(null == row){
@@ -149,7 +172,7 @@ public class UserInfoImport {
             String workUnit = cell3.getStringCellValue();
             // 手机号
             String phoneNumber = cell4.getStringCellValue();
-            // 上过的课程
+            // 义工岗位
             String coursed = cell5.getStringCellValue();
             // 了凡厚道
             String lfhd = cell6.getStringCellValue();
@@ -168,6 +191,8 @@ public class UserInfoImport {
             // 是否组长
             String groupLeader = cell12.getStringCellValue();
             
+            // 存放解析一行的数据
+            Map<String, Object> param = new HashMap<>();
             // 用户信息
             UserInfo userInfo = new UserInfo();
             userInfo.setName(name);
@@ -177,21 +202,26 @@ public class UserInfoImport {
             userInfo.setLoginPhone(phoneNumber);
             userInfo.setGroup(StringUtils.isBlank(group) ? null : Integer.valueOf(group));
             userInfo.setIsGroupLeader(StringUtils.isBlank(group) ? false : (groupLeader.equals("是") ? true: false));
+            param.put("userInfo", userInfo);
             
-            
+            // 上过的课程
             Map<String,Integer> map = new HashMap<>();
-            map.put("lfhd", StringUtils.isBlank(lfhd) ? 0 : Integer.valueOf(lfhd));
-            map.put("caqs", StringUtils.isBlank(caqs) ? 0 : Integer.valueOf(caqs));
-            map.put("xdqs", StringUtils.isBlank(xdqs) ? 0 : Integer.valueOf(xdqs));
-            map.put("ggqs", StringUtils.isBlank(ggqs) ? 0 : Integer.valueOf(ggqs));
-            map.put("caqz", StringUtils.isBlank(caqz) ? 0 : Integer.valueOf(caqz));
-            List<UserInfoTag> listInfoTags = new ArrayList<UserInfoTag>();
-            // 用户信息标签
-            UserInfoTag infoTag = new UserInfoTag();
-            // 次数
-            infoTag.setTagName("了凡厚道");
-            listInfoTags.add(infoTag);
+            map.put(CommonConstant.LFHD, StringUtils.isBlank(lfhd) ? 0 : Integer.valueOf(lfhd));
+            map.put(CommonConstant.CAQS, StringUtils.isBlank(caqs) ? 0 : Integer.valueOf(caqs));
+            map.put(CommonConstant.XDQS, StringUtils.isBlank(xdqs) ? 0 : Integer.valueOf(xdqs));
+            map.put(CommonConstant.GGQS, StringUtils.isBlank(ggqs) ? 0 : Integer.valueOf(ggqs));
+            map.put(CommonConstant.CAQZ, StringUtils.isBlank(caqz) ? 0 : Integer.valueOf(caqz));
+            param.put("havingClass", map);
+            
+            
+            if(StringUtils.isNotBlank(coursed)){
+            	// 义工岗位
+            	List<String> asList = Arrays.asList(coursed.split("|"));
+            	param.put("post", asList);
+            }
+            object.add(param);
         }
+        return object;
     }
 
     /**
