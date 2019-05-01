@@ -2,6 +2,7 @@ package com.volunteer.web.controller.function;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,11 +20,11 @@ public class FunctionPageController {
      * 跳转至登录页面
      * @return
      */
-//    @PostMapping(value = "/index")
-//    public String login(HttpServletRequest request,
-//                        HttpServletResponse response){
-//
-//        return "index";
-//    }
+    @PostMapping(value = "/function.json")
+    public String login(HttpServletRequest request,
+                        HttpServletResponse response, @RequestParam(value = "roleId") Long roleId){
+
+        return "index";
+    }
 
 }

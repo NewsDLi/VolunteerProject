@@ -2,14 +2,14 @@ package com.volunteer.web.manager;
 
 import java.util.List;
 
+import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserInfoExample;
+import com.volunteer.web.dao.UserInfoMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.volunteer.common.UserInfoBindCommand;
-import com.volunteer.model.UserInfo;
-import com.volunteer.model.UserInfoExample;
-import com.volunteer.web.dao.UserInfoMapper;
 
 @Service
 public class UserInfoManagerImpl implements UserInfoManager{
@@ -41,7 +41,8 @@ public class UserInfoManagerImpl implements UserInfoManager{
 
 	@Override
 	public Integer checkUserIsExist(String idCard) {
-		return userInfoMapper.checkUserIsExist(idCard);
+//		return userInfoMapper.checkUserIsExist(idCard);
+		return  null;
 	}
 
 	@Override
