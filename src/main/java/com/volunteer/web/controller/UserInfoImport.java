@@ -34,7 +34,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.volunteer.constant.CommonConstant;
 import com.volunteer.constant.CommonEnum;
-import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoTag;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;

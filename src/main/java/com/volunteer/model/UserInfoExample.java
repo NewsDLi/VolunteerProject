@@ -955,63 +955,63 @@ public class UserInfoExample {
             return (Criteria) this;
         }
 
-        public Criteria andGroupIsNull() {
-            addCriterion("group is null");
+        public Criteria andGroupTeamIsNull() {
+            addCriterion("group_team is null");
             return (Criteria) this;
         }
 
-        public Criteria andGroupIsNotNull() {
-            addCriterion("group is not null");
+        public Criteria andGroupTeamIsNotNull() {
+            addCriterion("group_team is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGroupEqualTo(Integer value) {
-            addCriterion("group =", value, "group");
+        public Criteria andGroupTeamEqualTo(Integer value) {
+            addCriterion("group_team =", value, "groupTeam");
             return (Criteria) this;
         }
 
-        public Criteria andGroupNotEqualTo(Integer value) {
-            addCriterion("group <>", value, "group");
+        public Criteria andGroupTeamNotEqualTo(Integer value) {
+            addCriterion("group_team <>", value, "groupTeam");
             return (Criteria) this;
         }
 
-        public Criteria andGroupGreaterThan(Integer value) {
-            addCriterion("group >", value, "group");
+        public Criteria andGroupTeamGreaterThan(Integer value) {
+            addCriterion("group_team >", value, "groupTeam");
             return (Criteria) this;
         }
 
-        public Criteria andGroupGreaterThanOrEqualTo(Integer value) {
-            addCriterion("group >=", value, "group");
+        public Criteria andGroupTeamGreaterThanOrEqualTo(Integer value) {
+            addCriterion("group_team >=", value, "groupTeam");
             return (Criteria) this;
         }
 
-        public Criteria andGroupLessThan(Integer value) {
-            addCriterion("group <", value, "group");
+        public Criteria andGroupTeamLessThan(Integer value) {
+            addCriterion("group_team <", value, "groupTeam");
             return (Criteria) this;
         }
 
-        public Criteria andGroupLessThanOrEqualTo(Integer value) {
-            addCriterion("group <=", value, "group");
+        public Criteria andGroupTeamLessThanOrEqualTo(Integer value) {
+            addCriterion("group_team <=", value, "groupTeam");
             return (Criteria) this;
         }
 
-        public Criteria andGroupIn(List<Integer> values) {
-            addCriterion("group in", values, "group");
+        public Criteria andGroupTeamIn(List<Integer> values) {
+            addCriterion("group_team in", values, "groupTeam");
             return (Criteria) this;
         }
 
-        public Criteria andGroupNotIn(List<Integer> values) {
-            addCriterion("group not in", values, "group");
+        public Criteria andGroupTeamNotIn(List<Integer> values) {
+            addCriterion("group_team not in", values, "groupTeam");
             return (Criteria) this;
         }
 
-        public Criteria andGroupBetween(Integer value1, Integer value2) {
-            addCriterion("group between", value1, value2, "group");
+        public Criteria andGroupTeamBetween(Integer value1, Integer value2) {
+            addCriterion("group_team between", value1, value2, "groupTeam");
             return (Criteria) this;
         }
 
-        public Criteria andGroupNotBetween(Integer value1, Integer value2) {
-            addCriterion("group not between", value1, value2, "group");
+        public Criteria andGroupTeamNotBetween(Integer value1, Integer value2) {
+            addCriterion("group_team not between", value1, value2, "groupTeam");
             return (Criteria) this;
         }
 
@@ -1072,6 +1072,146 @@ public class UserInfoExample {
 
         public Criteria andIsGroupLeaderNotBetween(Boolean value1, Boolean value2) {
             addCriterion("is_group_leader not between", value1, value2, "isGroupLeader");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceIsNull() {
+            addCriterion("birthplace is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceIsNotNull() {
+            addCriterion("birthplace is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceEqualTo(String value) {
+            addCriterion("birthplace =", value, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceNotEqualTo(String value) {
+            addCriterion("birthplace <>", value, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceGreaterThan(String value) {
+            addCriterion("birthplace >", value, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceGreaterThanOrEqualTo(String value) {
+            addCriterion("birthplace >=", value, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceLessThan(String value) {
+            addCriterion("birthplace <", value, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceLessThanOrEqualTo(String value) {
+            addCriterion("birthplace <=", value, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceLike(String value) {
+            addCriterion("birthplace like", value, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceNotLike(String value) {
+            addCriterion("birthplace not like", value, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceIn(List<String> values) {
+            addCriterion("birthplace in", values, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceNotIn(List<String> values) {
+            addCriterion("birthplace not in", values, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceBetween(String value1, String value2) {
+            addCriterion("birthplace between", value1, value2, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andBirthplaceNotBetween(String value1, String value2) {
+            addCriterion("birthplace not between", value1, value2, "birthplace");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationIsNull() {
+            addCriterion("nation is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationIsNotNull() {
+            addCriterion("nation is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationEqualTo(String value) {
+            addCriterion("nation =", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotEqualTo(String value) {
+            addCriterion("nation <>", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationGreaterThan(String value) {
+            addCriterion("nation >", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationGreaterThanOrEqualTo(String value) {
+            addCriterion("nation >=", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationLessThan(String value) {
+            addCriterion("nation <", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationLessThanOrEqualTo(String value) {
+            addCriterion("nation <=", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationLike(String value) {
+            addCriterion("nation like", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotLike(String value) {
+            addCriterion("nation not like", value, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationIn(List<String> values) {
+            addCriterion("nation in", values, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotIn(List<String> values) {
+            addCriterion("nation not in", values, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationBetween(String value1, String value2) {
+            addCriterion("nation between", value1, value2, "nation");
+            return (Criteria) this;
+        }
+
+        public Criteria andNationNotBetween(String value1, String value2) {
+            addCriterion("nation not between", value1, value2, "nation");
             return (Criteria) this;
         }
     }

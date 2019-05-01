@@ -27,6 +27,4 @@ public interface UserInfoMapper {
     int updateByPrimaryKeySelective(UserInfo record);
 
     int updateByPrimaryKey(UserInfo record);
-
-	Integer checkUserIsExist(String idCard);
 }

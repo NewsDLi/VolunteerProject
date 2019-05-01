@@ -1,7 +1,6 @@
 package com.volunteer.web.manager;
 
 import com.volunteer.common.UserInfoBindCommand;
-import com.volunteer.model.UserInfo;
 
 import java.util.List;
 

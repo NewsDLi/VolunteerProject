@@ -15,8 +15,10 @@
     <result column="update_by" property="updateBy" jdbcType="BIGINT" />
     <result column="lifecycle" property="lifecycle" jdbcType="INTEGER" />
     <result column="role_id" property="roleId" jdbcType="BIGINT" />
-    <result column="group" property="group" jdbcType="INTEGER" />
+    <result column="group_team" property="groupTeam" jdbcType="INTEGER" />
     <result column="is_group_leader" property="isGroupLeader" jdbcType="BIT" />
+    <result column="birthplace" property="birthplace" jdbcType="VARCHAR" />
+    <result column="nation" property="nation" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -78,7 +80,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, name, sex, id_card, worker, login_phone, descption, hobby, user_pic, version, 
-    update_by, lifecycle, role_id, `group`, is_group_leader
+    update_by, lifecycle, role_id, group_team, is_group_leader, birthplace, nation
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.volunteer.model.UserInfoExample" >
     select
@@ -110,19 +112,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.volunteer.model.UserInfo" useGeneratedKeys="true" keyProperty="id">
+  <insert id="insert" parameterType="com.volunteer.model.UserInfo" >
     insert into user_info (id, name, sex, 
       id_card, worker, login_phone, 
       descption, hobby, user_pic, 
       version, update_by, lifecycle, 
-      role_id, `group`, is_group_leader
-      )
+      role_id, group_team, is_group_leader, 
+      birthplace, nation)
     values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
       #{idCard,jdbcType=VARCHAR}, #{worker,jdbcType=VARCHAR}, #{loginPhone,jdbcType=VARCHAR}, 
       #{descption,jdbcType=VARCHAR}, #{hobby,jdbcType=VARCHAR}, #{userPic,jdbcType=VARCHAR}, 
       #{version,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, #{lifecycle,jdbcType=INTEGER}, 
-      #{roleId,jdbcType=BIGINT}, #{group,jdbcType=INTEGER}, #{isGroupLeader,jdbcType=BIT}
-      )
+      #{roleId,jdbcType=BIGINT}, #{groupTeam,jdbcType=INTEGER}, #{isGroupLeader,jdbcType=BIT}, 
+      #{birthplace,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.volunteer.model.UserInfo" >
     insert into user_info
@@ -166,11 +168,17 @@
       <if test="roleId != null" >
         role_id,
       </if>
-      <if test="group != null" >
-        group,
+      <if test="groupTeam != null" >
+        group_team,
       </if>
       <if test="isGroupLeader != null" >
         is_group_leader,
+      </if>
+      <if test="birthplace != null" >
+        birthplace,
+      </if>
+      <if test="nation != null" >
+        nation,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -213,11 +221,17 @@
       <if test="roleId != null" >
         #{roleId,jdbcType=BIGINT},
       </if>
-      <if test="group != null" >
-        #{group,jdbcType=INTEGER},
+      <if test="groupTeam != null" >
+        #{groupTeam,jdbcType=INTEGER},
       </if>
       <if test="isGroupLeader != null" >
         #{isGroupLeader,jdbcType=BIT},
+      </if>
+      <if test="birthplace != null" >
+        #{birthplace,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        #{nation,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -269,11 +283,17 @@
       <if test="record.roleId != null" >
         role_id = #{record.roleId,jdbcType=BIGINT},
       </if>
-      <if test="record.group != null" >
-        group = #{record.group,jdbcType=INTEGER},
+      <if test="record.groupTeam != null" >
+        group_team = #{record.groupTeam,jdbcType=INTEGER},
       </if>
       <if test="record.isGroupLeader != null" >
         is_group_leader = #{record.isGroupLeader,jdbcType=BIT},
+      </if>
+      <if test="record.birthplace != null" >
+        birthplace = #{record.birthplace,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nation != null" >
+        nation = #{record.nation,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -295,8 +315,10 @@
       update_by = #{record.updateBy,jdbcType=BIGINT},
       lifecycle = #{record.lifecycle,jdbcType=INTEGER},
       role_id = #{record.roleId,jdbcType=BIGINT},
-      group = #{record.group,jdbcType=INTEGER},
-      is_group_leader = #{record.isGroupLeader,jdbcType=BIT}
+      group_team = #{record.groupTeam,jdbcType=INTEGER},
+      is_group_leader = #{record.isGroupLeader,jdbcType=BIT},
+      birthplace = #{record.birthplace,jdbcType=VARCHAR},
+      nation = #{record.nation,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -340,11 +362,17 @@
       <if test="roleId != null" >
         role_id = #{roleId,jdbcType=BIGINT},
       </if>
-      <if test="group != null" >
-        group = #{group,jdbcType=INTEGER},
+      <if test="groupTeam != null" >
+        group_team = #{groupTeam,jdbcType=INTEGER},
       </if>
       <if test="isGroupLeader != null" >
         is_group_leader = #{isGroupLeader,jdbcType=BIT},
+      </if>
+      <if test="birthplace != null" >
+        birthplace = #{birthplace,jdbcType=VARCHAR},
+      </if>
+      <if test="nation != null" >
+        nation = #{nation,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -363,12 +391,10 @@
       update_by = #{updateBy,jdbcType=BIGINT},
       lifecycle = #{lifecycle,jdbcType=INTEGER},
       role_id = #{roleId,jdbcType=BIGINT},
-      group = #{group,jdbcType=INTEGER},
-      is_group_leader = #{isGroupLeader,jdbcType=BIT}
+      group_team = #{groupTeam,jdbcType=INTEGER},
+      is_group_leader = #{isGroupLeader,jdbcType=BIT},
+      birthplace = #{birthplace,jdbcType=VARCHAR},
+      nation = #{nation,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
-  
-  <select id="checkUserIsExist" parameterType="java.lang.String" resultType="java.lang.Integer">
-  	SELECT 1 FROM user_info WHERE id_card = #{value}
-  </select>
 </mapper>

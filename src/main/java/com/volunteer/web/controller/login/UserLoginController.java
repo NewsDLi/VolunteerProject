@@ -16,16 +16,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.alibaba.fastjson.JSON;
-import com.feilong.core.TimeInterval;
 import com.feilong.core.Validator;
 import com.feilong.servlet.http.RequestUtil;
 import com.volunteer.cache.manager.CacheManager;
 import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.common.WechatMessage;
 import com.volunteer.constant.WxLoginConstant;
-import com.volunteer.model.UserInfo;
-import com.volunteer.model.UserInfoBind;
-import com.volunteer.model.WechatInfo;
 import com.volunteer.utils.HttpsUtils;
 import com.volunteer.utils.PropBean;
 import com.volunteer.web.controller.login.handler.WeChatLoginHandler;

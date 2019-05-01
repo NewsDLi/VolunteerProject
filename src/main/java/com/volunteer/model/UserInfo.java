@@ -29,9 +29,13 @@ public class UserInfo {
 
     private Long roleId;
 
-    private Integer group;
+    private Integer groupTeam;
 
     private Boolean isGroupLeader;
+
+    private String birthplace;
+
+    private String nation;
 
     public Long getId() {
         return id;
@@ -137,12 +141,12 @@ public class UserInfo {
         this.roleId = roleId;
     }
 
-    public Integer getGroup() {
-        return group;
+    public Integer getGroupTeam() {
+        return groupTeam;
     }
 
-    public void setGroup(Integer group) {
-        this.group = group;
+    public void setGroupTeam(Integer groupTeam) {
+        this.groupTeam = groupTeam;
     }
 
     public Boolean getIsGroupLeader() {
@@ -151,5 +155,21 @@ public class UserInfo {
 
     public void setIsGroupLeader(Boolean isGroupLeader) {
         this.isGroupLeader = isGroupLeader;
+    }
+
+    public String getBirthplace() {
+        return birthplace;
+    }
+
+    public void setBirthplace(String birthplace) {
+        this.birthplace = birthplace == null ? null : birthplace.trim();
+    }
+
+    public String getNation() {
+        return nation;
+    }
+
+    public void setNation(String nation) {
+        this.nation = nation == null ? null : nation.trim();
     }
 }
