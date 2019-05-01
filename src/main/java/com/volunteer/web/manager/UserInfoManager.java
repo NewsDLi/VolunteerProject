@@ -13,4 +13,11 @@ public interface UserInfoManager {
 	 *
 	 */
 	UserInfo getUserInfoByMobile(String mobile);
+
+	/**
+	 * 插入用户信息，并返回主键
+	 * @param user
+	 * @return
+	 */
+	Long insertUserInfo(UserInfo user);
 }

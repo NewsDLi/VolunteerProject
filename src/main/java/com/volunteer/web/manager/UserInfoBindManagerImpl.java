@@ -18,7 +18,7 @@ public class UserInfoBindManagerImpl implements UserInfoBindManager{
 	public Long saveUserInfoBind(UserInfoBind userInfoBind) {
 		Long aLong = null;
 		try {
-			aLong = userInfoBindMapper.saveUserInfoBind(userInfoBind);
+//			aLong = userInfoBindMapper.saveUserInfoBind(userInfoBind);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

@@ -15,11 +15,20 @@ public class UserInfoManagerImpl implements UserInfoManager{
 
 	@Override
 	public UserInfoBindCommand getUserInfoByOpenId(String openId) {
-		return userInfoMapper.selectUserInfoByOpenId(openId);
+		return null;
 	}
 
 	@Override
 	public UserInfo getUserInfoByMobile(String mobile) {
-		return userInfoMapper.selectUserInfoByMobile(mobile);
+		return null;
+	}
+
+	@Override
+	public Long insertUserInfo(UserInfo user) {
+		int insert = userInfoMapper.insert(user);
+		if(insert != 1){
+			return null;
+		}
+		return user.getId();
 	}
 }

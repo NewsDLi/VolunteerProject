@@ -23,6 +23,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,9 +32,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.volunteer.constant.CommonConstant;
+import com.volunteer.constant.CommonEnum;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserInfoTag;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
+import com.volunteer.web.manager.UserInfoManager;
+import com.volunteer.web.manager.UserInfoTagManager;
 
 /**
  * @author NewsDLee
@@ -44,6 +49,12 @@ import com.volunteer.response.ResponseStatus;
 public class UserInfoImport {
 
 	private Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	
+	@Autowired
+	private UserInfoManager userInfoManager;
+	
+	@Autowired
+	private UserInfoTagManager userInfoTagManager;
 
 	private static final Integer XLS_SHEET_1 = 0;
 	
@@ -118,13 +129,32 @@ public class UserInfoImport {
     		Map<String, Object> info = (Map<String, Object>) object;
     		// 用户信息
     		UserInfo user = (UserInfo) info.get("userInfo");
+    		Long userId = userInfoManager.insertUserInfo(user);
     		// 上过的课程
     		Map<String,Integer> havingClass = (Map<String, Integer>) info.get("havingClass");
+    		UserInfoTag infoTag = null;
+    		for(Map.Entry<String,Integer> entry : havingClass.entrySet()){
+    			infoTag = new UserInfoTag();
+    			infoTag.setTagName(CommonEnum.getValue(entry.getKey()));
+    			infoTag.setTagCount(entry.getValue());
+    			infoTag.setUserId(userId);
+    			infoTag.setType(CommonConstant.TYPE_CLASS);
+    			int insertUserInfoTag = userInfoTagManager.insertUserInfoTag(infoTag);
+    		}
     		// 义工岗位
     		List<String> asList = (List<String>) info.get("post");
+    		if(asList != null && asList.size()>0){
+    			for (String string : asList) {
+    				infoTag = new UserInfoTag();
+    				infoTag.setUserId(userId);
+    				infoTag.setTagName(string);
+    				infoTag.setType(CommonConstant.TYPE_POST);
+    				userInfoTagManager.insertUserInfoTag(infoTag);
+				}
+    		}
     		
 		}
-		return false;
+		return true;
 	}
 
 	private List<Object> getUserInfo(InputStream inputStream){

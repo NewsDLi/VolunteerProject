@@ -41,7 +41,6 @@ spring:
 mybatis:
   mapper-locations:
   - classpath*:mapper/*.xml
-  type-aliases-package: com.volunteer.model 
 #在application.yml文件中引入日志配置文件  
 logging:
   config: classpath:config/logback.xml

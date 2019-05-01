@@ -18,7 +18,7 @@ public class WechatInfoManagerImpl implements WechatInfoManager{
 	public Long  saveWechatInfo(WechatInfo wechatInfo) {
 		Long integer = null;
 		try {
-			 integer = wechatInfoMapper.saveWechatInfo(wechatInfo);
+//			 integer = wechatInfoMapper.saveWechatInfo(wechatInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

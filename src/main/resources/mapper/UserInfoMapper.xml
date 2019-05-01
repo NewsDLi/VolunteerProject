@@ -110,7 +110,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.volunteer.model.UserInfo" >
+  <insert id="insert" parameterType="com.volunteer.model.UserInfo" useGeneratedKeys="true" keyProperty="id">
     insert into user_info (id, name, sex, 
       id_card, worker, login_phone, 
       descption, hobby, user_pic, 
