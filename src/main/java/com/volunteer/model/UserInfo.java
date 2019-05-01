@@ -32,6 +32,8 @@ public class UserInfo {
     private Integer group;
 
     private Boolean isGroupLeader;
+    
+    private Integer age;
 
     public Long getId() {
         return id;
@@ -152,4 +154,13 @@ public class UserInfo {
     public void setIsGroupLeader(Boolean isGroupLeader) {
         this.isGroupLeader = isGroupLeader;
     }
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+    
 }

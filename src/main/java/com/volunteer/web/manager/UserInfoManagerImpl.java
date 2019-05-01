@@ -60,4 +60,9 @@ public class UserInfoManagerImpl implements UserInfoManager{
 		int exampleSelective = userInfoMapper.updateByExampleSelective(userInfo, userInfoExample);
 		return exampleSelective;
 	}
+
+	@Override
+	public UserInfo selectByPrimaryKey(Long id) {
+		return userInfoMapper.selectByPrimaryKey(id);
+	}
 }
