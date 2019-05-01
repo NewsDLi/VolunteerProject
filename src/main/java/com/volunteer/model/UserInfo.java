@@ -29,7 +29,7 @@ public class UserInfo {
 
     private Long roleId;
 
-    private Integer groupTeam;
+    private Integer group;
 
     private Boolean isGroupLeader;
 
@@ -172,4 +172,13 @@ public class UserInfo {
     public void setNation(String nation) {
         this.nation = nation == null ? null : nation.trim();
     }
+
+	public Integer getAge() {
+		return age;
+	}
+
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
 }

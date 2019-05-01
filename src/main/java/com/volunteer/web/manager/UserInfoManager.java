@@ -35,5 +35,12 @@ public interface UserInfoManager {
 	 * @return
 	 */
 	Integer updateUserIfoToDescption(Long id,String descption,String hobby);
+	
+	/**
+	 * 根据主键id查询用户信息
+	 * @param id
+	 * @return
+	 */
+	UserInfo selectByPrimaryKey(Long id);
 
 }

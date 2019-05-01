@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta name="viewport"
 	content="width=device-width,initial-scale=1,user-scalable=0">
@@ -27,29 +27,29 @@
 					<img src="images/common/1555840770.jpg" width="150px;" alt="头像" />
 				</div>
 				<div class="main_content">
-					<h2 class="name">李凯敏</h2>
-					<p class="person_info">性别：男</p>
-					<p class="person_info">年龄：29</p>
-					<p class="person_info">民族：汉</p>
-					<p class="person_info">籍贯：山西晋城</p>
-					<p class="person_info">电话：12345678901</p>
+					<h2 class="name"><span th:text="${userInfo.name}"></span></h2>
+					<p class="person_info">性别：<span th:if="${userInfo.sex} eq 1">女</span><span th:if="${userInfo.age} eq 0">男</span></p>
+					<p class="person_info">年龄：<span th:text="${userInfo.age}"></span></p>
+					<p class="person_info">民族：<span th:text="${userInfo.age}"></span></p>
+					<p class="person_info">籍贯：<span th:text="${userInfo.age}"></span></p>
+					<p class="person_info">电话：<span th:text="${userInfo.loginPhone}"></span></p>
 				</div>
 			</div>
 			<div class="person_info_work">
 				<p class="person_info">
-					工作岗位：<span>暂无</span>
+					工作岗位：<span th:text="${userInfo.worker}"></span>
 				</p>
 				<p class="person_info">
-					身份证号：<span>222345678542134567</span>
+					身份证号：<span th:text="${userInfo.idCard}"></span>
 				</p>
 			</div>
 			<div class="person_hoppy">
 				<h2 class="hoppy_title">兴趣爱好</h2>
-				<p class="person_info">洗澡、洗澡、还是洗澡</p>
+				<p class="person_info" th:text="${userInfo.hobby}"></p>
 			</div>
 			<div class="person_hoppy">
 				<h2 class="hoppy_title">自我介绍</h2>
-				<p class="person_info">本人性格开朗、稳重、有活力，待人热情、真诚；工作认真负责，积极主动，能吃苦耐劳，用于承受压力，勇于创新；有很强的组织能力和团队协作</p>
+				<p class="person_info"  th:text="${userInfo.descption}" ></p>
 			</div>
 		</div>
 
