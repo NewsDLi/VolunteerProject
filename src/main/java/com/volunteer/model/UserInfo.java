@@ -29,13 +29,15 @@ public class UserInfo {
 
     private Long roleId;
 
-    private Integer group;
+    private Integer groupTeam;
 
     private Boolean isGroupLeader;
 
     private String birthplace;
 
     private String nation;
+
+    private Integer age;
 
     public Long getId() {
         return id;
