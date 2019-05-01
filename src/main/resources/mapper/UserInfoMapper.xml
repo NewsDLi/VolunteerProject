@@ -1,400 +1,418 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.volunteer.web.dao.UserInfoMapper" >
-  <resultMap id="BaseResultMap" type="com.volunteer.model.UserInfo" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="name" property="name" jdbcType="VARCHAR" />
-    <result column="sex" property="sex" jdbcType="INTEGER" />
-    <result column="id_card" property="idCard" jdbcType="VARCHAR" />
-    <result column="worker" property="worker" jdbcType="VARCHAR" />
-    <result column="login_phone" property="loginPhone" jdbcType="VARCHAR" />
-    <result column="descption" property="descption" jdbcType="VARCHAR" />
-    <result column="hobby" property="hobby" jdbcType="VARCHAR" />
-    <result column="user_pic" property="userPic" jdbcType="VARCHAR" />
-    <result column="version" property="version" jdbcType="TIMESTAMP" />
-    <result column="update_by" property="updateBy" jdbcType="BIGINT" />
-    <result column="lifecycle" property="lifecycle" jdbcType="INTEGER" />
-    <result column="role_id" property="roleId" jdbcType="BIGINT" />
-    <result column="group_team" property="groupTeam" jdbcType="INTEGER" />
-    <result column="is_group_leader" property="isGroupLeader" jdbcType="BIT" />
-    <result column="birthplace" property="birthplace" jdbcType="VARCHAR" />
-    <result column="nation" property="nation" jdbcType="VARCHAR" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    id, name, sex, id_card, worker, login_phone, descption, hobby, user_pic, version, 
-    update_by, lifecycle, role_id, group_team, is_group_leader, birthplace, nation
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.volunteer.model.UserInfoExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from user_info
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
-    <include refid="Base_Column_List" />
-    from user_info
-    where id = #{id,jdbcType=BIGINT}
-  </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from user_info
-    where id = #{id,jdbcType=BIGINT}
-  </delete>
-  <delete id="deleteByExample" parameterType="com.volunteer.model.UserInfoExample" >
-    delete from user_info
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="com.volunteer.model.UserInfo" >
-    insert into user_info (id, name, sex, 
-      id_card, worker, login_phone, 
-      descption, hobby, user_pic, 
-      version, update_by, lifecycle, 
-      role_id, group_team, is_group_leader, 
-      birthplace, nation)
-    values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR}, #{sex,jdbcType=INTEGER}, 
-      #{idCard,jdbcType=VARCHAR}, #{worker,jdbcType=VARCHAR}, #{loginPhone,jdbcType=VARCHAR}, 
-      #{descption,jdbcType=VARCHAR}, #{hobby,jdbcType=VARCHAR}, #{userPic,jdbcType=VARCHAR}, 
-      #{version,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, #{lifecycle,jdbcType=INTEGER}, 
-      #{roleId,jdbcType=BIGINT}, #{groupTeam,jdbcType=INTEGER}, #{isGroupLeader,jdbcType=BIT}, 
-      #{birthplace,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR})
-  </insert>
-  <insert id="insertSelective" parameterType="com.volunteer.model.UserInfo" >
-    insert into user_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="sex != null" >
-        sex,
-      </if>
-      <if test="idCard != null" >
-        id_card,
-      </if>
-      <if test="worker != null" >
-        worker,
-      </if>
-      <if test="loginPhone != null" >
-        login_phone,
-      </if>
-      <if test="descption != null" >
-        descption,
-      </if>
-      <if test="hobby != null" >
-        hobby,
-      </if>
-      <if test="userPic != null" >
-        user_pic,
-      </if>
-      <if test="version != null" >
-        version,
-      </if>
-      <if test="updateBy != null" >
-        update_by,
-      </if>
-      <if test="lifecycle != null" >
-        lifecycle,
-      </if>
-      <if test="roleId != null" >
-        role_id,
-      </if>
-      <if test="groupTeam != null" >
-        group_team,
-      </if>
-      <if test="isGroupLeader != null" >
-        is_group_leader,
-      </if>
-      <if test="birthplace != null" >
-        birthplace,
-      </if>
-      <if test="nation != null" >
-        nation,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null" >
-        #{sex,jdbcType=INTEGER},
-      </if>
-      <if test="idCard != null" >
-        #{idCard,jdbcType=VARCHAR},
-      </if>
-      <if test="worker != null" >
-        #{worker,jdbcType=VARCHAR},
-      </if>
-      <if test="loginPhone != null" >
-        #{loginPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="descption != null" >
-        #{descption,jdbcType=VARCHAR},
-      </if>
-      <if test="hobby != null" >
-        #{hobby,jdbcType=VARCHAR},
-      </if>
-      <if test="userPic != null" >
-        #{userPic,jdbcType=VARCHAR},
-      </if>
-      <if test="version != null" >
-        #{version,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        #{updateBy,jdbcType=BIGINT},
-      </if>
-      <if test="lifecycle != null" >
-        #{lifecycle,jdbcType=INTEGER},
-      </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=BIGINT},
-      </if>
-      <if test="groupTeam != null" >
-        #{groupTeam,jdbcType=INTEGER},
-      </if>
-      <if test="isGroupLeader != null" >
-        #{isGroupLeader,jdbcType=BIT},
-      </if>
-      <if test="birthplace != null" >
-        #{birthplace,jdbcType=VARCHAR},
-      </if>
-      <if test="nation != null" >
-        #{nation,jdbcType=VARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="com.volunteer.model.UserInfoExample" resultType="java.lang.Integer" >
-    select count(*) from user_info
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update user_info
-    <set >
-      <if test="record.id != null" >
-        id = #{record.id,jdbcType=BIGINT},
-      </if>
-      <if test="record.name != null" >
-        name = #{record.name,jdbcType=VARCHAR},
-      </if>
-      <if test="record.sex != null" >
-        sex = #{record.sex,jdbcType=INTEGER},
-      </if>
-      <if test="record.idCard != null" >
-        id_card = #{record.idCard,jdbcType=VARCHAR},
-      </if>
-      <if test="record.worker != null" >
-        worker = #{record.worker,jdbcType=VARCHAR},
-      </if>
-      <if test="record.loginPhone != null" >
-        login_phone = #{record.loginPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="record.descption != null" >
-        descption = #{record.descption,jdbcType=VARCHAR},
-      </if>
-      <if test="record.hobby != null" >
-        hobby = #{record.hobby,jdbcType=VARCHAR},
-      </if>
-      <if test="record.userPic != null" >
-        user_pic = #{record.userPic,jdbcType=VARCHAR},
-      </if>
-      <if test="record.version != null" >
-        version = #{record.version,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updateBy != null" >
-        update_by = #{record.updateBy,jdbcType=BIGINT},
-      </if>
-      <if test="record.lifecycle != null" >
-        lifecycle = #{record.lifecycle,jdbcType=INTEGER},
-      </if>
-      <if test="record.roleId != null" >
-        role_id = #{record.roleId,jdbcType=BIGINT},
-      </if>
-      <if test="record.groupTeam != null" >
-        group_team = #{record.groupTeam,jdbcType=INTEGER},
-      </if>
-      <if test="record.isGroupLeader != null" >
-        is_group_leader = #{record.isGroupLeader,jdbcType=BIT},
-      </if>
-      <if test="record.birthplace != null" >
-        birthplace = #{record.birthplace,jdbcType=VARCHAR},
-      </if>
-      <if test="record.nation != null" >
-        nation = #{record.nation,jdbcType=VARCHAR},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update user_info
-    set id = #{record.id,jdbcType=BIGINT},
-      name = #{record.name,jdbcType=VARCHAR},
-      sex = #{record.sex,jdbcType=INTEGER},
-      id_card = #{record.idCard,jdbcType=VARCHAR},
-      worker = #{record.worker,jdbcType=VARCHAR},
-      login_phone = #{record.loginPhone,jdbcType=VARCHAR},
-      descption = #{record.descption,jdbcType=VARCHAR},
-      hobby = #{record.hobby,jdbcType=VARCHAR},
-      user_pic = #{record.userPic,jdbcType=VARCHAR},
-      version = #{record.version,jdbcType=TIMESTAMP},
-      update_by = #{record.updateBy,jdbcType=BIGINT},
-      lifecycle = #{record.lifecycle,jdbcType=INTEGER},
-      role_id = #{record.roleId,jdbcType=BIGINT},
-      group_team = #{record.groupTeam,jdbcType=INTEGER},
-      is_group_leader = #{record.isGroupLeader,jdbcType=BIT},
-      birthplace = #{record.birthplace,jdbcType=VARCHAR},
-      nation = #{record.nation,jdbcType=VARCHAR}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.volunteer.model.UserInfo" >
-    update user_info
-    <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="sex != null" >
-        sex = #{sex,jdbcType=INTEGER},
-      </if>
-      <if test="idCard != null" >
-        id_card = #{idCard,jdbcType=VARCHAR},
-      </if>
-      <if test="worker != null" >
-        worker = #{worker,jdbcType=VARCHAR},
-      </if>
-      <if test="loginPhone != null" >
-        login_phone = #{loginPhone,jdbcType=VARCHAR},
-      </if>
-      <if test="descption != null" >
-        descption = #{descption,jdbcType=VARCHAR},
-      </if>
-      <if test="hobby != null" >
-        hobby = #{hobby,jdbcType=VARCHAR},
-      </if>
-      <if test="userPic != null" >
-        user_pic = #{userPic,jdbcType=VARCHAR},
-      </if>
-      <if test="version != null" >
-        version = #{version,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateBy != null" >
-        update_by = #{updateBy,jdbcType=BIGINT},
-      </if>
-      <if test="lifecycle != null" >
-        lifecycle = #{lifecycle,jdbcType=INTEGER},
-      </if>
-      <if test="roleId != null" >
-        role_id = #{roleId,jdbcType=BIGINT},
-      </if>
-      <if test="groupTeam != null" >
-        group_team = #{groupTeam,jdbcType=INTEGER},
-      </if>
-      <if test="isGroupLeader != null" >
-        is_group_leader = #{isGroupLeader,jdbcType=BIT},
-      </if>
-      <if test="birthplace != null" >
-        birthplace = #{birthplace,jdbcType=VARCHAR},
-      </if>
-      <if test="nation != null" >
-        nation = #{nation,jdbcType=VARCHAR},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.volunteer.model.UserInfo" >
-    update user_info
-    set name = #{name,jdbcType=VARCHAR},
-      sex = #{sex,jdbcType=INTEGER},
-      id_card = #{idCard,jdbcType=VARCHAR},
-      worker = #{worker,jdbcType=VARCHAR},
-      login_phone = #{loginPhone,jdbcType=VARCHAR},
-      descption = #{descption,jdbcType=VARCHAR},
-      hobby = #{hobby,jdbcType=VARCHAR},
-      user_pic = #{userPic,jdbcType=VARCHAR},
-      version = #{version,jdbcType=TIMESTAMP},
-      update_by = #{updateBy,jdbcType=BIGINT},
-      lifecycle = #{lifecycle,jdbcType=INTEGER},
-      role_id = #{roleId,jdbcType=BIGINT},
-      group_team = #{groupTeam,jdbcType=INTEGER},
-      is_group_leader = #{isGroupLeader,jdbcType=BIT},
-      birthplace = #{birthplace,jdbcType=VARCHAR},
-      nation = #{nation,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
+<mapper namespace="com.volunteer.web.dao.UserInfoMapper">
+	<resultMap id="BaseResultMap" type="com.volunteer.model.UserInfo">
+		<id column="id" property="id" jdbcType="BIGINT" />
+		<result column="name" property="name" jdbcType="VARCHAR" />
+		<result column="sex" property="sex" jdbcType="INTEGER" />
+		<result column="id_card" property="idCard" jdbcType="VARCHAR" />
+		<result column="worker" property="worker" jdbcType="VARCHAR" />
+		<result column="login_phone" property="loginPhone" jdbcType="VARCHAR" />
+		<result column="descption" property="descption" jdbcType="VARCHAR" />
+		<result column="hobby" property="hobby" jdbcType="VARCHAR" />
+		<result column="user_pic" property="userPic" jdbcType="VARCHAR" />
+		<result column="version" property="version" jdbcType="TIMESTAMP" />
+		<result column="update_by" property="updateBy" jdbcType="BIGINT" />
+		<result column="lifecycle" property="lifecycle" jdbcType="INTEGER" />
+		<result column="role_id" property="roleId" jdbcType="BIGINT" />
+		<result column="group_team" property="groupTeam" jdbcType="INTEGER" />
+		<result column="is_group_leader" property="isGroupLeader"
+			jdbcType="BIT" />
+		<result column="birthplace" property="birthplace" jdbcType="VARCHAR" />
+		<result column="nation" property="nation" jdbcType="VARCHAR" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value} and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		id, name, sex, id_card, worker, login_phone, descption, hobby, user_pic,
+		version,
+		update_by, lifecycle, role_id, group_team, is_group_leader, birthplace, nation
+	</sql>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="com.volunteer.model.UserInfoExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from user_info
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.Long">
+		select
+		<include refid="Base_Column_List" />
+		from user_info
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete from user_info
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<delete id="deleteByExample" parameterType="com.volunteer.model.UserInfoExample">
+		delete from user_info
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</delete>
+	<insert id="insert" parameterType="com.volunteer.model.UserInfo" useGeneratedKeys="true" keyProperty="id">
+		insert into user_info (id, name, sex,
+		id_card, worker, login_phone,
+		descption, hobby, user_pic,
+		version, update_by, lifecycle,
+		role_id, group_team, is_group_leader,
+		birthplace, nation)
+		values (#{id,jdbcType=BIGINT}, #{name,jdbcType=VARCHAR},
+		#{sex,jdbcType=INTEGER},
+		#{idCard,jdbcType=VARCHAR}, #{worker,jdbcType=VARCHAR}, #{loginPhone,jdbcType=VARCHAR},
+		#{descption,jdbcType=VARCHAR}, #{hobby,jdbcType=VARCHAR},
+		#{userPic,jdbcType=VARCHAR},
+		#{version,jdbcType=TIMESTAMP}, #{updateBy,jdbcType=BIGINT}, #{lifecycle,jdbcType=INTEGER},
+		#{roleId,jdbcType=BIGINT}, #{groupTeam,jdbcType=INTEGER},
+		#{isGroupLeader,jdbcType=BIT},
+		#{birthplace,jdbcType=VARCHAR}, #{nation,jdbcType=VARCHAR})
+	</insert>
+	<insert id="insertSelective" parameterType="com.volunteer.model.UserInfo">
+		insert into user_info
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				id,
+			</if>
+			<if test="name != null">
+				name,
+			</if>
+			<if test="sex != null">
+				sex,
+			</if>
+			<if test="idCard != null">
+				id_card,
+			</if>
+			<if test="worker != null">
+				worker,
+			</if>
+			<if test="loginPhone != null">
+				login_phone,
+			</if>
+			<if test="descption != null">
+				descption,
+			</if>
+			<if test="hobby != null">
+				hobby,
+			</if>
+			<if test="userPic != null">
+				user_pic,
+			</if>
+			<if test="version != null">
+				version,
+			</if>
+			<if test="updateBy != null">
+				update_by,
+			</if>
+			<if test="lifecycle != null">
+				lifecycle,
+			</if>
+			<if test="roleId != null">
+				role_id,
+			</if>
+			<if test="groupTeam != null">
+				group_team,
+			</if>
+			<if test="isGroupLeader != null">
+				is_group_leader,
+			</if>
+			<if test="birthplace != null">
+				birthplace,
+			</if>
+			<if test="nation != null">
+				nation,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=BIGINT},
+			</if>
+			<if test="name != null">
+				#{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				#{sex,jdbcType=INTEGER},
+			</if>
+			<if test="idCard != null">
+				#{idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="worker != null">
+				#{worker,jdbcType=VARCHAR},
+			</if>
+			<if test="loginPhone != null">
+				#{loginPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="descption != null">
+				#{descption,jdbcType=VARCHAR},
+			</if>
+			<if test="hobby != null">
+				#{hobby,jdbcType=VARCHAR},
+			</if>
+			<if test="userPic != null">
+				#{userPic,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				#{version,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				#{updateBy,jdbcType=BIGINT},
+			</if>
+			<if test="lifecycle != null">
+				#{lifecycle,jdbcType=INTEGER},
+			</if>
+			<if test="roleId != null">
+				#{roleId,jdbcType=BIGINT},
+			</if>
+			<if test="groupTeam != null">
+				#{groupTeam,jdbcType=INTEGER},
+			</if>
+			<if test="isGroupLeader != null">
+				#{isGroupLeader,jdbcType=BIT},
+			</if>
+			<if test="birthplace != null">
+				#{birthplace,jdbcType=VARCHAR},
+			</if>
+			<if test="nation != null">
+				#{nation,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="com.volunteer.model.UserInfoExample"
+		resultType="java.lang.Integer">
+		select count(*) from user_info
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update user_info
+		<set>
+			<if test="record.id != null">
+				id = #{record.id,jdbcType=BIGINT},
+			</if>
+			<if test="record.name != null">
+				name = #{record.name,jdbcType=VARCHAR},
+			</if>
+			<if test="record.sex != null">
+				sex = #{record.sex,jdbcType=INTEGER},
+			</if>
+			<if test="record.idCard != null">
+				id_card = #{record.idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="record.worker != null">
+				worker = #{record.worker,jdbcType=VARCHAR},
+			</if>
+			<if test="record.loginPhone != null">
+				login_phone = #{record.loginPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="record.descption != null">
+				descption = #{record.descption,jdbcType=VARCHAR},
+			</if>
+			<if test="record.hobby != null">
+				hobby = #{record.hobby,jdbcType=VARCHAR},
+			</if>
+			<if test="record.userPic != null">
+				user_pic = #{record.userPic,jdbcType=VARCHAR},
+			</if>
+			<if test="record.version != null">
+				version = #{record.version,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.updateBy != null">
+				update_by = #{record.updateBy,jdbcType=BIGINT},
+			</if>
+			<if test="record.lifecycle != null">
+				lifecycle = #{record.lifecycle,jdbcType=INTEGER},
+			</if>
+			<if test="record.roleId != null">
+				role_id = #{record.roleId,jdbcType=BIGINT},
+			</if>
+			<if test="record.groupTeam != null">
+				group_team = #{record.groupTeam,jdbcType=INTEGER},
+			</if>
+			<if test="record.isGroupLeader != null">
+				is_group_leader = #{record.isGroupLeader,jdbcType=BIT},
+			</if>
+			<if test="record.birthplace != null">
+				birthplace = #{record.birthplace,jdbcType=VARCHAR},
+			</if>
+			<if test="record.nation != null">
+				nation = #{record.nation,jdbcType=VARCHAR},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update user_info
+		set id = #{record.id,jdbcType=BIGINT},
+		name = #{record.name,jdbcType=VARCHAR},
+		sex = #{record.sex,jdbcType=INTEGER},
+		id_card = #{record.idCard,jdbcType=VARCHAR},
+		worker = #{record.worker,jdbcType=VARCHAR},
+		login_phone = #{record.loginPhone,jdbcType=VARCHAR},
+		descption = #{record.descption,jdbcType=VARCHAR},
+		hobby = #{record.hobby,jdbcType=VARCHAR},
+		user_pic = #{record.userPic,jdbcType=VARCHAR},
+		version = #{record.version,jdbcType=TIMESTAMP},
+		update_by = #{record.updateBy,jdbcType=BIGINT},
+		lifecycle = #{record.lifecycle,jdbcType=INTEGER},
+		role_id = #{record.roleId,jdbcType=BIGINT},
+		group_team = #{record.groupTeam,jdbcType=INTEGER},
+		is_group_leader = #{record.isGroupLeader,jdbcType=BIT},
+		birthplace = #{record.birthplace,jdbcType=VARCHAR},
+		nation = #{record.nation,jdbcType=VARCHAR}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByPrimaryKeySelective" parameterType="com.volunteer.model.UserInfo">
+		update user_info
+		<set>
+			<if test="name != null">
+				name = #{name,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null">
+				sex = #{sex,jdbcType=INTEGER},
+			</if>
+			<if test="idCard != null">
+				id_card = #{idCard,jdbcType=VARCHAR},
+			</if>
+			<if test="worker != null">
+				worker = #{worker,jdbcType=VARCHAR},
+			</if>
+			<if test="loginPhone != null">
+				login_phone = #{loginPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="descption != null">
+				descption = #{descption,jdbcType=VARCHAR},
+			</if>
+			<if test="hobby != null">
+				hobby = #{hobby,jdbcType=VARCHAR},
+			</if>
+			<if test="userPic != null">
+				user_pic = #{userPic,jdbcType=VARCHAR},
+			</if>
+			<if test="version != null">
+				version = #{version,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updateBy != null">
+				update_by = #{updateBy,jdbcType=BIGINT},
+			</if>
+			<if test="lifecycle != null">
+				lifecycle = #{lifecycle,jdbcType=INTEGER},
+			</if>
+			<if test="roleId != null">
+				role_id = #{roleId,jdbcType=BIGINT},
+			</if>
+			<if test="groupTeam != null">
+				group_team = #{groupTeam,jdbcType=INTEGER},
+			</if>
+			<if test="isGroupLeader != null">
+				is_group_leader = #{isGroupLeader,jdbcType=BIT},
+			</if>
+			<if test="birthplace != null">
+				birthplace = #{birthplace,jdbcType=VARCHAR},
+			</if>
+			<if test="nation != null">
+				nation = #{nation,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="com.volunteer.model.UserInfo">
+		update user_info
+		set name = #{name,jdbcType=VARCHAR},
+		sex = #{sex,jdbcType=INTEGER},
+		id_card = #{idCard,jdbcType=VARCHAR},
+		worker = #{worker,jdbcType=VARCHAR},
+		login_phone = #{loginPhone,jdbcType=VARCHAR},
+		descption = #{descption,jdbcType=VARCHAR},
+		hobby = #{hobby,jdbcType=VARCHAR},
+		user_pic = #{userPic,jdbcType=VARCHAR},
+		version = #{version,jdbcType=TIMESTAMP},
+		update_by = #{updateBy,jdbcType=BIGINT},
+		lifecycle = #{lifecycle,jdbcType=INTEGER},
+		role_id = #{roleId,jdbcType=BIGINT},
+		group_team = #{groupTeam,jdbcType=INTEGER},
+		is_group_leader = #{isGroupLeader,jdbcType=BIT},
+		birthplace = #{birthplace,jdbcType=VARCHAR},
+		nation = #{nation,jdbcType=VARCHAR}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+
+	<select id="checkUserIsExist" parameterType="java.lang.String"
+		resultType="java.lang.Integer">
+		SELECT 1 FROM user_info WHERE id_card = #{value}
+	</select>
 </mapper>

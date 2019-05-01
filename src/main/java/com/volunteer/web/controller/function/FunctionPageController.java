@@ -19,11 +19,11 @@ public class FunctionPageController {
      * 跳转至登录页面
      * @return
      */
-    @PostMapping(value = "/index")
-    public String login(HttpServletRequest request,
-                        HttpServletResponse response){
-
-        return "index";
-    }
+//    @PostMapping(value = "/index")
+//    public String login(HttpServletRequest request,
+//                        HttpServletResponse response){
+//
+//        return "index";
+//    }
 
 }

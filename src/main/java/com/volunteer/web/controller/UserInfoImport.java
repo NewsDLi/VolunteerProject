@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.volunteer.constant.CommonConstant;
 import com.volunteer.constant.CommonEnum;
+import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoTag;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
@@ -174,7 +175,7 @@ public class UserInfoImport {
         }
         List<Object> object = new ArrayList<>();
         Date date = new Date();
-        for(int i=2; i<=lastRowNum; i++){
+        for(int i=3; i<=lastRowNum; i++){
             Row row = sheet.getRow(i);
             if(null == row){
                 LOGGER.info("excel中该行：{}没有数据！", i+1);
@@ -191,6 +192,7 @@ public class UserInfoImport {
             Cell cell6 = row.getCell(6);
             row.getCell(7).setCellType(CellType.STRING);
             Cell cell7 = row.getCell(7);
+            
             row.getCell(8).setCellType(CellType.STRING);
             Cell cell8 = row.getCell(8);
             row.getCell(9).setCellType(CellType.STRING);
@@ -201,6 +203,12 @@ public class UserInfoImport {
             Cell cell11 = row.getCell(11);
             row.getCell(12).setCellType(CellType.STRING);
             Cell cell12 = row.getCell(12);
+            row.getCell(13).setCellType(CellType.STRING);
+            Cell cell13 = row.getCell(13);
+            row.getCell(14).setCellType(CellType.STRING);
+            Cell cell14 = row.getCell(14);
+            row.getCell(15).setCellType(CellType.STRING);
+            Cell cell15 = row.getCell(15);
             // 姓名
             String name = cell.getStringCellValue();
             // 性别
@@ -211,24 +219,28 @@ public class UserInfoImport {
             String workUnit = cell3.getStringCellValue();
             // 手机号
             String phoneNumber = cell4.getStringCellValue();
+            // 民族
+            String nation = cell5.getStringCellValue();
+            // 籍贯
+            String birthplace = cell6.getStringCellValue();
             // 义工岗位
-            String coursed = cell5.getStringCellValue();
+            String coursed = cell7.getStringCellValue();
             // 了凡厚道
-            String lfhd = cell6.getStringCellValue();
+            String lfhd = cell8.getStringCellValue();
             // 慈爱期数
-            String caqs = cell7.getStringCellValue();
+            String caqs = cell9.getStringCellValue();
             // 孝道期数
-            String xdqs = cell8.getStringCellValue();
+            String xdqs = cell10.getStringCellValue();
             // 改过期数
-            String ggqs = cell9.getStringCellValue();
+            String ggqs = cell11.getStringCellValue();
             // 慈爱亲子
-            String caqz = cell10.getStringCellValue();
+            String caqz = cell12.getStringCellValue();
             // 组别
-            String group = cell11.getStringCellValue();
+            String group = cell13.getStringCellValue();
             // 角色
-            String role = cell12.getStringCellValue();
+            String role = cell14.getStringCellValue();
             // 是否组长
-            String groupLeader = cell12.getStringCellValue();
+            String groupLeader = cell15.getStringCellValue();
             
             // 存放解析一行的数据
             Map<String, Object> param = new HashMap<>();
@@ -239,8 +251,10 @@ public class UserInfoImport {
             userInfo.setIdCard(idCard);
             userInfo.setWorker(workUnit);
             userInfo.setLoginPhone(phoneNumber);
-            userInfo.setGroup(StringUtils.isBlank(group) ? null : Integer.valueOf(group));
-            userInfo.setIsGroupLeader(StringUtils.isBlank(group) ? false : (groupLeader.equals("是") ? true: false));
+            userInfo.setGroupTeam(StringUtils.isBlank(group) ? null : Integer.valueOf(group));
+            userInfo.setIsGroupLeader(StringUtils.isBlank(groupLeader) ? false : (groupLeader.equals("是") ? true: false));
+            userInfo.setNation(nation);
+            userInfo.setBirthplace(birthplace);
             userInfo.setLifecycle(1);
             userInfo.setVersion(date);
             userInfo.setRoleId(role.equals("教授")? 2L : 1L);
@@ -254,7 +268,6 @@ public class UserInfoImport {
             map.put(CommonConstant.GGQS, StringUtils.isBlank(ggqs) ? 0 : Integer.valueOf(ggqs));
             map.put(CommonConstant.CAQZ, StringUtils.isBlank(caqz) ? 0 : Integer.valueOf(caqz));
             param.put("havingClass", map);
-            
             
             if(StringUtils.isNotBlank(coursed)){
             	// 义工岗位
