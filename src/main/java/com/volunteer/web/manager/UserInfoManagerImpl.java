@@ -1,5 +1,8 @@
 package com.volunteer.web.manager;
 
+import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserInfoExample;
+import com.volunteer.web.dao.UserInfoMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,7 +41,8 @@ public class UserInfoManagerImpl implements UserInfoManager{
 
 	@Override
 	public Integer checkUserIsExist(String idCard) {
-		return userInfoMapper.checkUserIsExist(idCard);
+//		return userInfoMapper.checkUserIsExist(idCard);
+		return  null;
 	}
 
 	@Override

@@ -16,6 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.volunteer.model.UserInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
@@ -239,7 +240,7 @@ public class UserInfoImport {
             userInfo.setIdCard(idCard);
             userInfo.setWorker(workUnit);
             userInfo.setLoginPhone(phoneNumber);
-            userInfo.setGroup(StringUtils.isBlank(group) ? null : Integer.valueOf(group));
+            userInfo.setGroupTeam(StringUtils.isBlank(group) ? null : Integer.valueOf(group));
             userInfo.setIsGroupLeader(StringUtils.isBlank(group) ? false : (groupLeader.equals("是") ? true: false));
             userInfo.setLifecycle(1);
             userInfo.setVersion(date);
