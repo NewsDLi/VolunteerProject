@@ -15,13 +15,13 @@ public class UserInfoBindManagerImpl implements UserInfoBindManager{
 
 	@Override
 	@Transactional
-	public Long saveUserInfoBind(UserInfoBind userInfoBind) {
-		Long aLong = null;
+	public Integer saveUserInfoBind(UserInfoBind userInfoBind) {
+		Integer insert = null;
 		try {
-//			aLong = userInfoBindMapper.saveUserInfoBind(userInfoBind);
+			insert = userInfoBindMapper.insert(userInfoBind);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return aLong;
+		return insert;
 	}
 }

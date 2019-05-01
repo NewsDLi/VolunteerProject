@@ -1,11 +1,14 @@
 package com.volunteer.web.manager;
 
+import com.volunteer.model.UserInfoExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.model.UserInfo;
 import com.volunteer.web.dao.UserInfoMapper;
+
+import java.util.List;
 
 @Service
 public class UserInfoManagerImpl implements UserInfoManager{
@@ -19,8 +22,11 @@ public class UserInfoManagerImpl implements UserInfoManager{
 	}
 
 	@Override
-	public UserInfo getUserInfoByMobile(String mobile) {
-		return null;
+	public List<UserInfo> getUserInfoByMobile(String mobile) {
+		UserInfoExample userInfoExample = new UserInfoExample();
+		userInfoExample.createCriteria().andLoginPhoneEqualTo(mobile);
+		List<UserInfo> userInfos = userInfoMapper.selectByExample(userInfoExample);
+		return userInfos;
 	}
 
 	@Override

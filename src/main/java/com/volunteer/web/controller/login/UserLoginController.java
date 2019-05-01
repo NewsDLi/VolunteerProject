@@ -1,9 +1,11 @@
 package com.volunteer.web.controller.login;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -122,15 +124,29 @@ public class UserLoginController {
                           @RequestParam(value = "username") String username,
                           @RequestParam(value = "password") String password){
 
-        UserInfo userInfo = userInfoManager.getUserInfoByMobile(username);
-        if(Validator.isNullOrEmpty(wechatId)){
-            return "index";
-        }
-        UserInfoBind userInfoBind = new UserInfoBind();
-        userInfoBind.setUserId(userInfo.getId());
-        userInfoBind.setWechatId(wechatId);
-        //绑定微信
-        userInfoBindManager.saveUserInfoBind(userInfoBind);
+//        UserInfo userInfo = userInfoManager.getUserInfoByMobile(username);
+//        if(Validator.isNullOrEmpty(wechatId)){
+//            return "index";
+//        }
+//        UserInfoBind userInfoBind = new UserInfoBind();
+//        userInfoBind.setUserId(userInfo.getId());
+//        userInfoBind.setWechatId(wechatId);
+//        //绑定微信
+//        userInfoBindManager.saveUserInfoBind(userInfoBind);
+        List<UserInfo> userInfoByMobile = userInfoManager.getUserInfoByMobile(username);
+        HttpSession session = request.getSession();
+
+        session.setAttribute("mobile"+username,userInfoByMobile.get(0));
+        return "mypage";
+    }
+
+    /**
+     * 跳转至登录页面
+     * @return
+     */
+    @PostMapping(value = "/index")
+    public String login(HttpServletRequest request,
+                          HttpServletResponse response){
 
         return "index";
     }

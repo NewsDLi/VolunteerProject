@@ -3,6 +3,8 @@ package com.volunteer.web.manager;
 import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.model.UserInfo;
 
+import java.util.List;
+
 public interface UserInfoManager {
 	/**
 	 *通过openid查询用户信息
@@ -12,7 +14,7 @@ public interface UserInfoManager {
 	/**
 	 *
 	 */
-	UserInfo getUserInfoByMobile(String mobile);
+	List<UserInfo> getUserInfoByMobile(String mobile);
 
 	/**
 	 * 插入用户信息，并返回主键
