@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.volunteer.constant.UserConstant;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -92,15 +93,11 @@ public class UserLoginController {
             }
             //查询成功
             //如果是微信会员 ---将信息缓存起来
-            if (cacheManager.getValue(WxLoginConstant.WECHAT_USERINFO + code) == null) {
-                cacheManager.setValue(WxLoginConstant.WECHAT_USERINFO + code, httpResponse, TimeInterval.SECONDS_PER_HOUR * 2);
-            }
             request.getSession().setAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION, httpResponse);
             //登录用户的处理方法
             UserInfoBindCommand userInfo = weChatLoginHandler.wechatOAuthSuccess(wechatMessage);
             //通过openId查询是否有用户信息，，判断为第一次登陆
             if(Validator.isNullOrEmpty(userInfo)){
-                request.setAttribute("wechatInfoId",saveWechatInfo(wechatMessage));
                 return  "login";
             }
             return "redirect:" + returnUrl;
@@ -136,7 +133,7 @@ public class UserLoginController {
         List<UserInfo> userInfoByMobile = userInfoManager.getUserInfoByMobile(username);
         HttpSession session = request.getSession();
 
-        session.setAttribute("mobile"+username,userInfoByMobile.get(0));
+        session.setAttribute(UserConstant.LOGIN_PHONE,userInfoByMobile.get(0));
         return "mypage";
     }
 
@@ -180,22 +177,6 @@ public class UserLoginController {
             e.printStackTrace();
         }
         return httpResponse;
-    }
-
-    private Long saveWechatInfo(WechatMessage wechatMessage){
-        WechatInfo wechatInfo = new WechatInfo();
-        try {
-            wechatInfo.setOpenId(wechatMessage.getOpenId());
-            wechatInfo.setNickName(wechatMessage.getNickname());
-            wechatInfo.setCity(wechatMessage.getCity());
-            wechatInfo.setCountry(wechatMessage.getCountry());
-            wechatInfo.setProvince(wechatMessage.getProvince());
-            wechatInfo.setSex(wechatMessage.getSex());
-            wechatInfoManager.saveWechatInfo(wechatInfo);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return Validator.isNullOrEmpty(wechatInfo.getId())?0:wechatInfo.getId();
     }
 
 }
