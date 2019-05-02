@@ -7,6 +7,30 @@
     function init() {
             $.post("/function.json",
             function(data,status){
-              alert("数据：" + data + "\n状态：" + status);
+             if(isEmptyObject(data)){
+             var a = basisUrl("url");
+                window.location.href = basisUrl("url")+"/index";
+             }
             });
     }
+
+    function basisUrl(name){
+       $.i18n.properties({
+           name:'switch',
+           path:'cofig/',
+           mode:'Map',
+           language:'pt_BR',
+           async: true,
+           callback: function() {
+               $.i18n.prop(name);
+           }
+       });
+    }
+
+    function isEmptyObject(obj){
+
+         for(var key in obj){
+              return false
+         };
+         return true
+    };

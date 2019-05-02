@@ -1,6 +1,11 @@
 package com.volunteer.web.controller.function;
 
 import com.volunteer.constant.UserConstant;
+import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserPower;
+import com.volunteer.web.manager.FunctionPageManager;
+import org.apache.catalina.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * @author yuan
@@ -18,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class FunctionPageController {
 
+    @Autowired
+    private FunctionPageManager functionPageManager;
 
     /**
      * 跳转至登录页面
@@ -25,9 +33,11 @@ public class FunctionPageController {
      */
     @PostMapping(value = "/function.json")
     @ResponseBody
-    public Object login(HttpServletRequest request,
+    public List<UserPower> login(HttpServletRequest request,
                         HttpServletResponse response){
-        return request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+        UserInfo attribute = (UserInfo)request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+        List<UserPower> userPowerByRoleId = functionPageManager.findUserPowerByRoleId(attribute.getRoleId());
+        return userPowerByRoleId;
     }
 
 }
