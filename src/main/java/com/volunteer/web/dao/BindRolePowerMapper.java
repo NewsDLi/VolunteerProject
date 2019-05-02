@@ -16,21 +16,15 @@ public interface BindRolePowerMapper {
 
     int insertSelective(BindRolePower record);
 
-    List<BindRolePower> selectByExampleWithBLOBs(BindRolePowerExample example);
-
     List<BindRolePower> selectByExample(BindRolePowerExample example);
 
     BindRolePower selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") BindRolePower record, @Param("example") BindRolePowerExample example);
 
-    int updateByExampleWithBLOBs(@Param("record") BindRolePower record, @Param("example") BindRolePowerExample example);
-
     int updateByExample(@Param("record") BindRolePower record, @Param("example") BindRolePowerExample example);
 
     int updateByPrimaryKeySelective(BindRolePower record);
-
-    int updateByPrimaryKeyWithBLOBs(BindRolePower record);
 
     int updateByPrimaryKey(BindRolePower record);
 }

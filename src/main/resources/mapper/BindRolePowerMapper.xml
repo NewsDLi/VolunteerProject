@@ -3,10 +3,8 @@
 <mapper namespace="com.volunteer.web.dao.BindRolePowerMapper" >
   <resultMap id="BaseResultMap" type="com.volunteer.model.BindRolePower" >
     <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="role_id" property="roleId" jdbcType="BIGINT" />
     <result column="power_id" property="powerId" jdbcType="BIGINT" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.volunteer.model.BindRolePower" extends="BaseResultMap" >
-    <result column="role_id" property="roleId" jdbcType="BINARY" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -67,27 +65,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, power_id
+    id, role_id, power_id
   </sql>
-  <sql id="Blob_Column_List" >
-    role_id
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.volunteer.model.BindRolePowerExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from bind_role_power
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.volunteer.model.BindRolePowerExample" >
     select
     <if test="distinct" >
@@ -102,11 +81,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from bind_role_power
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -121,9 +98,9 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.volunteer.model.BindRolePower" >
-    insert into bind_role_power (id, power_id, role_id
+    insert into bind_role_power (id, role_id, power_id
       )
-    values (#{id,jdbcType=BIGINT}, #{powerId,jdbcType=BIGINT}, #{roleId,jdbcType=BINARY}
+    values (#{id,jdbcType=BIGINT}, #{roleId,jdbcType=BIGINT}, #{powerId,jdbcType=BIGINT}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.volunteer.model.BindRolePower" >
@@ -132,22 +109,22 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="powerId != null" >
-        power_id,
-      </if>
       <if test="roleId != null" >
         role_id,
+      </if>
+      <if test="powerId != null" >
+        power_id,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
+      <if test="roleId != null" >
+        #{roleId,jdbcType=BIGINT},
+      </if>
       <if test="powerId != null" >
         #{powerId,jdbcType=BIGINT},
-      </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=BINARY},
       </if>
     </trim>
   </insert>
@@ -163,22 +140,13 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
+      <if test="record.roleId != null" >
+        role_id = #{record.roleId,jdbcType=BIGINT},
+      </if>
       <if test="record.powerId != null" >
         power_id = #{record.powerId,jdbcType=BIGINT},
       </if>
-      <if test="record.roleId != null" >
-        role_id = #{record.roleId,jdbcType=BINARY},
-      </if>
     </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update bind_role_power
-    set id = #{record.id,jdbcType=BIGINT},
-      power_id = #{record.powerId,jdbcType=BIGINT},
-      role_id = #{record.roleId,jdbcType=BINARY}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -186,6 +154,7 @@
   <update id="updateByExample" parameterType="map" >
     update bind_role_power
     set id = #{record.id,jdbcType=BIGINT},
+      role_id = #{record.roleId,jdbcType=BIGINT},
       power_id = #{record.powerId,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -194,24 +163,19 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.volunteer.model.BindRolePower" >
     update bind_role_power
     <set >
+      <if test="roleId != null" >
+        role_id = #{roleId,jdbcType=BIGINT},
+      </if>
       <if test="powerId != null" >
         power_id = #{powerId,jdbcType=BIGINT},
-      </if>
-      <if test="roleId != null" >
-        role_id = #{roleId,jdbcType=BINARY},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.volunteer.model.BindRolePower" >
-    update bind_role_power
-    set power_id = #{powerId,jdbcType=BIGINT},
-      role_id = #{roleId,jdbcType=BINARY}
-    where id = #{id,jdbcType=BIGINT}
-  </update>
   <update id="updateByPrimaryKey" parameterType="com.volunteer.model.BindRolePower" >
     update bind_role_power
-    set power_id = #{powerId,jdbcType=BIGINT}
+    set role_id = #{roleId,jdbcType=BIGINT},
+      power_id = #{powerId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

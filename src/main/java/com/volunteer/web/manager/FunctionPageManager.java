@@ -14,5 +14,5 @@ public interface FunctionPageManager {
 		/**
 		 * 通过userInfo查询当前用户具体权限
 		 */
-		List<UserPower> findUserPowerByRoleId();
+		List<UserPower> findUserPowerByRoleId(Long roleId);
 }
