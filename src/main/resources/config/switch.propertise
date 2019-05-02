@@ -2,3 +2,4 @@ pmp.appid = wxc296762d7628737c
 pmp.appsecret = b001b788470aa4da3cdb91a5cd07d358
 pmp.accessToken = https://api.weixin.qq.com/sns/oauth2/access_token?
 pmp.userinfo = https://api.weixin.qq.com/sns/userinfo?
+url = http://localhost:8081
