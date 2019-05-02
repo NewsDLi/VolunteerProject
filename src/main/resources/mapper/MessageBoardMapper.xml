@@ -8,6 +8,13 @@
     <result column="lifecycle" property="lifecycle" jdbcType="INTEGER" />
     <result column="version" property="version" jdbcType="TIMESTAMP" />
   </resultMap>
+  <resultMap id="MessageBoardResultMap" type="com.volunteer.model.MessageBoardCommand" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="TIMESTAMP" />
+    <result column="name" property="userName" jdbcType="VARCHAR" />
+  </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -208,4 +215,15 @@
       version = #{version,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id="getAllMessageBoard" resultMap="MessageBoardResultMap">
+  	SELECT mb.id, mb.user_id,mb.content, mb.version,ui.name
+	FROM message_board mb, user_info ui
+	WHERE
+	mb.user_id = ui.id
+	AND 
+	mb.lifecycle = 1
+	ORDER BY id desc
+	LIMIT 10
+  </select>
 </mapper>

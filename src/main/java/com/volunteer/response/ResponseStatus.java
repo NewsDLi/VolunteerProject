@@ -10,7 +10,8 @@ package com.volunteer.response;
 public enum ResponseStatus {
 
 	FAIL("fail", "1000001"),
-	SUCCESS("success", "1000002");
+	SUCCESS("success", "1000002"),
+	PERMISSION("not have permission", "1000200");
 	
 	private ResponseStatus(String message, String code) {
 		this.message = message;

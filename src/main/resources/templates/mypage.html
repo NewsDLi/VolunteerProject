@@ -12,17 +12,10 @@
 <script type="text/javascript"
 	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
-<script src="js/example.js"></script>
 <script src="js/function.js"></script>
 <script src="js/jquery.js"></script>
-<script type="text/javascript">
-$(function() {
-	$('.homepage').addClass('weui-bar__item_on');
-});
-</script>
 <body ontouchstart>
-	<div class="container" id="container"></div>
-
+	<div class="container" id="container">
 	<div class="page grid js_show">
 		<div class="page__hd">
 			<div style="text-align: center;" class="contentDiv">
@@ -48,7 +41,7 @@ $(function() {
 					<img src="images/we_image/icon_tabbar.png" alt="">
 				</div>
 				<p class="weui-grid__label">义工组别</p>
-			</a> <a href="javascript:;" class="weui-grid">
+			</a> <a href="/messageBoard" class="weui-grid">
 				<div class="weui-grid__icon">
 					<img src="images/we_image/icon_tabbar.png" alt="">
 				</div>
@@ -63,9 +56,10 @@ $(function() {
 		</div>
 	</div>
 	<div class="weui-navbar">
-		<div class="weui-navbar__item mine">我的</div>
-		<div class="weui-navbar__item homepage">主页</div>
-		<div class="weui-navbar__item community">社区</div>
+		<div class="weui-navbar__item">我的</div>
+		<div class="weui-navbar__item weui-bar__item_on">主页</div>
+		<div class="weui-navbar__item">社区</div>
+	</div>
 	</div>
 </body>
 </html>
