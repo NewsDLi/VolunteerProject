@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<meta charset="UTF-8">
+<!-- 引入样式 -->
+<link rel="stylesheet"
+	href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="css/weui.css" />
+<link rel="stylesheet" href="css/example.css" />
+<link rel="stylesheet" href="css/myinfo.css" />
+<link rel="stylesheet" href="css/common.css" />
+<script src="js/zepto.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript"
+	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	init();
+});
+function init(){
+	$.ajax({
+		type : "get",
+		url : "/getMyHoner",
+		success : function(data) {
+			if (data.message == 'success') {
+				for(var i=0; i<data.data.length; i++){
+					if(data.data[i].tagName == $('.lyzr').attr('alt')){
+						$('.lyzr').attr('src','images/star.png');
+					}else if(data.data[i].tagName == $('.czyh').attr('alt')){
+						$('.czyh').attr('src','images/star.png');
+					}else if(data.data[i].tagName == $('.adts').attr('alt')){
+						$('.adts').attr('src','images/star.png');
+					}else if(data.data[i].tagName == $('.adfx').attr('alt')){
+						$('.adfx').attr('src','images/star.png');
+					}else if(data.data[i].tagName == $('.shts').attr('alt')){
+						$('.shts').attr('src','images/star.png');
+					}else if(data.data[i].tagName == $('.razx').attr('alt')){
+						$('.razx').attr('src','images/star.png');
+					}
+				}
+			}
+		}
+	});
+}
+</script>
+</head>
+<body>
+	<div class="container" id="container">
+		<div class="weui-flex header">
+			<h2>我的●勋章墙</h2>
+		</div>
+		<div class="main_info">
+			<div class="info_message">
+					<ul class="honer flex-list">
+						<li><img class="lyzr" src="images/graystar.png" width="100px;" alt="助人为乐" /><p>助人为乐</p></li>
+						<li><img class="czyh" src="images/graystar.png" width="100px;" alt="持之以恒" /><p>持之以恒</p></li>
+						<li><img class="adts" src="images/graystar.png" width="100px;" alt="爱的天使" /><p>爱的天使</p></li>
+					</ul>
+					<ul class="honer flex-list">
+						<li><img class="adfx" src="images/graystar.png" width="100px;" alt="爱的奉献" /><p>爱的奉献</p></li>
+						<li><img class="shts" src="images/graystar.png" width="100px;" alt="守护天使" /><p>守护天使</p></li>
+						<li><img class="razx" src="images/graystar.png" width="100px;" alt="仁爱之心" /><p>仁爱之心</p></li>
+					</ul>
+			</div>
+		</div>
+
+		<div class="weui-navbar" style="position: fixed;">
+			<div class="weui-navbar__item mine weui-bar__item_on">我的</div>
+			<div class="weui-navbar__item homepage">主页</div>
+			<div class="weui-navbar__item community">社区</div>
+		</div>
+	</div>
+</body>
+</html>
+<style>
+@media {
+	.honer{
+		height: auto;
+		width: auto;
+		display: flex;
+	}
+	.honer li{
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		text-align: center;
+		flex-wrap:wrap;
+		flex-grow:1;
+	}
+}
+</style>
