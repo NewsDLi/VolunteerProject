@@ -129,6 +129,9 @@ public class UserLoginController {
 //        //绑定微信
 //        userInfoBindManager.saveUserInfoBind(userInfoBind);
         List<UserInfo> userInfoByMobile = userInfoManager.getUserInfoByMobile(username);
+        if(null == userInfoByMobile || userInfoByMobile.size() == 0){
+        	return "index";
+        }
         HttpSession session = request.getSession();
 
         session.setAttribute(UserConstant.LOGIN_PHONE,userInfoByMobile.get(0));

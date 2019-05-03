@@ -1,6 +1,7 @@
 package com.volunteer.web.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 /**
  * 
@@ -67,7 +68,7 @@ public class ForwardController {
 	 * @return
 	 */
 	@RequestMapping("/messageBoard")
-	public String weui(){
+	public String messageBoard(){
 		return "messageBoard";
 	}
 	/**
@@ -77,6 +78,11 @@ public class ForwardController {
 	@RequestMapping("/honer.htm")
 	public String honer(){
 		return "honer";
+	}
+	
+	@RequestMapping("/weui.htm")
+	public String weui(){
+		return "weui";
 	}
 }
 
