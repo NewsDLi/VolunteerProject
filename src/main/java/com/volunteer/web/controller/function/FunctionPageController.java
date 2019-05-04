@@ -4,12 +4,9 @@ import com.volunteer.constant.UserConstant;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserPower;
 import com.volunteer.web.manager.FunctionPageManager;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +31,7 @@ public class FunctionPageController {
     @PostMapping(value = "/function.json")
     @ResponseBody
     public List<UserPower> login(HttpServletRequest request,
-                        HttpServletResponse response){
+                                 HttpServletResponse response){
         UserInfo attribute = (UserInfo)request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
         List<UserPower> userPowerByRoleId = functionPageManager.findUserPowerByRoleId(attribute.getRoleId());
         return userPowerByRoleId;
