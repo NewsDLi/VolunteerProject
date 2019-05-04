@@ -60,9 +60,9 @@
 	function showMessage(data) {
 		$('.show_message_board').removeClass('none');
 		var content = '';
-		for (var i = 0; i < data.date.length; i++) {
-			content += '<p><span>' + data.date[i].userName + '</span>：<span>'
-					+ data.date[i].content + '</span></p>';
+		for (var i = 0; i < data.data.length; i++) {
+			content += '<p><span>' + data.data[i].userName + '</span>：<span>'
+					+ data.data[i].content + '</span></p>';
 		}
 		$('.show_message_board').html(content);
 		$(".container").css("height", $('.page__hd').height()+ $('.button-sp-area').height() + $('.show_message_board').height()+200)

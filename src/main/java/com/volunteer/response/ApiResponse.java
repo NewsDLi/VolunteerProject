@@ -22,18 +22,18 @@ public class ApiResponse<T> {
 	/**
 	 * 返回体
 	 */
-	private T date;
+	private T data;
 
 	
 	public ApiResponse() {
 		super();
 	}
 
-	public ApiResponse(String message, String code, T date) {
+	public ApiResponse(String message, String code, T data) {
 		super();
 		this.message = message;
 		this.code = code;
-		this.date = date;
+		this.data = data;
 	}
 
 	public String getMessage() {
@@ -52,16 +52,16 @@ public class ApiResponse<T> {
 		this.code = code;
 	}
 
-	public T getDate() {
-		return date;
+	public T getData() {
+		return data;
 	}
 
-	public void setDate(T date) {
-		this.date = date;
+	public void setData(T data) {
+		this.data = data;
 	}
-	
-	public static <T> ApiResponse<T> build(ResponseStatus successMessage, T date) {
-		return new ApiResponse<T>(successMessage.getMessage(), successMessage.getCode(), date);
+
+	public static <T> ApiResponse<T> build(ResponseStatus successMessage, T data) {
+		return new ApiResponse<T>(successMessage.getMessage(), successMessage.getCode(), data);
 	}
 	
 }

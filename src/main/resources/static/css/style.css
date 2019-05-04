@@ -71,7 +71,7 @@ body {
 .pom-agile:nth-child(1){
     margin-bottom: 15px;
 }
-.pom-agile input[type="email"], .pom-agile input[type="password"] {
+.pom-agile input[type="text"], .pom-agile input[type="password"] {
     outline: none;
     font-size: .9em;
     border: none;
@@ -297,7 +297,7 @@ span.fa {
     .sub-main-w3 {
         width: 64%;
     }
-    .pom-agile input[type="email"], .pom-agile input[type="password"] {
+    .pom-agile input[type="text"], .pom-agile input[type="password"] {
         width: 91%;
     }
 }
@@ -344,7 +344,7 @@ span.fa {
     .sub-main-w3 {
         margin: 60px auto;
     }
-    .pom-agile input[type="email"], .pom-agile input[type="password"] {
+    .pom-agile input[type="text"], .pom-agile input[type="password"] {
         width: 89%;
     }
 }
@@ -366,7 +366,7 @@ span.fa {
     .sub-w3l a {
         font-size: .8em;
     }
-    .pom-agile input[type="email"], .pom-agile input[type="password"] {
+    .pom-agile input[type="text"], .pom-agile input[type="password"] {
         font-size: .8em;
         width: 87%;
     }

@@ -9,4 +9,6 @@ public interface UserInfoTagManager {
 	int insertUserInfoTag(UserInfoTag infoTag);
 
 	List<UserInfoTag> getUserCareer(Long id);
+
+	List<UserInfoTag> getMyHoner(Long id);
 }

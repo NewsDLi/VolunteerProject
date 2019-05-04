@@ -14,12 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.volunteer.constant.CommonConstant;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoExample;
 import com.volunteer.model.UserInfoTag;
+import com.volunteer.response.ApiResponse;
+import com.volunteer.response.ResponseStatus;
 import com.volunteer.web.manager.UserInfoManager;
 import com.volunteer.web.manager.UserInfoTagManager;
 
@@ -76,7 +79,9 @@ public class UserInfoController {
 				havingClass.add(userInfoTag);
 				continue;
 			}
-			post.add(userInfoTag);
+			if(userInfoTag.getType().equals(CommonConstant.TYPE_POST)){
+				post.add(userInfoTag);
+			}
 		}
 		model.addAttribute("havingClass", havingClass);
 		model.addAttribute("post", post);
@@ -90,5 +95,20 @@ public class UserInfoController {
 		UserInfo userInfo = userInfoManager.selectByPrimaryKey(id);
 		request.getSession().setAttribute(UserConstant.LOGIN_PHONE, userInfo);
 		return "redirect:/mypage";
+	}
+	
+	/**
+	 * 勋章墙
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/getMyHoner")
+	public ApiResponse<Object> getMyHoner(HttpServletRequest request){
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		List<UserInfoTag> tags = userInfoTagManager.getMyHoner(userInfo.getId());
+		if(null == tags || tags.size() == 0){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		return ApiResponse.build(ResponseStatus.SUCCESS, tags);
 	}
 }
