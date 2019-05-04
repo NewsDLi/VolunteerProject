@@ -1,8 +1,10 @@
 package com.volunteer.web.controller.function;
 
+import com.feilong.core.Validator;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserPower;
+import com.volunteer.web.controller.function.functionCommand.FunctionCommand;
 import com.volunteer.web.manager.FunctionPageManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,11 +32,18 @@ public class FunctionPageController {
      */
     @PostMapping(value = "/function.json")
     @ResponseBody
-    public List<UserPower> login(HttpServletRequest request,
+    public FunctionCommand login(HttpServletRequest request,
                                  HttpServletResponse response){
         UserInfo attribute = (UserInfo)request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+        if(Validator.isNullOrEmpty(attribute)){
+            return null;
+        }
+        request.setAttribute("userInfo",attribute);
         List<UserPower> userPowerByRoleId = functionPageManager.findUserPowerByRoleId(attribute.getRoleId());
-        return userPowerByRoleId;
+        FunctionCommand functionCommand = new FunctionCommand();
+        functionCommand.setUserInfo(attribute);
+        functionCommand.setUserPowers(userPowerByRoleId);
+        return functionCommand;
     }
 
 }

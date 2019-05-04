@@ -13,10 +13,11 @@
                 window.location.href = b+"/index";
              }
              var text = "";
-             for (var i=0;i<data.length;i++)
+             for (var i=0;i<data.userPowers.length;i++)
              {
-             text += "<a href="+data[i]+"class='weui-grid'><div class='weui-grid__icon'><img src='images/we_image/icon_tabbar.png' alt=""></div><p class='weui-grid__label''>+"data[i]+"</p></a>";
+             text += "<a href="+data.userPowers[i].powerUrl+" class='weui-grid'><div class='weui-grid__icon'><img src="+data.userPowers[i].powerPicUrl+" alt=''></div><p class='weui-grid__label''>"+data.userPowers[i].powerName+"</p></a>";
              }
+             $('.weui-grids').html(text);
             });
     }
 
