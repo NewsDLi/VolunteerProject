@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<meta charset="UTF-8">
+<!-- 引入样式 -->
+<link rel="stylesheet"
+	href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="css/weui.css" />
+<link rel="stylesheet" href="css/weuix.css" />
+<link rel="stylesheet" href="css/example.css" />
+<link rel="stylesheet" href="css/myinfo.css" />
+<link rel="stylesheet" href="css/common.css" />
+<script src="js/zepto.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript"
+	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="js/swipe.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('.mine').addClass('weui-bar__item_on');
+});
+</script>
+</head>
+<body ontouchstart="" class="page-bg">
+<div class="slide" id="slide1">
+	<ul style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(0px, 0px, 0px);"><li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(-411px, 0px, 0px);">
+		<a href="javascript:;">
+			<img src="../images/3.jpg" alt="">
+		</a>
+		<div class="slide-desc">千金易得一将难求</div>
+	</li>
+		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(0px, 0px, 0px);">
+			<a href="javascript:;">
+				<img src="../images/1.jpg" alt="">
+			</a>
+			<div class="slide-desc">白日依山尽黄河入海流鱼群千里马更上高楼处</div>
+		</li>
+		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(411px, 0px, 0px);">
+			<a href="javascript:;">
+				<img src="../images/2.jpg" alt="">
+			</a>
+			<div class="slide-desc">东风无力百花残</div>
+		</li>
+		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(822px, 0px, 0px);">
+			<a href="javascript:;">
+				<img src="../images/3.jpg" alt="">
+			</a>
+			<div class="slide-desc">千金易得一将难求</div>
+		</li>
+		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(1233px, 0px, 0px);">
+			<a href="javascript:;">
+				<img src="../images/1.jpg" alt="">
+			</a>
+			<div class="slide-desc">白日依山尽黄河入海流鱼群千里马更上高楼处</div>
+		</li></ul>
+	<div class="dot">
+		<span class="cur"></span>
+		<span class=""></span>
+		<span class=""></span>
+	</div>
+</div>
+
+<div class="weui-news">
+	<ul class="weui-news-list">
+		<li class="weui-news-item">
+			<div class="weui-news-inner">
+				<div class="weui-news-inners">
+					<div class="weui-news-text">
+						<div class="weui-news-title">Flutter 是 Google 用以帮助开发者在 Android 和 iOS 两个平台，同时开发高质量原生应用的全新移动 UI 框架</div>
+					</div>
+					<div class="weui-news-info">
+						<div class="weui-news-infoitem">
+							<img src="../images/user.png" class="weui-news-round"><span class="weui-news-left">Google</span>
+						</div>
+						<div class="weui-news-infoitem">2018-12-14 10:31</div>
+					</div>
+				</div>
+				<div class="weui-news-media">
+					<img src="../images/1.jpg">
+				</div>
+			</div>
+		</li>
+		<li class="weui-news-item">
+			<div class="weui-news-inner">
+				<div class="weui-news-inners">
+					<div class="weui-news-text">
+						<div class="weui-news-title">Google 在 2018 世界移动大会上发布 Flutter 的 Beta 版本</div>
+					</div>
+					<div class="weui-news-info">
+						<div class="weui-news-infoitem">
+							<img src="../images/user.png" class="weui-news-round"><span class="weui-news-left">Yoby开发</span>
+						</div>
+						<div class="weui-news-infoitem">2018-12-14 10:31</div>
+					</div>
+				</div>
+				<div class="weui-news-media">
+					<img src="../images/2.jpg">
+				</div>
+			</div>
+		</li>
+		<li class="weui-news-item">
+			<div class="weui-news-inner">
+				<div class="weui-news-inners">
+					<div class="weui-news-text">
+						<div class="weui-news-title">weui+最新版本包含更多组件</div>
+					</div>
+					<div class="weui-news-info">
+						<div class="weui-news-infoitem">
+							<img src="../images/user.png" class="weui-news-round">
+							<span class="weui-news-left">今日头条</span>
+						</div>
+						<div class="weui-news-infoitem">2018-12-14 10:31</div>
+					</div>
+				</div>
+				<div class="weui-news-media">
+					<img src="../images/3.jpg">
+				</div>
+			</div>
+		</li>
+
+		<li class="weui-news-item">
+			<div class="weui-news-inners">
+				<div class="weui-news-title">中国改革开放的成功始终在于坚持走自己的路</div>
+				<div class="weui-news-text">
+					<p class="weui-news-p">新中国成立以来，特别是改革开放40年来，党和人民立足国情、立足实际大力度推进社会主义现代化建设，中国经济建设健康持续发展，取得了世界瞩目的成就。当然，在中国改革开放的进程中，总是伴有杂音的，也有一些错误的论调。比如，有的认为，“改革开放的力度和成效还远远不够，只有按照西方模式推进才是真正的改革”。事实胜于雄辩，中国的改革开放，“既不走封闭僵化的老路，也不走改旗易帜的邪路”，而是坚持走正路，走自己的路，建设有中国特色的社会主义。党和人民立足国情、立足实际推进社会主义现代化建设，中国经济建设持续健康发展，取得了世界瞩目的成就。</p>
+				</div>
+				<div class="weui-news-info">
+					<div class="weui-news-infoitem">
+						<img src="../images/user.png" class="weui-news-round">
+						<span>微信小程序</span>
+					</div>
+					<div class="weui-news-infoitem">1条评论</div>
+				</div>
+			</div>
+
+		</li>
+		<li class="weui-news-item">
+			<div class="weui-news-inners">
+				<div class="weui-news-title">中国拥有世界顶级航天芯片产品：俄罗斯造不出来了只能求中国分享</div>
+				<p class="weui-news-p">如果谈及中国在技术领域的短板，那么大家可能想到的是发动机，其实还有一样：高级电子芯片！人们通常所说的CPU，所谓CPU即中央处理器，就是其代表产品，它可是为电子信息产品的心脏,是集成电路产品的终端级产品。</p>
+				<div class="weui-news-medias">
+					<div class="weui-news-medialist">
+						<img src="../images/3.jpg">
+					</div>
+					<div class="weui-news-medialist">
+						<img src="../images/2.jpg">
+					</div>
+					<div class="weui-news-medialist">
+						<img src="../images/3.jpg">
+					</div>
+				</div>
+			</div>
+		</li>
+	</ul>
+</div>
+
+<br>
+<br>
+<div class="weui-navbar" style="position: fixed;">
+	<div class="weui-navbar__item weui-bar__item_on">我的</div>
+	<div class="weui-navbar__item">主页</div>
+	<div class="weui-navbar__item ">社区</div>
+</div>
+</body>
+</html>

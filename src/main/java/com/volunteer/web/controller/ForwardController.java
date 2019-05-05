@@ -84,5 +84,14 @@ public class ForwardController {
 	public String weui(){
 		return "weui";
 	}
+	@RequestMapping("/homepage.htm")
+	public String home(){
+		return "homepage";
+	}
+
+	@RequestMapping("/community.htm")
+	public String community(){
+		return "community";
+	}
 }
 

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<meta charset="UTF-8">
+<!-- 引入样式 -->
+<link rel="stylesheet"
+	href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+<link rel="stylesheet" href="css/weui.css" />
+<link rel="stylesheet" href="css/weuix.css" />
+<link rel="stylesheet" href="css/example.css" />
+<link rel="stylesheet" href="css/myinfo.css" />
+<link rel="stylesheet" href="css/common.css" />
+<script src="js/zepto.min.js"></script>
+<script src="js/common.js"></script>
+<script type="text/javascript"
+	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script src="js/swipe.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('.mine').addClass('weui-bar__item_on');
+});
+</script>
+</head>
+<body ontouchstart="" class="page-bg">
+
+<div id="tagnav" class="weui-navigator weui-navigator-wrapper" style="touch-action: none;">
+	<ul class="weui-navigator-list" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
+		<li class=""><a href="javascript:;">义工心得</a></li>
+		<li class=""><a href="javascript:;">国学经典</a></li>
+		<li class="weui-state-active"><a href="javascript:;">曲艺杂谈</a></li>
+		<li class=""><a href="javascript:;">诗词歌赋</a></li>
+	</ul>
+</div>
+<div class="weui-navbar" style="position: fixed;">
+	<div class="weui-navbar__item weui-bar__item_on">我的</div>
+	<div class="weui-navbar__item">主页</div>
+	<div class="weui-navbar__item ">社区</div>
+</div>
+</body>
+</html>
