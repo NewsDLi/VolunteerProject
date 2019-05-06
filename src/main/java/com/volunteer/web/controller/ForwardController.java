@@ -111,5 +111,12 @@ public class ForwardController {
     public String community() {
         return "community";
     }
+    /**
+     *论坛
+     */
+    @RequestMapping("/forum.htm")
+    public String forum() {
+        return "forum";
+    }
 }
 
