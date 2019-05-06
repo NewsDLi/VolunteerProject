@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans">
+<html lang="zh-cmn-Hans" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -39,10 +40,6 @@
 
 
 </div>
-<div class="weui-navbar">
-    <div class="weui-navbar__item weui-bar__item_on">我的</div>
-    <div class="weui-navbar__item">主页</div>
-    <div class="weui-navbar__item ">社区</div>
-</div>
+<div th:include="tabbar::pagination"></div>
 </body>
 </html>

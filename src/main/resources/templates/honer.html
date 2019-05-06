@@ -67,11 +67,7 @@ function init(){
 			</div>
 		</div>
 
-		<div class="weui-navbar" style="position: fixed;">
-			<div class="weui-navbar__item mine weui-bar__item_on">我的</div>
-			<div class="weui-navbar__item homepage">主页</div>
-			<div class="weui-navbar__item community">社区</div>
-		</div>
+		<div th:include="tabbar::pagination"></div>
 	</div>
 </body>
 </html>
