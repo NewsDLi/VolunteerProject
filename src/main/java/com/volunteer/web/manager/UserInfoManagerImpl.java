@@ -1,7 +1,10 @@
 package com.volunteer.web.manager;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
+import com.volunteer.model.PageNation;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoExample;
 import com.volunteer.web.dao.UserInfoMapper;
@@ -64,5 +67,16 @@ public class UserInfoManagerImpl implements UserInfoManager{
 	@Override
 	public UserInfo selectByPrimaryKey(Long id) {
 		return userInfoMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public int getCount() {
+		return userInfoMapper.getCount();
+	}
+
+	@Override
+	public List<UserInfo> searchInfos(String kewWords, Integer groupteam, Long roles, int begin,int pageSize) {
+		PageNation pageNation = new PageNation(kewWords, groupteam, roles, begin, pageSize);
+		return userInfoMapper.searchInfos(pageNation);
 	}
 }

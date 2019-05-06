@@ -415,4 +415,26 @@
 		resultType="java.lang.Integer">
 		SELECT 1 FROM user_info WHERE id_card = #{value}
 	</select>
+	
+	<select id="getCount" resultType="int">
+		SELECT COUNT(1) FROM user_info WHERE lifecycle = 1 AND role_id BETWEEN 1 AND 2
+	</select>
+	
+	<select id="searchInfos" parameterType="com.volunteer.model.PageNation" resultType="com.volunteer.model.UserInfo">
+		SELECT 
+			ui.id,ui.name,ui.login_phone,ui.version,ui.is_group_leader 
+		FROM user_info ui
+		<where> 
+			<if test="kewWords != null">
+			(ui.name LIKE '%#{kewWords}%' OR ui.login_phone LIKE '%#{kewWords}%') 
+			</if>
+			<if test="groupteam != null">
+			 AND ui.group_team = #{groupteam}
+			</if>
+			<if test="groupteam != null">
+			 AND ui.role_id = #{roles}
+			</if>
+		</where>
+		LIMIT #{begin},#{pageSize}
+	</select>
 </mapper>

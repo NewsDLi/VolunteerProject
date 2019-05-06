@@ -44,4 +44,20 @@ public interface UserInfoManager {
 	 */
 	UserInfo selectByPrimaryKey(Long id);
 
+	/**
+	 * 查询用户总数量
+	 * @return
+	 */
+	int getCount();
+
+	/**
+	 * 分页查询
+	 * @param kewWords 关键字
+	 * @param groupteam 组别
+	 * @param roles 角色
+	 * @param i 开始查询的条数
+	 * @return
+	 */
+	List<UserInfo> searchInfos(String kewWords, Integer groupteam, Long roles, int begin, int pagesize);
+
 }

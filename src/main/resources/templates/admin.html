@@ -1,90 +1,176 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <title></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <link rel="stylesheet" href="css/weui.css">
-    <link rel="stylesheet" href="css/weuix.css">
-    <script src="js/zepto.weui.js"></script>
-    <script src="js/zepto.min.js"></script>
-    <script src="js/mock.min.js"></script>
-    <script>
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<link rel="stylesheet" href="css/weui.css">
+<link rel="stylesheet" href="css/weuix.css">
+<script src="js/zepto.min.js"></script>
+<script src="js/mock.min.js"></script>
+<script src="js/zepto.weui.js"></script>
+<script>
+	Mock.mock('http://api.com', {
+		"list|10" : [ {
+			'name' : '@cname', //中文名称
+			'age|1-100' : 100, //100以内随机整数
+			'date' : '@date("yyyy-MM-dd")', //日期
+			'city' : '@city(true)' //中国城市
+		} ]
+	});
 
-        Mock.mock('http://api.com', {
-            "list|10": [{
-                'name': '@cname',   //中文名称
-                'age|1-100': 100,   //100以内随机整数
-                'date': '@date("yyyy-MM-dd")',  //日期
-                'city': '@city(true)'   //中国城市
-            }]
-        });
+	$(function() {
+		$.get("http://api.com",	function(rs) {
+			var html = '';
+			for (var i = 0; i < rs.list.length; i++) {
+				html += ' <a class="weui-cell weui-cell_access" href="javascript:;">'
+				+ '<div class="weui-cell__hd">'
+				+ '<p>'
+				+ rs.list[i].name
+				+ '</p>'
+				+ '</div>'
+				+ '<div class="weui-cell__bd">'
+				+ '<p>&nbsp;&nbsp;13556566767'
+				+ '</p>'
+				+ '</div>'
+				+ '<div class="weui-cell__ft">'
+				+ rs.list[i].date
+				+ '</div>'
+				+ '</a>'
+			}
+			$("#list").html(html);
+		}, 'json')
 
-        $(function () {
-
-            $.get("http://api.com", function (rs) {
-                var html = '';
-                for (var i = 0; i < rs.list.length; i++) {
-                    html += ' <a class="weui-cell weui-cell_access" href="javascript:;">' +
-                        '        <div class="weui-cell__bd">' +
-                        '            <p>' + rs.list[i].name + '</p>' +
-                        '        </div>' +
-                        '        <div class="weui-cell__ft">' + rs.list[i].date + '</div>' +
-                        '    </a>'
-                }
-                $("#list").html(html);
-            }, 'json')
-
-        });
-
-    </script>
+	});
+</script>
 </head>
 
 <body ontouchstart="">
-<div class="page-hd">
-    <h1 class="page-hd-title">
-       权限管理
-    </h1>
-</div>
-<!--搜索-->
-<div class="weui-search-bar">
-    <input type="search" class="search-input" id="search" placeholder="关键字"><button class="weui-btn weui-btn_mini weui-btn_primary"><i class="icon icon-4"></i></button>
-</div>
-<!--列表-->
-<div class="weui-cells" id="list"><a class="weui-cell weui-cell_access" href="javascript:;">
-    <div class="weui-cell__bd"><p>程娟</p></div>
-    <div class="weui-cell__ft">1998-01-01</div>
-</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-    <div class="weui-cell__bd"><p>赵秀兰</p></div>
-    <div class="weui-cell__ft">2001-08-29</div>
-</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-    <div class="weui-cell__bd"><p>宋芳</p></div>
-    <div class="weui-cell__ft">2007-10-04</div>
-</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-    <div class="weui-cell__bd"><p>孔刚</p></div>
-    <div class="weui-cell__ft">1986-04-25</div>
-</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-    <div class="weui-cell__bd"><p>蔡艳</p></div>
-    <div class="weui-cell__ft">2012-04-22</div>
-</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-    <div class="weui-cell__bd"><p>顾明</p></div>
-    <div class="weui-cell__ft">1993-09-01</div>
-</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-    <div class="weui-cell__bd"><p>吴明</p></div>
-    <div class="weui-cell__ft">2004-09-06</div>
-</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-    <div class="weui-cell__bd"><p>崔娜</p></div>
-    <div class="weui-cell__ft">2001-12-16</div>
-</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-    <div class="weui-cell__bd"><p>唐霞</p></div>
-    <div class="weui-cell__ft">2018-04-23</div>
-</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-    <div class="weui-cell__bd"><p>梁芳</p></div>
-    <div class="weui-cell__ft">1974-06-30</div>
-</a></div>
+	<div class="page-hd">
+		<h1 class="page-hd-title">权限管理</h1>
+	</div>
+	
+	<div class="weui-cells weui-cells_form">
+	    <div class="weui-cell">
+	        <div class="weui-cell__hd"><label for="job" class="weui-label">组别</label></div>
+	        <div class="weui-cell__bd">
+	            <input class="weui-input" id="job" type="text" value="" readonly="">
+	        </div>
+	    </div>
+	    <div class="weui-cell">
+	        <div class="weui-cell__hd"><label for="mobile" class="weui-label">义工权限</label></div>
+	        <div class="weui-cell__bd">
+	            <input class="weui-input" id="mobile" type="text" value="" readonly="">
+	        </div>
+	    </div>
+	</div>
+	
+	<!--搜索-->
+	<div class="weui-search-bar">
+		<input type="search" class="search-input" id="search"
+			placeholder="关键字">
+		<button class="weui-btn weui-btn_mini weui-btn_primary">
+			<i class="icon icon-4"></i>
+		</button>
+	</div>
+	<!--列表-->
+	<div class="weui-cells" id="list">
+		<a class="weui-cell weui-cell_access" href="javascript:;">
+			<div class="weui-cell__bd">
+				<p>程娟</p>
+			</div>
+			<div class="weui-cell__bd">
+				<p>13555667788</p>
+			</div>
+			<div class="weui-cell__ft">1998-01-01</div>
+		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
+			<div class="weui-cell__bd">
+				<p>赵秀兰</p>
+			</div>
+			<div class="weui-cell__ft">2001-08-29</div>
+		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
+			<div class="weui-cell__bd">
+				<p>宋芳</p>
+			</div>
+			<div class="weui-cell__ft">2007-10-04</div>
+		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
+			<div class="weui-cell__bd">
+				<p>孔刚</p>
+			</div>
+			<div class="weui-cell__ft">1986-04-25</div>
+		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
+			<div class="weui-cell__bd">
+				<p>蔡艳</p>
+			</div>
+			<div class="weui-cell__ft">2012-04-22</div>
+		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
+			<div class="weui-cell__bd">
+				<p>顾明</p>
+			</div>
+			<div class="weui-cell__ft">1993-09-01</div>
+		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
+			<div class="weui-cell__bd">
+				<p>吴明</p>
+			</div>
+			<div class="weui-cell__ft">2004-09-06</div>
+		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
+			<div class="weui-cell__bd">
+				<p>崔娜</p>
+			</div>
+			<div class="weui-cell__ft">2001-12-16</div>
+		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
+			<div class="weui-cell__bd">
+				<p>唐霞</p>
+			</div>
+			<div class="weui-cell__ft">2018-04-23</div>
+		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
+			<div class="weui-cell__bd">
+				<p>梁芳</p>
+			</div>
+			<div class="weui-cell__ft">1974-06-30</div>
+		</a>
+	</div>
 
-<br>
-<br>
-<div th:include="tabbar::pagination"></div>
+	<br>
+	<br>
+	<div th:include="tabbar::pagination"></div>
 
 </body>
+<script>
+
+/* 支持
+ $("input").select("update", { items: ["法官", "猎人"] })
+ $("input").select("open")
+ $("input").select("close")*/
+ $("#job").select({
+     title: "选择组别",
+     items: ['1组','2组','3组','4组'],
+     onChange: function(d) {
+         console.log(this, d);
+     },
+     onClose: function() {
+         console.log("close");
+     },
+     onOpen: function() {
+         console.log("open");
+     },
+ });
+ $("#mobile").select({
+     title: "义工权限",
+     items: [
+         {
+             title: "义工",
+             value: "001",
+         },
+         {
+             title: "组长",
+             value: "002",
+         },
+         {
+             title: "教授",
+             value: "003",
+         }
+     ]
+ });
+</script>
 </html>

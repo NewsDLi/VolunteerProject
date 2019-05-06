@@ -1,5 +1,6 @@
 package com.volunteer.web.dao;
 
+import com.volunteer.model.PageNation;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoExample;
 import java.util.List;
@@ -29,4 +30,8 @@ public interface UserInfoMapper {
     int updateByPrimaryKey(UserInfo record);
 
 	Integer checkUserIsExist(String idCard);
+
+	int getCount();
+
+	List<UserInfo> searchInfos(PageNation pageNation);
 }
