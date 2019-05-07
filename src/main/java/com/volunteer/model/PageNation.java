@@ -61,4 +61,11 @@ public class PageNation {
 		this.pagesize = pagesize;
 	}
 
+	public PageNation(String kewWords, Integer groupteam, Long roles) {
+		super();
+		this.kewWords = kewWords;
+		this.groupteam = groupteam;
+		this.roles = roles;
+	}
+
 }

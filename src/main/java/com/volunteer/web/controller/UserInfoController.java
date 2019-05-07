@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.volunteer.constant.CommonConstant;
 import com.volunteer.constant.UserConstant;
+import com.volunteer.model.PageInfoCommand;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoExample;
 import com.volunteer.model.UserInfoTag;
@@ -127,10 +128,10 @@ public class UserInfoController {
 	@ResponseBody
 	@RequestMapping(value = "/powerManager", method = RequestMethod.POST)
 	public ApiResponse<Object> getMemberInfo(HttpServletRequest request,
-			@RequestParam(value="kewWords", required=false, defaultValue="")String kewWords,
+			@RequestParam(value="kewWords", required=false)String kewWords,
 			@RequestParam(value="group", required=false, defaultValue="")String group,
 			@RequestParam(value="role", required=false, defaultValue="")String role,
-			@RequestParam(value="role", required=false)Integer pageNum){
+			@RequestParam(value="pageNum", required=false)Integer pageNum){
 		// 每页10条数据
 		int pagesize = 10;
 		Integer groupteam = null;
@@ -145,14 +146,44 @@ public class UserInfoController {
 		if (null == pageNum){
 			pageNum = 1;
 		}
+		if(StringUtils.isBlank(kewWords)){
+			kewWords = null;
+		}
 		// 数据总数
-		int count = userInfoManager.getCount();
+		int count = userInfoManager.getCount(kewWords, groupteam, roles);
 		
 		// 总页数， 是否有余数，是取结果进1
-		Integer page = count/pagesize + (count%pagesize)==0 ? 0 : 1;
+		Integer page = count/pagesize + ((count%pagesize)==0 ? 0 : 1);
 		
-		List<UserInfo> Infos = userInfoManager.searchInfos(kewWords, groupteam, roles, (pageNum - 1) * pagesize, pagesize);
+		List<UserInfo> infos = userInfoManager.searchInfos(kewWords, groupteam, roles, (pageNum - 1) * pagesize, pagesize);
 		
-		return ApiResponse.build(ResponseStatus.FAIL, null);
+		PageInfoCommand<UserInfo> command = new PageInfoCommand<>();
+		command.setPageCount(page);
+		command.setInfos(infos);
+		return ApiResponse.build(ResponseStatus.SUCCESS, command);
+	}
+	
+	@RequestMapping(value="/getOtherUserInfo",method = RequestMethod.GET)
+	public String getOtherUserInfo(@RequestParam(value="id", required=false)Long id, Model model){
+		List<UserInfoTag> list = userInfoTagManager.getUserCareer(id);
+		// 上过的课程
+		List<UserInfoTag> havingClass = new ArrayList<UserInfoTag>();
+		// 义工岗位
+		List<UserInfoTag> post = new ArrayList<UserInfoTag>();
+		Integer count = 0;
+		for (UserInfoTag userInfoTag : list) {
+			if(userInfoTag.getType().equals(CommonConstant.TYPE_CLASS)){
+				count += userInfoTag.getTagCount();
+				havingClass.add(userInfoTag);
+				continue;
+			}
+			if(userInfoTag.getType().equals(CommonConstant.TYPE_POST)){
+				post.add(userInfoTag);
+			}
+		}
+		model.addAttribute("havingClass", havingClass);
+		model.addAttribute("post", post);
+		model.addAttribute("count", count);
+		return "mycareer";
 	}
 }

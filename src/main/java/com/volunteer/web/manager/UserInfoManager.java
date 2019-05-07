@@ -48,7 +48,7 @@ public interface UserInfoManager {
 	 * 查询用户总数量
 	 * @return
 	 */
-	int getCount();
+	int getCount(String kewWords, Integer groupteam, Long roles);
 
 	/**
 	 * 分页查询

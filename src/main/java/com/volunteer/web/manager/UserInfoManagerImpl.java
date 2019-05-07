@@ -70,8 +70,9 @@ public class UserInfoManagerImpl implements UserInfoManager{
 	}
 
 	@Override
-	public int getCount() {
-		return userInfoMapper.getCount();
+	public int getCount(String kewWords, Integer groupteam, Long roles) {
+		PageNation pageNation = new PageNation(kewWords, groupteam, roles);
+		return userInfoMapper.getCount(pageNation);
 	}
 
 	@Override

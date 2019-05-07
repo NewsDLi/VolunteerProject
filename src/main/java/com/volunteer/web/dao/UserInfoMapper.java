@@ -31,7 +31,7 @@ public interface UserInfoMapper {
 
 	Integer checkUserIsExist(String idCard);
 
-	int getCount();
+	int getCount(PageNation pageNation);
 
 	List<UserInfo> searchInfos(PageNation pageNation);
 }

@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.thymeleaf.org">
+<html>
 <head>
 <meta charset="utf-8">
 <title></title>
@@ -7,50 +7,54 @@
 <link rel="stylesheet" href="css/weui.css">
 <link rel="stylesheet" href="css/weuix.css">
 <script src="js/zepto.min.js"></script>
-<script src="js/mock.min.js"></script>
 <script src="js/zepto.weui.js"></script>
 <script>
-	Mock.mock('http://api.com', {
-		"list|10" : [ {
-			'name' : '@cname', //中文名称
-			'age|1-100' : 100, //100以内随机整数
-			'date' : '@date("yyyy-MM-dd")', //日期
-			'city' : '@city(true)' //中国城市
-		} ]
-	});
-
 	$(function() {
-		$.get("http://api.com",	function(rs) {
-			var html = '';
-			for (var i = 0; i < rs.list.length; i++) {
-				html += ' <a class="weui-cell weui-cell_access" href="javascript:;">'
-				+ '<div class="weui-cell__hd">'
-				+ '<p>'
-				+ rs.list[i].name
-				+ '</p>'
-				+ '</div>'
-				+ '<div class="weui-cell__bd">'
-				+ '<p>&nbsp;&nbsp;13556566767'
-				+ '</p>'
-				+ '</div>'
-				+ '<div class="weui-cell__ft">'
-				+ rs.list[i].date
-				+ '</div>'
-				+ '</a>'
+		// 默认页数1
+		var pageSize = 1;
+		var html = '';
+		$.ajax({
+			type : "post",
+			url : "/powerManager",
+			data : "kewWords=" + "&group=1"+"&role="+"&pageNum=",
+			success : function(data) {
+				if (data.message == 'success') {
+					pageSize = data.data.pageCount
+					for(var i=0; i<data.data.infos.length; i++){
+						html += ' <a class="weui-cell weui-cell_access" href=/getOtherUserInfo?id='+ data.data.infos[i].id +'>'
+							+ '<div class="weui-cell__hd">'
+							+ '<p>'
+							+ data.data.infos[i].name
+							+ '</p>'
+							+ '</div>'
+							+ '<div class="weui-cell__bd">'
+							+ '<p>&nbsp;&nbsp;'
+							+ data.data.infos[i].loginPhone
+							+ '</p>'
+							+ '</div>'
+							+ '<div class="weui-cell__ft">'
+							+ getDate(data.data.infos[i].version)
+							+ '</div>'
+							+ '</a>'
+					}
+					$("#list").html(html);
+				}
 			}
-			$("#list").html(html);
-		}, 'json')
-
+		});
 	});
+function getDate(version){
+	var date = new Date(version);
+	return date.getFullYear() + "-" +date.getMonth() + 1 + "-" + date.getDate();
+}
 </script>
 </head>
 
-<body ontouchstart="">
+<body ontouchstart>
 	<div class="page-hd">
 		<h1 class="page-hd-title">权限管理</h1>
 	</div>
 	
-	<div class="weui-cells weui-cells_form">
+	<!-- <div class="weui-cells weui-cells_form">
 	    <div class="weui-cell">
 	        <div class="weui-cell__hd"><label for="job" class="weui-label">组别</label></div>
 	        <div class="weui-cell__bd">
@@ -63,8 +67,7 @@
 	            <input class="weui-input" id="mobile" type="text" value="" readonly="">
 	        </div>
 	    </div>
-	</div>
-	
+	</div> -->
 	<!--搜索-->
 	<div class="weui-search-bar">
 		<input type="search" class="search-input" id="search"
@@ -75,73 +78,17 @@
 	</div>
 	<!--列表-->
 	<div class="weui-cells" id="list">
-		<a class="weui-cell weui-cell_access" href="javascript:;">
-			<div class="weui-cell__bd">
-				<p>程娟</p>
-			</div>
-			<div class="weui-cell__bd">
-				<p>13555667788</p>
-			</div>
-			<div class="weui-cell__ft">1998-01-01</div>
-		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-			<div class="weui-cell__bd">
-				<p>赵秀兰</p>
-			</div>
-			<div class="weui-cell__ft">2001-08-29</div>
-		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-			<div class="weui-cell__bd">
-				<p>宋芳</p>
-			</div>
-			<div class="weui-cell__ft">2007-10-04</div>
-		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-			<div class="weui-cell__bd">
-				<p>孔刚</p>
-			</div>
-			<div class="weui-cell__ft">1986-04-25</div>
-		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-			<div class="weui-cell__bd">
-				<p>蔡艳</p>
-			</div>
-			<div class="weui-cell__ft">2012-04-22</div>
-		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-			<div class="weui-cell__bd">
-				<p>顾明</p>
-			</div>
-			<div class="weui-cell__ft">1993-09-01</div>
-		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-			<div class="weui-cell__bd">
-				<p>吴明</p>
-			</div>
-			<div class="weui-cell__ft">2004-09-06</div>
-		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-			<div class="weui-cell__bd">
-				<p>崔娜</p>
-			</div>
-			<div class="weui-cell__ft">2001-12-16</div>
-		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-			<div class="weui-cell__bd">
-				<p>唐霞</p>
-			</div>
-			<div class="weui-cell__ft">2018-04-23</div>
-		</a> <a class="weui-cell weui-cell_access" href="javascript:;">
-			<div class="weui-cell__bd">
-				<p>梁芳</p>
-			</div>
-			<div class="weui-cell__ft">1974-06-30</div>
-		</a>
 	</div>
-
-	<br>
-	<br>
-	<div th:include="tabbar::pagination"></div>
-
-</body>
-<script>
-
-/* 支持
- $("input").select("update", { items: ["法官", "猎人"] })
- $("input").select("open")
- $("input").select("close")*/
+	<div class="pager2">
+   	 	<a class="pager2-pre">&lt;</a>
+        <a class="active">1</a>
+        <a>2</a>
+        <a>3</a>
+        <a>4</a>
+        <a>5</a>
+        <a class="pager2-next">&gt;</a>
+    </div>
+<!-- <script>
  $("#job").select({
      title: "选择组别",
      items: ['1组','2组','3组','4组'],
@@ -172,5 +119,123 @@
          }
      ]
  });
+</script> -->
+<div class="weui-cells weui-cells_form">
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label for="job" class="weui-label">美女</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="job" type="text" value="" readonly="">
+        </div>
+    </div>
+
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label for="mobile" class="weui-label">手机</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="mobile" type="text" value="" readonly="">
+        </div>
+    </div>
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label for="in" class="weui-label">喜欢的国家</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="in" type="text" value="美国,中国" readonly="">
+        </div>
+    </div>
+</div>
+
+<script>
+   /* 支持
+    $("input").select("update", { items: ["法官", "猎人"] })
+    $("input").select("open")
+    $("input").select("close")*/
+    $("#job").select({
+        title: "喜欢的美女",
+        items: ['柳岩','赵丽颖','杨颖','苍井空'],
+        onChange: function(d) {
+            console.log(this, d);
+        },
+        onClose: function() {
+            console.log("close");
+        },
+        onOpen: function() {
+            console.log("open");
+        },
+    });
+    $("#mobile").select({
+        title: "选择手机",
+        items: [
+            {
+                title: "iPhone 8",
+                value: "001",
+            },
+            {
+                title: "iPhone 9",
+                value: "002",
+            },
+            {
+                title: "iPhone x",
+                value: "003",
+            },
+            {
+                title: "iPhone xs",
+                value: "004",
+            }
+
+        ]
+    });
+    $("#in").select({
+        title: "喜欢的国家",
+        multi: true,
+        min: 1,  //最少选1个
+        max: 3,  //最多选3个
+        items: [
+            {
+                title: "美国",
+                value: 1,
+                description: "额外的数据1"
+            },
+            {
+                title: "中国",
+                value: 2,
+                description: "额外的数据2"
+            },
+            {
+                title: "日本",
+                value: 3,
+                description: "额外的数据3"
+            },
+            {
+                title: "韩国",
+                value: 4,
+                description: "额外的数据4"
+            },
+            {
+                title: "泰国",
+                value: 5,
+                description: "额外的数据5"
+            },
+            {
+                title: "法国",
+                value: 6,
+                description: "额外的数据6"
+            },
+        ],
+        beforeClose: function(values, titles) {
+            if(values.indexOf("5") !== -1) {
+                $.toast("不能选泰国", "cancel");
+                return false;
+            }
+            return true;
+        },
+        onChange: function(d) {
+            console.log(this, d);
+        },
+        onClose: function (d) {
+            console.log('close')
+        }
+    });
 </script>
+	<br>
+	<br>
+	<div th:include="tabbar::pagination"></div>
+</body>
 </html>
