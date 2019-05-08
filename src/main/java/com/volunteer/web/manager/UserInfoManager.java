@@ -3,13 +3,19 @@ package com.volunteer.web.manager;
 import java.util.List;
 
 import com.volunteer.common.UserInfoBindCommand;
+import com.volunteer.common.WechatMessage;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.WechatInfo;
 
 public interface UserInfoManager {
 	/**
 	 *通过openid查询用户信息
 	 */
-	UserInfoBindCommand getUserInfoByOpenId(String openId);
+	UserInfo getUserInfoByOpenId(WechatMessage wechatMessage);
+	/**
+	 *通过openid查询微信信息
+	 */
+	List<WechatInfo> getWechatInfoByOpenId(WechatMessage wechatMessage);
 
 	/**
 	 *通过手机号码查询用户信息

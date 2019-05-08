@@ -1,14 +1,24 @@
 package com.volunteer.web.controller.login;
 
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.alibaba.fastjson.JSON;
+import com.feilong.core.Validator;
+import com.feilong.servlet.http.RequestUtil;
+import com.volunteer.cache.manager.CacheManager;
+import com.volunteer.common.UserInfoBindCommand;
+import com.volunteer.common.WechatMessage;
 import com.volunteer.constant.UserConstant;
+import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserInfoBind;
+import com.volunteer.model.WechatInfo;
+import com.volunteer.utils.HttpsUtils;
+import com.volunteer.utils.PropBean;
+import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
+import com.volunteer.web.dao.WechatInfoMapper;
+import com.volunteer.web.manager.UserInfoBindManager;
+import com.volunteer.web.manager.UserInfoManager;
+import com.volunteer.web.manager.WechatInfoManager;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -16,22 +26,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import com.alibaba.fastjson.JSON;
-import com.feilong.core.Validator;
-import com.feilong.servlet.http.RequestUtil;
-import com.volunteer.cache.manager.CacheManager;
-import com.volunteer.common.UserInfoBindCommand;
-import com.volunteer.common.WechatMessage;
-import com.volunteer.constant.WxLoginConstant;
-import com.volunteer.model.UserInfo;
-import com.volunteer.utils.HttpsUtils;
-import com.volunteer.utils.PropBean;
-import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
-import com.volunteer.web.manager.UserInfoBindManager;
-import com.volunteer.web.manager.UserInfoManager;
-import com.volunteer.web.manager.WechatInfoManager;
-
-import net.sf.json.JSONObject;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author yuan
@@ -51,7 +50,8 @@ public class UserLoginController {
     private UserInfoManager userInfoManager;
 
     @Autowired
-    private WechatInfoManager wechatInfoManager;
+    private WechatInfoMapper wechatInfoMapper;
+
 
     @Autowired
     private UserInfoBindManager userInfoBindManager;
@@ -76,8 +76,14 @@ public class UserLoginController {
             if (StringUtils.isBlank(returnUrl)) {
                 returnUrl = "";
             }
+            //判断是否登录
+            UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+            if(Validator.isNotNullOrEmpty(userInfo)){
+                return "mypage";
+            }
             //通过code换取用户信息--先从缓存中获取，没有就从第三方获取
-            String httpResponse = cacheManager.getValue(WxLoginConstant.WECHAT_USERINFO + code);
+            String httpResponse = (String) request.getSession().getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
+            //                    cacheManager.getValue(WxLoginConstant.WECHAT_USERINFO);
             if (httpResponse == null) {
                 httpResponse = getWechatMemberInfo(code);
             }
@@ -92,11 +98,13 @@ public class UserLoginController {
             //查询成功
             //如果是微信会员 ---将信息缓存起来
             request.getSession().setAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION, httpResponse);
+
+
             //登录用户的处理方法
-            UserInfoBindCommand userInfo = weChatLoginHandler.wechatOAuthSuccess(wechatMessage);
+            UserInfo userInfos = weChatLoginHandler.wechatOAuthSuccess(request, wechatMessage);
             //通过openId查询是否有用户信息，，判断为第一次登陆
-            if(Validator.isNullOrEmpty(userInfo)){
-                return  "index";
+            if (Validator.isNullOrEmpty(userInfos)) {
+                return "index";
             }
             return "redirect:" + returnUrl;
         } catch (Exception e) {
@@ -110,45 +118,62 @@ public class UserLoginController {
 
     /**
      * 跳转至登录页面
+     *
      * @return
      */
     @PostMapping(value = "/login.json")
     public String toLogin(HttpServletRequest request,
                           HttpServletResponse response,
-                          @RequestParam(value = "wechatInfoId",required=false) Long wechatId,
+                          @RequestParam(value = "wechatInfoId", required = false) Long wechatId,
                           @RequestParam(value = "username") String username,
-                          @RequestParam(value = "password") String password){
+                          @RequestParam(value = "password") String password) {
 
-//        UserInfo userInfo = userInfoManager.getUserInfoByMobile(username);
-//        if(Validator.isNullOrEmpty(wechatId)){
-//            return "index";
-//        }
-//        UserInfoBind userInfoBind = new UserInfoBind();
-//        userInfoBind.setUserId(userInfo.getId());
-//        userInfoBind.setWechatId(wechatId);
-//        //绑定微信
-//        userInfoBindManager.saveUserInfoBind(userInfoBind);
         List<UserInfo> userInfoByMobile = userInfoManager.getUserInfoByMobile(username);
-        if(null == userInfoByMobile || userInfoByMobile.size() == 0){
-        	return "index";
+        if (null == userInfoByMobile || userInfoByMobile.size() == 0) {
+            return "index";
         }
+        //通过code换取用户信息--先从缓存中获取，没有就从第三方获取
         HttpSession session = request.getSession();
+        //微信绑定
+        UserInfo userInfo = userInfoByMobile.get(0);
+        String httpResponse = (String) session.getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
+        if(Validator.isNotNullOrEmpty(httpResponse)){
+            WechatMessage wechatMessage = JSON.parseObject(httpResponse, WechatMessage.class);
+            List<WechatInfo> wechatInfos = userInfoManager.getWechatInfoByOpenId(wechatMessage);
+            if(Validator.isNotNullOrEmpty(wechatInfos)){
+                UserInfoBind userInfoBind = new UserInfoBind();
+                userInfoBind.setUserId(userInfo.getId());
+                userInfoBind.setWechatId(wechatInfos.get(0).getId());
+                userInfoBindManager.saveUserInfoBind(userInfoBind);
+            }
+        }
+            session.setAttribute(UserConstant.LOGIN_PHONE, userInfo);
 
-        session.setAttribute(UserConstant.LOGIN_PHONE,userInfoByMobile.get(0));
         return "mypage";
     }
 
     /**
      * 跳转至登录页面
+     *
+     * @return
+     */
+    public String wxlogin(HttpServletRequest request,
+                          HttpServletResponse response) {
+
+        return "wechartLogin";
+    }
+
+    /**
+     * 跳转至微信登录页面
+     *
      * @return
      */
     @PostMapping(value = "/index")
     public String login(HttpServletRequest request,
-                          HttpServletResponse response){
+                        HttpServletResponse response) {
 
         return "index";
     }
-
 
 
     private String getWechatMemberInfo(String code) {
@@ -156,7 +181,7 @@ public class UserLoginController {
         try {
             //从配置文件中拿信息
             String appid = prop.getAppid();
-            String appsercet = prop.getAppid();
+            String appsercet = prop.getAppsecret();
             String accessUrl = prop.getAccessToken() + "appid=" + appid + "&secret=" + appsercet + "&code=" + code + "&grant_type=authorization_code";
             //获取accessToken，openId
             String json = HttpsUtils.sendGet(accessUrl);

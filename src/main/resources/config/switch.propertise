@@ -1,6 +1,8 @@
-pmp.appid = wxc296762d7628737c
-pmp.appsecret = b001b788470aa4da3cdb91a5cd07d358
+pmp.appid = wxe7476c3ef8ad13a5
+pmp.appsecret = 26482ec8c07ca213f64f055a641c7db6
 pmp.accessToken = https://api.weixin.qq.com/sns/oauth2/access_token?
 pmp.userinfo = https://api.weixin.qq.com/sns/userinfo?
 url = 師源
 url1 = http://localhost:8081
+pro.appid = wxc296762d7628737c
+pro.appsecret = b001b788470aa4da3cdb91a5cd07d358

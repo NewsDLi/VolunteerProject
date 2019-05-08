@@ -1,11 +1,11 @@
 package com.volunteer.web.manager;
 
-import com.volunteer.model.WechatInfo;
+import com.volunteer.common.WechatMessage;
 
 public interface WechatInfoManager {
 	/**
 	 *新增微信用户
 	 */
-	Long  saveWechatInfo(WechatInfo wechatInfo);
+	Integer  saveWechatInfo(WechatMessage wechatMessage);
 
 }
