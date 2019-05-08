@@ -92,13 +92,13 @@ public class UserLoginController {
             }
             WechatMessage wechatMessage = JSON.parseObject(httpResponse, WechatMessage.class);
             //查询信息失败
-            if (Validator.isNullOrEmpty(wechatMessage)) {
+            if (Validator.isNullOrEmpty(wechatMessage.getOpenId())) {
                 return "index";
             }
             //查询成功
             //如果是微信会员 ---将信息缓存起来
-            request.getSession().setAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION, httpResponse);
 
+            request.getSession().setAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION, httpResponse);
 
             //登录用户的处理方法
             UserInfo userInfos = weChatLoginHandler.wechatOAuthSuccess(request, wechatMessage);
@@ -140,7 +140,7 @@ public class UserLoginController {
         if(Validator.isNotNullOrEmpty(httpResponse)){
             WechatMessage wechatMessage = JSON.parseObject(httpResponse, WechatMessage.class);
             List<WechatInfo> wechatInfos = userInfoManager.getWechatInfoByOpenId(wechatMessage);
-            if(Validator.isNotNullOrEmpty(wechatInfos)){
+            if(Validator.isNotNullOrEmpty(wechatInfos.get(0).getOpenId())){
                 UserInfoBind userInfoBind = new UserInfoBind();
                 userInfoBind.setUserId(userInfo.getId());
                 userInfoBind.setWechatId(wechatInfos.get(0).getId());
