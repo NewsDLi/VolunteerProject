@@ -1,18 +1,16 @@
 package com.volunteer.web.manager;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import com.volunteer.model.PageNation;
-import com.volunteer.model.UserInfo;
-import com.volunteer.model.UserInfoExample;
-import com.volunteer.web.dao.UserInfoMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.volunteer.common.UserInfoBindCommand;
+import com.volunteer.model.PageNation;
+import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserInfoExample;
+import com.volunteer.web.dao.UserInfoMapper;
 
 @Service
 public class UserInfoManagerImpl implements UserInfoManager{
@@ -79,5 +77,10 @@ public class UserInfoManagerImpl implements UserInfoManager{
 	public List<UserInfo> searchInfos(String kewWords, Integer groupteam, Long roles, int begin,int pageSize) {
 		PageNation pageNation = new PageNation(kewWords, groupteam, roles, begin, pageSize);
 		return userInfoMapper.searchInfos(pageNation);
+	}
+
+	@Override
+	public List<Integer> getAllGroups() {
+		return userInfoMapper.getAllGroups();
 	}
 }

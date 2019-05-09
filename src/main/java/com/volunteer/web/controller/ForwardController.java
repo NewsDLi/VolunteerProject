@@ -118,12 +118,5 @@ public class ForwardController {
     public String forum() {
         return "forum";
     }
-    /**
-     *权限管理页面
-     */
-    @RequestMapping("/admin")
-    public String admin() {
-        return "admin";
-    }
 }
 

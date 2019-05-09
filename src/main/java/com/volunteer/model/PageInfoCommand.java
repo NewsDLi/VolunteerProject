@@ -18,7 +18,11 @@ public class PageInfoCommand<T> {
 	 * 获取当前页的数据信息
 	 */
 	private List<T> infos;
-
+	
+	private List<Integer> groups;
+	
+	private Integer pageNum;
+	
 	public Integer getPageCount() {
 		return pageCount;
 	}
@@ -35,4 +39,19 @@ public class PageInfoCommand<T> {
 		this.infos = infos;
 	}
 
+	public List<Integer> getGroups() {
+		return groups;
+	}
+
+	public void setGroups(List<Integer> groups) {
+		this.groups = groups;
+	}
+
+	public Integer getPageNum() {
+		return pageNum;
+	}
+
+	public void setPageNum(Integer pageNum) {
+		this.pageNum = pageNum;
+	}
 }

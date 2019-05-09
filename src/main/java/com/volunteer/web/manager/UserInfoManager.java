@@ -60,4 +60,10 @@ public interface UserInfoManager {
 	 */
 	List<UserInfo> searchInfos(String kewWords, Integer groupteam, Long roles, int begin, int pagesize);
 
+	/**
+	 * 查询所有的组别
+	 * @return
+	 */
+	List<Integer> getAllGroups();
+
 }

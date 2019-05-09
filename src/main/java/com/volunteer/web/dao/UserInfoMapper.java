@@ -34,4 +34,6 @@ public interface UserInfoMapper {
 	int getCount(PageNation pageNation);
 
 	List<UserInfo> searchInfos(PageNation pageNation);
+
+	List<Integer> getAllGroups();
 }

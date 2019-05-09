@@ -454,4 +454,7 @@
 		</where>
 		LIMIT #{begin},#{pagesize}
 	</select>
+	<select id="getAllGroups" resultType="int">
+		SELECT group_team FROM user_info GROUP BY group_team
+	</select>
 </mapper>

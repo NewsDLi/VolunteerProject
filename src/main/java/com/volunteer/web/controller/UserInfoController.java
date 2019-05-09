@@ -7,7 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.jsoup.Connection.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -131,10 +131,11 @@ public class UserInfoController {
 			@RequestParam(value="kewWords", required=false)String kewWords,
 			@RequestParam(value="group", required=false, defaultValue="")String group,
 			@RequestParam(value="role", required=false, defaultValue="")String role,
-			@RequestParam(value="pageNum", required=false)Integer pageNum){
+			@RequestParam(value="pageNum", required=false)String pageNum){
 		// 每页10条数据
 		int pagesize = 10;
 		Integer groupteam = null;
+		Integer pagenumber = 1;
 		if(StringUtils.isNotBlank(group)){
 			groupteam = Integer.parseInt(group);
 		}
@@ -143,8 +144,8 @@ public class UserInfoController {
 			// 1代表义工、2代表教授、4代表组长 ps:组长没有在权限表中
 			roles = Long.parseLong(role);
 		}
-		if (null == pageNum){
-			pageNum = 1;
+		if (StringUtils.isNotBlank(pageNum)){
+			pagenumber = Integer.valueOf(pageNum);
 		}
 		if(StringUtils.isBlank(kewWords)){
 			kewWords = null;
@@ -155,11 +156,14 @@ public class UserInfoController {
 		// 总页数， 是否有余数，是取结果进1
 		Integer page = count/pagesize + ((count%pagesize)==0 ? 0 : 1);
 		
-		List<UserInfo> infos = userInfoManager.searchInfos(kewWords, groupteam, roles, (pageNum - 1) * pagesize, pagesize);
+		List<UserInfo> infos = userInfoManager.searchInfos(kewWords, groupteam, roles, (pagenumber - 1) * pagesize, pagesize);
+		List<Integer> groupList = userInfoManager.getAllGroups();
 		
 		PageInfoCommand<UserInfo> command = new PageInfoCommand<>();
+		command.setGroups(groupList);
 		command.setPageCount(page);
 		command.setInfos(infos);
+		command.setPageNum(Integer.parseInt(pageNum));
 		return ApiResponse.build(ResponseStatus.SUCCESS, command);
 	}
 	
@@ -186,4 +190,14 @@ public class UserInfoController {
 		model.addAttribute("count", count);
 		return "mycareer";
 	}
+	
+	/**
+     *权限管理页面
+     */
+    @RequestMapping("/admin")
+    public String admin(Model model) {
+    	List<Integer> groupList = userInfoManager.getAllGroups();
+    	model.addAttribute("groupList", groupList);
+        return "admin";
+    }
 }
