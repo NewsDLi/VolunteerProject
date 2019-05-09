@@ -6,11 +6,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.volunteer.common.UserInfoBindCommand;
+import com.feilong.core.Validator;
+import com.volunteer.common.WechatMessage;
 import com.volunteer.model.PageNation;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserInfoBind;
 import com.volunteer.model.UserInfoExample;
+import com.volunteer.model.WechatInfo;
+import com.volunteer.model.WechatInfoExample;
 import com.volunteer.web.dao.UserInfoMapper;
+import com.volunteer.web.dao.WechatInfoMapper;
 
 @Service
 public class UserInfoManagerImpl implements UserInfoManager{
@@ -18,9 +23,26 @@ public class UserInfoManagerImpl implements UserInfoManager{
 	@Autowired
 	private UserInfoMapper userInfoMapper;
 
+	@Autowired
+	private WechatInfoMapper wechatInfoMapper;
+
+	@Autowired
+	private WechatInfoManager wechatInfoManager;
+
+	@Autowired
+	private UserInfoBindManager userInfoBindManager;
+
 	@Override
-	public UserInfoBindCommand getUserInfoByOpenId(String openId) {
-		return null;
+	public UserInfo getUserInfoByOpenId(WechatMessage wechatMessage) {
+		List<WechatInfo> wechatInfos = getWechatInfoByOpenId(wechatMessage);
+		if(Validator.isNullOrEmpty(wechatInfos)){
+			wechatInfoManager.saveWechatInfo(wechatMessage);
+		}
+		List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfos.get(0).getId());
+		if(Validator.isNullOrEmpty(userInfoBinds)){
+			return null;
+		}
+		return selectByPrimaryKey(userInfoBinds.get(0).getUserId());
 	}
 
 	@Override
@@ -44,6 +66,13 @@ public class UserInfoManagerImpl implements UserInfoManager{
 	public Integer checkUserIsExist(String idCard) {
 //		return userInfoMapper.checkUserIsExist(idCard);
 		return  null;
+	}
+	@Override
+	public List<WechatInfo> getWechatInfoByOpenId(WechatMessage wechatMessage) {
+		WechatInfoExample wechatInfoExample = new WechatInfoExample();
+		WechatInfoExample.Criteria criteria = wechatInfoExample.createCriteria().andOpenIdEqualTo(wechatMessage.getOpenId());
+		List<WechatInfo> wechatInfos = wechatInfoMapper.selectByExample(wechatInfoExample);
+		return wechatInfos;
 	}
 
 	@Override
@@ -83,4 +112,5 @@ public class UserInfoManagerImpl implements UserInfoManager{
 	public List<Integer> getAllGroups() {
 		return userInfoMapper.getAllGroups();
 	}
+
 }

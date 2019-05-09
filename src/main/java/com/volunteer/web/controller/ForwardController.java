@@ -1,8 +1,13 @@
 package com.volunteer.web.controller;
 
+import com.feilong.core.Validator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.servlet.http.HttpServletRequest;
 
 /**
  * @author NewsDLee
@@ -96,8 +101,9 @@ public class ForwardController {
     public String weui() {
         return "weui";
     }
+
     /**
-     *主页
+     * 主页
      */
     @RequestMapping("/homepage.htm")
     public String home() {
@@ -105,18 +111,46 @@ public class ForwardController {
     }
 
     /**
-     *社区
+     * 社区
      */
     @RequestMapping("/community.htm")
     public String community() {
         return "community";
     }
+
     /**
-     *论坛
+     * 论坛
      */
     @RequestMapping("/forum.htm")
     public String forum() {
         return "forum";
     }
-}
 
+    /**
+     * 权限管理页面
+     */
+    @RequestMapping("/admin")
+    public String admin() {
+        return "admin";
+    }
+
+    /**
+     * 权限管理页面
+     */
+    @ResponseBody
+    @RequestMapping(value = "/test", method = RequestMethod.GET, produces = {"application/json;charset=utf-8"})
+    public String getWxUserInfo(HttpServletRequest request, @RequestParam(required = true) String echostr) {
+        try {
+            if(Validator.isNullOrEmpty(echostr)){
+
+                echostr = "wechatToken";
+                return echostr;
+            }
+            //只需要把微信请求的 echostr, 返回给微信就可以了
+            return echostr;
+        } catch (Exception e) {
+            return "falie";
+        }
+    }
+
+}

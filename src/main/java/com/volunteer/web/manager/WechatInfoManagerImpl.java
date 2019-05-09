@@ -1,5 +1,6 @@
 package com.volunteer.web.manager;
 
+import com.volunteer.common.WechatMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,10 +16,17 @@ public class WechatInfoManagerImpl implements WechatInfoManager{
 
 	@Override
 	@Transactional
-	public Long  saveWechatInfo(WechatInfo wechatInfo) {
-		Long integer = null;
+	public Integer saveWechatInfo(WechatMessage wechatMessage) {
+		Integer integer = null;
 		try {
-//			 integer = wechatInfoMapper.saveWechatInfo(wechatInfo);
+			WechatInfo wechatInfo = new WechatInfo();
+			wechatInfo.setOpenId(wechatMessage.getOpenId());
+			wechatInfo.setNickName(wechatMessage.getNickname());
+			wechatInfo.setSex(wechatMessage.getSex());
+			wechatInfo.setProvince(wechatMessage.getProvince());
+			wechatInfo.setCountry(wechatMessage.getCountry());
+			wechatInfo.setCity(wechatMessage.getCity());
+			integer = wechatInfoMapper.insert(wechatInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

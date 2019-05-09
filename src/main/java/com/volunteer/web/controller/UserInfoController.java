@@ -191,13 +191,4 @@ public class UserInfoController {
 		return "mycareer";
 	}
 	
-	/**
-     *权限管理页面
-     */
-    @RequestMapping("/admin")
-    public String admin(Model model) {
-    	List<Integer> groupList = userInfoManager.getAllGroups();
-    	model.addAttribute("groupList", groupList);
-        return "admin";
-    }
 }
