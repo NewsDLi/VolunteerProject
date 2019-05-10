@@ -133,9 +133,16 @@ public class ForwardController {
     public String admin() {
         return "admin";
     }
-
     /**
      * 权限管理页面
+     */
+    @RequestMapping("/editor")
+    public String editor() {
+        return "editor";
+    }
+
+    /**
+     * 微信回调
      */
     @ResponseBody
     @RequestMapping(value = "/test", method = RequestMethod.GET, produces = {"application/json;charset=utf-8"})
