@@ -132,12 +132,20 @@ public class UserInfoController {
 			@RequestParam(value="group", required=false, defaultValue="")String group,
 			@RequestParam(value="role", required=false, defaultValue="")String role,
 			@RequestParam(value="pageNum", required=false)String pageNum){
+		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		String header = request.getHeader("referer");
 		// 每页10条数据
 		int pagesize = 10;
 		Integer groupteam = null;
 		Integer pagenumber = 1;
+		
+		// 设置是否首次请求 或者页面是否刷新
+		if(header.indexOf("/admin")>0 && StringUtils.isBlank(group)){
+			groupteam = userInfo.getGroupTeam();
+		}
 		if(StringUtils.isNotBlank(group)){
-			groupteam = Integer.parseInt(group);
+			// 权限是普通义工的话只能查看本组
+			groupteam = (userInfo.getRoleId().equals(1L))?1:Integer.parseInt(group);
 		}
 		Long roles = null;
 		if(StringUtils.isNotBlank(role)){
@@ -150,6 +158,14 @@ public class UserInfoController {
 		if(StringUtils.isBlank(kewWords)){
 			kewWords = null;
 		}
+		
+		List<Integer> groupList = new ArrayList<>();
+		// 判断此用户是否具有查看别的组的权限
+		if(userInfo.getRoleId().equals(2L) || userInfo.getRoleId().equals(3L)){
+			groupList = userInfoManager.getAllGroups();
+		} else {
+			groupList.add(userInfo.getGroupTeam());
+		}
 		// 数据总数
 		int count = userInfoManager.getCount(kewWords, groupteam, roles);
 		
@@ -157,7 +173,6 @@ public class UserInfoController {
 		Integer page = count/pagesize + ((count%pagesize)==0 ? 0 : 1);
 		
 		List<UserInfo> infos = userInfoManager.searchInfos(kewWords, groupteam, roles, (pagenumber - 1) * pagesize, pagesize);
-		List<Integer> groupList = userInfoManager.getAllGroups();
 		
 		PageInfoCommand<UserInfo> command = new PageInfoCommand<>();
 		command.setGroups(groupList);
@@ -168,7 +183,30 @@ public class UserInfoController {
 	}
 	
 	@RequestMapping(value="/getOtherUserInfo",method = RequestMethod.GET)
-	public String getOtherUserInfo(@RequestParam(value="id", required=false)Long id, Model model){
+	public String getOtherUserInfo(HttpServletRequest request,
+			@RequestParam(value="id", required=true)Long id, Model model){
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		// 用户基本信息
+		UserInfo userInfo = userInfoManager.getUserInfoById(id);
+		
+		boolean isCanUpdate = false;
+		if ((loginUserInfo.getGroupTeam().equals(userInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(3L)){
+			isCanUpdate = true;
+		}
+		
+		String idCard = userInfo.getIdCard();
+		if(idCard.length() == 18){
+			String bronYear = idCard.substring(6, 10);
+			SimpleDateFormat df = new SimpleDateFormat("yyyy");
+            String year=df.format(new Date());
+            userInfo.setAge(Integer.parseInt(year)-Integer.parseInt(bronYear));
+		}
+		if (StringUtils.isBlank(userInfo.getWorker())){
+			userInfo.setWorker("暂无");
+		}
+		
+		
+		// 用户生涯信息
 		List<UserInfoTag> list = userInfoTagManager.getUserCareer(id);
 		// 上过的课程
 		List<UserInfoTag> havingClass = new ArrayList<UserInfoTag>();
@@ -188,7 +226,26 @@ public class UserInfoController {
 		model.addAttribute("havingClass", havingClass);
 		model.addAttribute("post", post);
 		model.addAttribute("count", count);
-		return "mycareer";
+		model.addAttribute("userInfo", userInfo);
+		model.addAttribute("isCanUpdate", isCanUpdate);
+		return "showInfoMeaasge";
+	}
+	
+	@ResponseBody
+	@RequestMapping("/updateUserInfo")
+	public ApiResponse<Boolean> updateUserInfo(HttpServletRequest request, UserInfo userInfo){
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		if (!loginUserInfo.getIsGroupLeader()){
+			return ApiResponse.build(ResponseStatus.FAIL, false);
+		}
+		UserInfo beforeUpdatePersonInfo = userInfoManager.getUserInfoById(userInfo.getId());
+		if ((loginUserInfo.getGroupTeam().equals(beforeUpdatePersonInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(3L)){
+			boolean updateUserInfoById = userInfoManager.updateUserInfoById(userInfo);
+			if (updateUserInfoById){
+				return ApiResponse.build(ResponseStatus.SUCCESS, true);
+			}
+		}
+		return ApiResponse.build(ResponseStatus.FAIL, false);
 	}
 	
 }

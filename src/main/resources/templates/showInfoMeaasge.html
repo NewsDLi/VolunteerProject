@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<meta charset="UTF-8">
+<!-- 引入样式 -->
+<link rel="stylesheet" href="css/weui.css" />
+<link rel="stylesheet" href="css/weuix.css">
+<link rel="stylesheet" href="css/myinfo.css" />
+<link rel="stylesheet" href="css/mycareer.css" />
+<link rel="stylesheet" href="css/common.css" />
+<script src="js/zepto.min.js"></script>
+<script src="js/zepto.weui.js"></script>
+<script src="js/common.js"></script>
+<script src="js/toast.js"></script>
+<script type="text/javascript">
+$(function() {
+	$('.mine').addClass('weui-bar__item_on');
+	$('.toUpdateUserInfo').click(function(){
+		$('.hidden').css('display','block');
+		$('.show').css('display','none');
+	})
+	$('.cancleUpdate').click(function(){
+		$('.hidden').css('display','none');
+		$('.show').css('display','block');
+	})
+	$('.updateUserInfo').click(function(){
+		var sex = 0;
+		if($('#sex').val() == "女"){
+			sex = 1
+		}
+		$.ajax({
+			type : "get",
+			url : "/updateUserInfo",
+			async: false,
+			data : "id=" + $('#userInfoId').val() +"&sex="+ sex +"&nation="+ $('#nation').val() +"&birthplace=" + $('#birthplace').val()+"&loginPhone="+$('#loginPhone').val()+"&worker="+$('#worker').val(),
+			success : function(data) {
+				if(data.data){
+					location.href="/getOtherUserInfo?id="+$('#userInfoId').val()
+				}
+				if(!data.data){
+					Toast("操作失败",2000);
+				}
+			}
+		});
+	})
+	
+});
+</script>
+<style>
+.info_message p{
+	text-indent: 2em;
+}
+.info_message input{
+	text-indent: 1em;
+    border: 1px solid #e1e1e1;
+}
+.hidden{
+	display: none;
+}
+.showInfo h2{
+	text-align: center;
+}
+#userInfoId{
+display: none;
+}
+</style>
+</head>
+<body ontouchstart>
+<input id="userInfoId" th:value="${userInfo.id}"/>
+	<div class="container" id="container">
+		<div class="weui-flex header">
+			<h2>●用户信息</h2>
+		</div>
+		<div class="main_info">
+			<div class="show showInfo info_message">
+				<h2 class="name"><span th:text="${userInfo.name}"></span></h2>
+				<p class="person_info">性别：<span th:if="${userInfo.sex} eq 1">女</span><span th:if="${userInfo.sex} eq 0">男</span></p>
+				<p class="person_info">年龄：<span th:text="${userInfo.age}"></span></p>
+				<p class="person_info">民族：<span th:text="${userInfo.nation}"></span></p>
+				<p class="person_info">籍贯：<span th:text="${userInfo.birthplace}"></span></p>
+				<p class="person_info">电话：<span th:text="${userInfo.loginPhone}"></span></p>
+				<p class="person_info">工作岗位：<span th:text="${userInfo.worker}"></span></p>
+			</div>
+			<div class="hidden updateInfo info_message">
+				<h2 class="name"><span th:text="${userInfo.name}"></span></h2>
+				<p class="person_info">性别：<input id="sex" th:if="${userInfo.sex} eq 1" value="女"/><input th:if="${userInfo.sex} eq 0" value="男"/></p>
+				<p class="person_info">民族：<input id="nation" th:value="${userInfo.nation}"/></p>
+				<p class="person_info">籍贯：<input id="birthplace" th:value="${userInfo.birthplace}"/></p>
+				<p class="person_info">电话：<input id="loginPhone" type="phone" th:value="${userInfo.loginPhone}"/></p>
+				<p class="person_info">工作岗位：<input id="worker" th:value="${userInfo.worker}"/></p>
+			</div>
+			<a href="javascript:;" class="hidden updateUserInfo weui-btn weui-btn_mini weui-btn_primary">确认修改</a>
+			<a href="javascript:;" class="hidden cancleUpdate weui-btn weui-btn_mini weui-btn_primary">取消修改</a>
+			<div class="show person_hoppy">
+				<h2 class="career_title">义工生涯</h2>
+				<p class="career_count">
+					义工总期数：<span th:text="${count}"></span>
+				</p>
+				<ul class="person_career">
+					<li th:each="info,infoStat : ${havingClass}"><span th:text="${info.tagName}"></span>:<span th:text="${info.tagCount}"></span></li>
+				</ul>
+				<p class="person_first_career">
+					首次做义工时间：<span>2018年2月7号</span>
+				</p>
+			</div>
+			<div class="show person_hoppy">
+				<h2 class="career_title">义工岗位</h2>
+				<ul class="person_career">
+					<li  th:each="info,infoStat : ${post}">
+					<span th:text="${info.tagName}"></span>:<input class="weui-switch" onclick="return false" type="checkbox" checked="checked">
+					</li>
+				</ul>
+			</div>
+			<a th:if="${isCanUpdate}" href="javascript:;" class="show toUpdateUserInfo weui-btn weui-btn_mini weui-btn_primary">修改用户信息</a>
+		</div>
+		<div th:include="tabbar::pagination"></div>
+	</div>
+</body>
+</html>

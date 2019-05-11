@@ -113,4 +113,20 @@ public class UserInfoManagerImpl implements UserInfoManager{
 		return userInfoMapper.getAllGroups();
 	}
 
+	@Override
+	public UserInfo getUserInfoById(Long id) {
+		UserInfoExample userInfoExample = new UserInfoExample();
+		userInfoExample.createCriteria().andIdEqualTo(id);
+		return userInfoMapper.selectByExample(userInfoExample).get(0);
+	}
+
+	@Override
+	public boolean updateUserInfoById(UserInfo userInfo) {
+		int result = userInfoMapper.updateByPrimaryKeySelective(userInfo);
+		if(result == 1){
+			return true;
+		}
+		return false;
+	}
+
 }

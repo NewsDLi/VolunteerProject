@@ -449,7 +449,12 @@
 			 AND ui.group_team = #{groupteam}
 			</if>
 			<if test="roles != null">
-			 AND ui.role_id = #{roles}
+				<if test="roles == 4">
+					AND ui.is_group_leader = true
+				</if>
+				<if test="roles != 4">
+			 		AND ui.role_id = #{roles}
+				</if>
 			</if>
 		</where>
 		LIMIT #{begin},#{pagesize}

@@ -73,4 +73,18 @@ public interface UserInfoManager {
 	 */
 	List<Integer> getAllGroups();
 
+	/**
+	 * 根据用户id获取用户信息
+	 * @param id
+	 * @return
+	 */
+	UserInfo getUserInfoById(Long id);
+
+	/**
+	 * 更新会员信息
+	 * @param userInfo
+	 * @return
+	 */
+	boolean updateUserInfoById(UserInfo userInfo);
+
 }

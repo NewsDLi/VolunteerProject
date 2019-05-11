@@ -35,11 +35,11 @@
 		         },
 		         {
 		             title: "组长",
-		             value: "002",
+		             value: "004",
 		         },
 		         {
 		             title: "教授",
-		             value: "003",
+		             value: "002",
 		         },
 		         {
 		             title: "",
@@ -73,7 +73,10 @@ function getDate(version){
  * 初始化页数
  */
 function initPage(pageSize, initPage){
-	var htmlpage = '<a onclick="gotoPre()" class="pager2-pre">&lt;</a>';
+	var htmlpage = '';
+	if(pageSize>0){
+		htmlpage += '<a onclick="gotoPre()" class="pager2-pre">&lt;</a>';
+	}
 	if(initPage>=3 && pageSize > 5 && initPage + 2 <= pageSize){
 		for(var j=initPage-2;j<=initPage+2;j++){
 			if(j == initPage){
@@ -100,7 +103,9 @@ function initPage(pageSize, initPage){
 			
 		}
 	}
-	htmlpage+='<a onclick="gotoNext()" class="pager2-next">&gt;</a>';
+	if(pageSize>0){
+		htmlpage+='<a onclick="gotoNext()" class="pager2-next">&gt;</a>';
+	}
 	$('.pager2').html(htmlpage);
 }
 /**
