@@ -18,16 +18,62 @@
 	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="js/swipe.js"></script>
 <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+	<script src="js/zepto.min.js"></script>
+	<script src="js/zepto.weui.js"></script>
+	<script src="js/iscroll-lite.js"></script>
+	<script>
+        $(function(){
+            TagNav('#tagnav',{
+                type: 'scrollToNext',
+                curClassName: 'weui-state-active',
+                index:2
+            });
+
+            $('#t1').tab({
+                defaultIndex: 0,
+                activeClass: 'tab-green',
+                onToggle: function (index) {
+
+                }
+            })
+
+            $('#t2').tab({
+                defaultIndex: 1,
+                activeClass: 'tab-red'
+            })
+
+            $('#t3').tab({
+                defaultIndex:2,
+                activeClass: 'tab-blue'
+            })
+
+            $('#t4').tab({defaultIndex:1,activeClass:"bg-green"});
+
+            $('#t5').tab({defaultIndex:2,activeClass:"bg-red"});
+
+        })
+
+    </script>
 </head>
 <body ontouchstart="" class="page-bg">
 
-<div id="tagnav" class="weui-navigator weui-navigator-wrapper" style="touch-action: none;">
+<!--<div id="tagnav" class="weui-navigator weui-navigator-wrapper" style="touch-action: none;">
 	<ul class="weui-navigator-list" style="transition-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
 		<li class=""><a href="javascript:;">义工心得</a></li>
 		<li class=""><a href="javascript:;">国学经典</a></li>
 		<li class="weui-state-active"><a href="javascript:;">曲艺杂谈</a></li>
 		<li class=""><a href="javascript:;">诗词歌赋</a></li>
+		<li class=""><a href="/editor">我要发帖</a></li>
 	</ul>
+</div>-->
+<div class="weui-tab" style="height:44px;" id="t5">
+	<div class="weui-tab-nav">
+		<a href="javascript:" class="weui-navbar__item weui-nav-red"> 义工心得 </a>
+		<a href="javascript:" class="weui-navbar__item weui-nav-red"> 国学经典 </a>
+		<a href="javascript:" class="weui-navbar__item weui-nav-red bg-red"> 曲艺杂谈 </a>
+		<a href="javascript:" class="weui-navbar__item weui-nav-red"> 诗词歌赋 </a>
+		<a href="/editor" class="weui-navbar__item weui-nav-red"> 我要发帖 </a>
+	</div>
 </div>
 
 

@@ -1,6 +1,12 @@
 package com.volunteer.web.controller.forum;
 
+import com.feilong.core.Validator;
+import com.volunteer.constant.UserConstant;
+import com.volunteer.model.CommunityArticles;
+import com.volunteer.model.UserInfo;
 import com.volunteer.utils.ImageUtils;
+import com.volunteer.web.manager.ForumManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -11,6 +17,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,6 +32,8 @@ public class ForumController {
 
     private static final String baseUrl = "http://localhost:80";
 
+    @Autowired
+    private ForumManager forumManager;
 
     //上传后台
     @RequestMapping(value = "/uploadEditorImg", method = {RequestMethod.POST, RequestMethod.GET})
@@ -43,10 +52,19 @@ public class ForumController {
     //富文本上传后台
     @RequestMapping(value = "/uploadEditor", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public String uploadEditor(HttpServletRequest request, HttpServletResponse response, @RequestParam("data") String data){
-        if(data.length()>1){
-            return "success";
+    public String uploadEditor(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "heading",required=false) String heading,@RequestParam("type") Integer type,@RequestParam("title") String title , @RequestParam("data") String data){
+        UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+        CommunityArticles communityArticles = new CommunityArticles();
+        communityArticles.setContent(data);
+        communityArticles.setAuthor(userInfo.getName());
+        communityArticles.setTitle(title);
+        communityArticles.setPublicationTime(new Date());
+        communityArticles.setLifecycle(CommunityArticles.START_LIFECYCLE);
+        communityArticles.setType(type);
+        if(Validator.isNotNullOrEmpty(heading)){
+            communityArticles.setSubheading(heading);
         }
-        return "faile";
+        Integer isSuccess = forumManager.saveFroum(communityArticles);
+        return isSuccess.toString();
     }
 }

@@ -134,7 +134,7 @@ public class ForwardController {
         return "admin";
     }
     /**
-     * 权限管理页面
+     * 论坛编辑
      */
     @RequestMapping("/editor")
     public String editor() {

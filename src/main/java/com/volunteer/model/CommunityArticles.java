@@ -1,8 +1,35 @@
 package com.volunteer.model;
 
+import org.apache.xmlbeans.impl.store.Public2;
+
 import java.util.Date;
 
 public class CommunityArticles {
+    /**
+     * 生命周期初始状态
+     */
+    public static final Integer START_LIFECYCLE = 1;
+    /**
+     * 生命周期结束状态
+     */
+    public static final Integer END_LIFECYCLE = 2;
+    /**
+     * 论坛类型:义工心得
+     */
+    public static final Integer TYPE_YIGONGXINDE = 1;
+    /**
+     * 论坛类型:国学经典
+     */
+    public static final Integer TYPE_GUOXUEJINGDIAN = 2;
+    /**
+     * 论坛类型:曲艺杂谈
+     */
+    public static final Integer TYPE_QUYIZATAN = 3;
+    /**
+     * 论坛类型:诗词歌赋
+     */
+    public static final Integer TYPE_SHICIGEFU = 4;
+
     private Long id;
 
     private String title;
