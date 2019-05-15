@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.volunteer.constant.CommonConstant;
+import com.volunteer.constant.HonerlEnum;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.PageInfoCommand;
 import com.volunteer.model.UserInfo;
@@ -223,6 +224,10 @@ public class UserInfoController {
 				post.add(userInfoTag);
 			}
 		}
+		// 判断是否为管理员
+		if (loginUserInfo.getRoleId().equals(3L)){
+			model.addAttribute("showHoner", true);
+		}
 		model.addAttribute("havingClass", havingClass);
 		model.addAttribute("post", post);
 		model.addAttribute("count", count);
@@ -248,4 +253,39 @@ public class UserInfoController {
 		return ApiResponse.build(ResponseStatus.FAIL, false);
 	}
 	
+	@ResponseBody
+	@RequestMapping(value="/showPersonHoner",method = RequestMethod.GET)
+	public ApiResponse<Object> showPersonHoner(HttpServletRequest request,
+			@RequestParam(value="userId", required=true)Long userId){
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		if (loginUserInfo.getRoleId() != 3L) {
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		List<UserInfoTag> tags = userInfoTagManager.getMyHoner(userId);
+		if(null == tags || tags.size() == 0){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		return ApiResponse.build(ResponseStatus.SUCCESS, tags);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/sendHoner",method = RequestMethod.GET)
+	public ApiResponse<Object> sendHoner(HttpServletRequest request,
+			@RequestParam(value="userId", required=true)Long userId,
+			@RequestParam(value="honer", required=true)String honer){
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		if (loginUserInfo.getRoleId() != 3L) {
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		UserInfoTag infoTag = new UserInfoTag();
+		infoTag.setUserId(userId);
+		infoTag.setType(3);
+		infoTag.setTagName(HonerlEnum.getValue(honer));
+		infoTag.setTagCount(1);
+		int insertUserInfoTag = userInfoTagManager.insertUserInfoTag(infoTag);
+		if(insertUserInfoTag !=1){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		return ApiResponse.build(ResponseStatus.SUCCESS, null);
+	}
 }

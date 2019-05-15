@@ -25,10 +25,6 @@ spring:
     max-idle: 50
     min-idle: 20
     max-wait: 5000
-  devtools: 
-    restart: 
-      enabled: true 
-      additional-paths: src/main/java
   thymeleaf:
     prefix: classpath:/templates/
     suffix: .html

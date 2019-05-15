@@ -20,10 +20,12 @@ $(function() {
 	$('.toUpdateUserInfo').click(function(){
 		$('.hidden').css('display','block');
 		$('.show').css('display','none');
+		$('.person_honer').css('display','none');
 	})
 	$('.cancleUpdate').click(function(){
 		$('.hidden').css('display','none');
 		$('.show').css('display','block');
+		$('.person_honer').css('display','block');
 	})
 	$('.updateUserInfo').click(function(){
 		var sex = 0;
@@ -44,9 +46,90 @@ $(function() {
 				}
 			}
 		});
-	})
-	
+	});
+	showHoner();
+	//助人为乐
+	$('.lyzr').click(function(){
+		if($('.lyzr').attr('src').indexOf('graystar.png') > 0){
+			confirmSendHoner("lyzr");
+		}
+	});
+	$('.czyh').click(function(){
+		if($('.czyh').attr('src').indexOf('graystar.png') > 0){
+			confirmSendHoner("czyh");
+		}
+	});
+	$('.adts').click(function(){
+		if($('.adts').attr('src').indexOf('graystar.png') > 0){
+			confirmSendHoner("adts");
+		}
+	});
+	$('.adfx').click(function(){
+		if($('.adfx').attr('src').indexOf('graystar.png') > 0){
+			confirmSendHoner("adfx");
+		}
+	});
+	$('.shts').click(function(){
+		if($('.shts').attr('src').indexOf('graystar.png') > 0){
+			confirmSendHoner("shts");
+		}
+	});
+	$('.razx').click(function(){
+		if($('.razx').attr('src').indexOf('graystar.png') > 0){
+			confirmSendHoner("razx");
+		}
+	});
 });
+
+function confirmSendHoner(val){
+	$.confirm({
+		  title: '发放勋章',
+		  text: '确认发放勋章？',
+		  onOK: function () {
+			  //发放勋章
+			  $.ajax({
+					type : "get",
+					url : "/sendHoner?userId="+$('#userInfoId').val()+"&honer="+val,
+					success : function(data) {
+						if (data.message == 'success') {
+							$('.' + val).attr('src','images/star.png');
+						}
+					}
+				});
+		  },
+		  onCancel: function () {
+			  return;
+		  }
+		});
+}
+function showHoner(){
+	if($('#showHoner').val() != "true"){
+		return;
+	}
+	$.ajax({
+		type : "get",
+		url : "/showPersonHoner?userId="+$('#userInfoId').val(),
+		success : function(data) {
+			if (data.message == 'success') {
+				for(var i=0; i<data.data.length; i++){
+					if(data.data[i].tagName == $('.lyzr').attr('alt')){
+						$('.lyzr').attr('src','images/star.png');
+					}else if(data.data[i].tagName == $('.czyh').attr('alt')){
+						$('.czyh').attr('src','images/star.png');
+					}else if(data.data[i].tagName == $('.adts').attr('alt')){
+						$('.adts').attr('src','images/star.png');
+					}else if(data.data[i].tagName == $('.adfx').attr('alt')){
+						$('.adfx').attr('src','images/star.png');
+					}else if(data.data[i].tagName == $('.shts').attr('alt')){
+						$('.shts').attr('src','images/star.png');
+					}else if(data.data[i].tagName == $('.razx').attr('alt')){
+						$('.razx').attr('src','images/star.png');
+					}
+				}
+			}
+		}
+	});
+}
 </script>
 <style>
 .info_message p{
@@ -65,10 +148,14 @@ $(function() {
 #userInfoId{
 display: none;
 }
+#showHoner{
+display: none;
+}
 </style>
 </head>
 <body ontouchstart>
 <input id="userInfoId" th:value="${userInfo.id}"/>
+<input id="showHoner" th:value="${showHoner}"/>
 	<div class="container" id="container">
 		<div class="weui-flex header">
 			<h2>●用户信息</h2>
@@ -113,9 +200,45 @@ display: none;
 					</li>
 				</ul>
 			</div>
+			<div th:if="${showHoner}" class="person_hoppy person_honer" style="margin-bottom: 30px;">
+				<h2 class="career_title">义工勋章</h2>
+				<ul class="honer flex-list">
+					<li><img class="lyzr" src="images/graystar.png" width="100px;" alt="乐于助人" /><p style="text-indent: 0;">乐于助人</p></li>
+					<li><img class="czyh" src="images/graystar.png" width="100px;" alt="持之以恒" /><p style="text-indent: 0;">持之以恒</p></li>
+					<li><img class="adts" src="images/graystar.png" width="100px;" alt="爱的天使" /><p style="text-indent: 0;">爱的天使</p></li>
+				</ul>
+				<ul class="honer flex-list">
+					<li><img class="adfx" src="images/graystar.png" width="100px;" alt="爱的奉献" /><p style="text-indent: 0;">爱的奉献</p></li>
+					<li><img class="shts" src="images/graystar.png" width="100px;" alt="守护天使" /><p style="text-indent: 0;">守护天使</p></li>
+					<li><img class="razx" src="images/graystar.png" width="100px;" alt="仁爱之心" /><p style="text-indent: 0;">仁爱之心</p></li>
+				</ul>
+			</div>
 			<a th:if="${isCanUpdate}" href="javascript:;" class="show toUpdateUserInfo weui-btn weui-btn_mini weui-btn_primary">修改用户信息</a>
 		</div>
 		<div th:include="tabbar::pagination"></div>
 	</div>
 </body>
+<style>
+@media {
+	.honer{
+		height: auto;
+		width: auto;
+		display: flex;
+	}
+	.honer li{
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		text-align: center;
+		flex-wrap:wrap;
+		flex-grow:1;
+	}
+	.flex-list p{
+		text-align: center;
+	}
+	.main_info{
+		padding-bottom: 70px;
+	}
+}
+</style>
 </html>
