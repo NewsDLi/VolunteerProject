@@ -5,17 +5,47 @@
 	content="width=device-width,initial-scale=1,user-scalable=0">
 <meta charset="UTF-8">
 <!-- 引入样式 -->
-<link rel="stylesheet"
-	href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 <link rel="stylesheet" href="css/weui.css" />
-<link rel="stylesheet" href="css/example.css" />
 <link rel="stylesheet" href="css/myinfo.css" />
 <link rel="stylesheet" href="css/common.css" />
-<script src="js/zepto.min.js"></script>
-<script src="js/common.js"></script>
-<script type="text/javascript"
+<!-- <script type="text/javascript"
 	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script> -->
+<script src="js/zepto.min.js"></script>
+<script src="js/zepto.weui.js"></script>
+<script src="js/common.js"></script>
+<script>
+$(function(){
+	$('.toUpdateUserInfo').click(function(){
+		$('.hidden').css('display','block');
+		$('.show').css('display','none');
+	})
+	$('.cancleUpdate').click(function(){
+		$('.hidden').css('display','none');
+		$('.show').css('display','block');
+	})
+	$('.updateUserInfo').click(function(){
+		var sex = 0;
+		if($('#sex').val() == "女"){
+			sex = 1
+		}
+		$.ajax({
+			type : "get",
+			url : "/updateBaseUserInfo",
+			async: false,
+			data : "name=" + $("#name").val() +"&sex="+ sex +"&nation="+ $('#nation').val() +"&birthplace=" + $('#birthplace').val()+"&loginPhone="+$('#loginPhone').val()+"&worker="+$('#worker').val() + "&idCard="+$('#idCard').val()+"&hobby="+$('#hobby').val()+"&descption="+$('#descption').val(),
+			success : function(data) {
+				if(data.data){
+					location.href="/getUserInfo";
+				}
+				if(!data.data){
+					Toast("操作失败",2000);
+				}
+			}
+		});
+	})
+})
+</script>
 </head>
 <body>
 	<div class="container" id="container">
@@ -23,38 +53,77 @@
 			<h2>我的●个人信息</h2>
 		</div>
 		<div class="main_info">
-			<div class="info_message">
-				<div class="main_aside">
-					<img src="images/common/1555840770.jpg" width="150px;" alt="头像" />
+			<div class="show">
+				<div class="info_message">	
+					<div class="main_aside">
+						<img src="images/common/1555840770.jpg" width="150px;" alt="头像" />
+					</div>
+					<div class="main_content">
+						<h2 class="name"><span th:text="${userInfo.name}"></span></h2>
+						<p class="person_info">性别：<span th:if="${userInfo.sex} eq 1">女</span><span th:if="${userInfo.sex} eq 0">男</span></p>
+						<p class="person_info">年龄：<span th:text="${userInfo.age}"></span></p>
+						<p class="person_info">民族：<span th:text="${userInfo.nation}"></span></p>
+						<p class="person_info">籍贯：<span th:text="${userInfo.birthplace}"></span></p>
+						<p class="person_info">电话：<span th:text="${userInfo.loginPhone}"></span></p>
+					</div>
 				</div>
-				<div class="main_content">
-					<h2 class="name"><span th:text="${userInfo.name}"></span></h2>
-					<p class="person_info">性别：<span th:if="${userInfo.sex} eq 1">女</span><span th:if="${userInfo.sex} eq 0">男</span></p>
-					<p class="person_info">年龄：<span th:text="${userInfo.age}"></span></p>
-					<p class="person_info">民族：<span th:text="${userInfo.nation}"></span></p>
-					<p class="person_info">籍贯：<span th:text="${userInfo.birthplace}"></span></p>
-					<p class="person_info">电话：<span th:text="${userInfo.loginPhone}"></span></p>
+				<div class="person_info_work">
+					<p class="person_info">
+						工作岗位：<span th:text="${userInfo.worker}"></span>
+					</p>
+					<p class="person_info">
+						身份证号：<span th:text="${userInfo.idCard}"></span>
+					</p>
+				</div>
+				<div class="person_hoppy">
+					<h2 class="hoppy_title">兴趣爱好</h2>
+					<p class="person_info" th:text="${userInfo.hobby}"></p>
+				</div>
+				<div class="person_hoppy">
+					<h2 class="hoppy_title">自我介绍</h2>
+					<p class="person_info"  th:text="${userInfo.descption}" ></p>
 				</div>
 			</div>
-			<div class="person_info_work">
-				<p class="person_info">
-					工作岗位：<span th:text="${userInfo.worker}"></span>
+			<div class="hidden updateInfo info_message">
+				<p class="person_info">姓名：<input id="name" th:value="${userInfo.name}"/></p>
+				<p class="person_info">性别：<input id="sex" th:if="${userInfo.sex} eq 1" value="女"/><input th:if="${userInfo.sex} eq 0" value="男"/></p>
+				<p class="person_info">民族：<input id="nation" th:value="${userInfo.nation}"/></p>
+				<p class="person_info">籍贯：<input id="birthplace" th:value="${userInfo.birthplace}"/></p>
+				<p class="person_info">电话：<input id="loginPhone" type="phone" th:value="${userInfo.loginPhone}"/></p>
+				<p class="person_info">工作岗位：<input id="worker" th:value="${userInfo.worker}"/></p>
+				<p class="person_info">身份证号：<input id="idCard" th:value="${userInfo.idCard}"/></p>
+				<p class="person_info">兴趣爱好：<input id="hobby" th:value="${userInfo.hobby}"/></p>
+				<p class="person_info">自我介绍：<textarea id="descption" rows="0" cols="1" th:text="${userInfo.descption}"></textarea>
 				</p>
-				<p class="person_info">
-					身份证号：<span th:text="${userInfo.idCard}"></span>
-				</p>
 			</div>
-			<div class="person_hoppy">
-				<h2 class="hoppy_title">兴趣爱好</h2>
-				<p class="person_info" th:text="${userInfo.hobby}"></p>
-			</div>
-			<div class="person_hoppy">
-				<h2 class="hoppy_title">自我介绍</h2>
-				<p class="person_info"  th:text="${userInfo.descption}" ></p>
-			</div>
+			<a href="javascript:;" class="hidden updateUserInfo weui-btn weui-btn_mini weui-btn_primary">确认修改</a>
+			<a href="javascript:;" class="hidden cancleUpdate weui-btn weui-btn_mini weui-btn_primary">取消修改</a>
+			<a href="javascript:;" class="show toUpdateUserInfo weui-btn weui-btn_mini weui-btn_primary">修改信息</a>
 		</div>
 
 		<div th:include="tabbar::pagination"></div>
 	</div>
 </body>
+<style>
+.hidden{
+	display: none;
+	width: 100%;
+}
+.show{
+    width: 100%;
+}
+.info_message input{
+    text-indent: 1em;
+    border: 1px solid #e1e1e1;
+}
+.info_message p {
+    text-indent: 2em;
+}
+#descption{
+    margin: 0px;
+    width: 171px;
+    height: 34px;
+    border: 1px solid #e1e1e1;
+}
+</style>
 </html>

@@ -38,6 +38,8 @@ public class UserInfo {
     private String nation;
 
     private Integer age;
+    
+    private Boolean isMessageBoard;
 
     public Long getId() {
         return id;
@@ -181,6 +183,14 @@ public class UserInfo {
 
 	public void setAge(Integer age) {
 		this.age = age;
+	}
+
+	public Boolean getIsMessageBoard() {
+		return isMessageBoard;
+	}
+
+	public void setIsMessageBoard(Boolean isMessageBoard) {
+		this.isMessageBoard = isMessageBoard;
 	}
 
 }

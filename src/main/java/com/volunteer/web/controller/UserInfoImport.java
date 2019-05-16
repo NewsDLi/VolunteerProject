@@ -16,7 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.Row;
@@ -253,11 +253,12 @@ public class UserInfoImport {
             userInfo.setLoginPhone(phoneNumber);
             userInfo.setGroupTeam(StringUtils.isBlank(group) ? null : Integer.valueOf(group));
             userInfo.setIsGroupLeader(StringUtils.isBlank(groupLeader) ? false : (groupLeader.equals("是") ? true: false));
-            userInfo.setNation(nation);
-            userInfo.setBirthplace(birthplace);
+            userInfo.setNation(StringUtils.isBlank(nation)? "" : nation);
+            userInfo.setBirthplace(StringUtils.isBlank(birthplace)? "" : birthplace);
             userInfo.setLifecycle(1);
             userInfo.setVersion(date);
             userInfo.setRoleId(role.equals("教授")? 2L : 1L);
+            userInfo.setIsMessageBoard(false);
             param.put("userInfo", userInfo);
             
             // 上过的课程

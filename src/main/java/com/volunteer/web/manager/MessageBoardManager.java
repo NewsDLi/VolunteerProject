@@ -8,6 +8,6 @@ public interface MessageBoardManager {
 
 	int insertContent(Long id, String content);
 
-	List<MessageBoardCommand> getAllMessageBoard(Long userId);
+	List<MessageBoardCommand> getAllMessageBoard();
 
 }

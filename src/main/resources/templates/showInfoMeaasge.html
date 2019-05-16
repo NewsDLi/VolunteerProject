@@ -79,6 +79,32 @@ $(function() {
 			confirmSendHoner("razx");
 		}
 	});
+	
+	$('.addStation').click(function(){
+		var station = $('#station').val();
+		if(station == "" && station.length==0){
+			return;
+		}
+		$.confirm({
+			  title: '添加岗位',
+			  text: '确认添加岗位？',
+			  onOK: function () {
+				  //发放勋章
+				  $.ajax({
+						type : "get",
+						url : "/addStation?userId="+$('#userInfoId').val()+"&station="+station,
+						success : function(data) {
+							if (data.message == 'success') {
+								location.href="/getOtherUserInfo?id="+$('#userInfoId').val()
+							}
+						}
+					});
+			  },
+			  onCancel: function () {
+				  return;
+			  }
+			});
+	});
 });
 
 function confirmSendHoner(val){
@@ -135,7 +161,7 @@ function showHoner(){
 .info_message p{
 	text-indent: 2em;
 }
-.info_message input{
+.person_info input{
 	text-indent: 1em;
     border: 1px solid #e1e1e1;
 }
@@ -169,6 +195,10 @@ display: none;
 				<p class="person_info">籍贯：<span th:text="${userInfo.birthplace}"></span></p>
 				<p class="person_info">电话：<span th:text="${userInfo.loginPhone}"></span></p>
 				<p class="person_info">工作岗位：<span th:text="${userInfo.worker}"></span></p>
+				<p class="person_info">兴趣爱好：<span th:text="${userInfo.hobby}"></span></p>
+				<p class="person_info">自我介绍：<span th:text="${userInfo.descption}"></span></p>
+				<p class="person_info" th:if="${userInfo.isGroupLeader}">是否组长：<span>是</span></p>
+				<p class="person_info">角色：<span th:if="${userInfo.roleId eq 1}">义工</span><span th:if="${userInfo.roleId eq 2}">教授</span><span th:if="${userInfo.roleId eq 3}">管理员</span></p>
 			</div>
 			<div class="hidden updateInfo info_message">
 				<h2 class="name"><span th:text="${userInfo.name}"></span></h2>
@@ -199,6 +229,10 @@ display: none;
 					<span th:text="${info.tagName}"></span>:<input class="weui-switch" onclick="return false" type="checkbox" checked="checked">
 					</li>
 				</ul>
+				<div th:if="${showHoner}">
+					<p class="person_info">添加义工岗位：<input id="station" type="text"/></p>
+					<button class="addStation">确认添加</button>
+				</div>
 			</div>
 			<div th:if="${showHoner}" class="person_hoppy person_honer" style="margin-bottom: 30px;">
 				<h2 class="career_title">义工勋章</h2>
@@ -238,6 +272,14 @@ display: none;
 	}
 	.main_info{
 		padding-bottom: 70px;
+	}
+	.addStation{
+	    width: 100%;
+	    border-radius: 10px;
+	    border: 1px solid rgba(0, 0, 0, 0.2);
+	    color: #FFFFFF;
+	    background-color: #1AAD19;
+	    height: 22px;
 	}
 }
 </style>

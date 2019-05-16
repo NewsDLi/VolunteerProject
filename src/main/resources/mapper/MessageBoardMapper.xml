@@ -224,6 +224,5 @@
 	AND 
 	mb.lifecycle = 1
 	ORDER BY id desc
-	LIMIT 10
   </select>
 </mapper>

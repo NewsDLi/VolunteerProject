@@ -48,6 +48,12 @@ public class UserInfoController {
 	@Autowired
 	private UserInfoTagManager userInfoTagManager;
 	
+	/**
+	 * 获取用户信息
+	 * @param request
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/getUserInfo")
 	public String getUserInfo(HttpServletRequest request, Model model){
 		// 用户信息
@@ -183,6 +189,13 @@ public class UserInfoController {
 		return ApiResponse.build(ResponseStatus.SUCCESS, command);
 	}
 	
+	/**
+	 * 获取用户信息
+	 * @param request
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping(value="/getOtherUserInfo",method = RequestMethod.GET)
 	public String getOtherUserInfo(HttpServletRequest request,
 			@RequestParam(value="id", required=true)Long id, Model model){
@@ -236,6 +249,12 @@ public class UserInfoController {
 		return "showInfoMeaasge";
 	}
 	
+	/**
+	 * 组长或者管理员更新用户信息
+	 * @param request
+	 * @param userInfo
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping("/updateUserInfo")
 	public ApiResponse<Boolean> updateUserInfo(HttpServletRequest request, UserInfo userInfo){
@@ -245,6 +264,8 @@ public class UserInfoController {
 		}
 		UserInfo beforeUpdatePersonInfo = userInfoManager.getUserInfoById(userInfo.getId());
 		if ((loginUserInfo.getGroupTeam().equals(beforeUpdatePersonInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(3L)){
+			userInfo.setVersion(new Date());
+			userInfo.setUpdateBy(loginUserInfo.getId());
 			boolean updateUserInfoById = userInfoManager.updateUserInfoById(userInfo);
 			if (updateUserInfoById){
 				return ApiResponse.build(ResponseStatus.SUCCESS, true);
@@ -253,6 +274,12 @@ public class UserInfoController {
 		return ApiResponse.build(ResponseStatus.FAIL, false);
 	}
 	
+	/**
+	 * 查看荣誉勋章
+	 * @param request
+	 * @param userId
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/showPersonHoner",method = RequestMethod.GET)
 	public ApiResponse<Object> showPersonHoner(HttpServletRequest request,
@@ -268,6 +295,13 @@ public class UserInfoController {
 		return ApiResponse.build(ResponseStatus.SUCCESS, tags);
 	}
 	
+	/**
+	 * 发送荣誉勋章
+	 * @param request
+	 * @param userId
+	 * @param honer
+	 * @return
+	 */
 	@ResponseBody
 	@RequestMapping(value="/sendHoner",method = RequestMethod.GET)
 	public ApiResponse<Object> sendHoner(HttpServletRequest request,
@@ -279,10 +313,51 @@ public class UserInfoController {
 		}
 		UserInfoTag infoTag = new UserInfoTag();
 		infoTag.setUserId(userId);
-		infoTag.setType(3);
+		infoTag.setType(CommonConstant.TYPE_MEDAL_WALL);
 		infoTag.setTagName(HonerlEnum.getValue(honer));
 		infoTag.setTagCount(1);
 		int insertUserInfoTag = userInfoTagManager.insertUserInfoTag(infoTag);
+		if(insertUserInfoTag !=1){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		return ApiResponse.build(ResponseStatus.SUCCESS, null);
+	}
+	
+	/**
+	 * 用户自己更新信息
+	 * @param request
+	 * @param userInfo
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/updateBaseUserInfo")
+	public ApiResponse<Object> updateBaseUserInfo(HttpServletRequest request, UserInfo userInfo){
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		userInfo.setId(loginUserInfo.getId());
+		userInfo.setVersion(new Date());
+		userInfo.setUpdateBy(loginUserInfo.getId());
+		boolean updateUserInfoById = userInfoManager.updateUserInfoById(userInfo);
+		if (!updateUserInfoById){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		// 更新session中的userinfo信息
+		UserInfo userInfoById = userInfoManager.getUserInfoById(loginUserInfo.getId());
+		request.getSession().setAttribute(UserConstant.LOGIN_PHONE, userInfoById);
+		return ApiResponse.build(ResponseStatus.SUCCESS, true);
+	}
+	
+	@ResponseBody
+	@RequestMapping("/addStation")
+	public ApiResponse<Object> addStation(HttpServletRequest request,
+			@RequestParam(value="userId", required=true)Long userId,
+			@RequestParam(value="station", required=true)String station){
+		UserInfoTag userInfoTag = new UserInfoTag();
+		userInfoTag.setTagCount(1);
+		userInfoTag.setTagName(station);
+		userInfoTag.setUserId(userId);
+		userInfoTag.setType(CommonConstant.TYPE_POST);
+		
+		int insertUserInfoTag = userInfoTagManager.insertUserInfoTag(userInfoTag);
 		if(insertUserInfoTag !=1){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}

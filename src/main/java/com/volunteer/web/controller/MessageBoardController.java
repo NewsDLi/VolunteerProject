@@ -36,8 +36,11 @@ public class MessageBoardController {
 		if(insertContent != 1){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
-		
-		List<MessageBoardCommand> allMessageBoard = messageBoardManager.getAllMessageBoard(userInfo.getId());
+		// 是否有权限查看留言板
+		List<MessageBoardCommand> allMessageBoard = null;
+		if(userInfo.getIsMessageBoard()){
+			allMessageBoard = getAllMessageBoard();
+		}
 		if(null == allMessageBoard || allMessageBoard.size() == 0){
 			return ApiResponse.build(ResponseStatus.PERMISSION, null);
 		}
@@ -48,10 +51,18 @@ public class MessageBoardController {
 	@RequestMapping(value = "/getAllMessageBoard", method = RequestMethod.GET)
 	public ApiResponse<Object> getAllMessageBoard(HttpServletRequest request){
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		List<MessageBoardCommand> list = messageBoardManager.getAllMessageBoard(userInfo.getId());
-		if(null == list || list.size() == 0){
+		// 是否有权限查看留言板
+		List<MessageBoardCommand> allMessageBoard = null;
+		if(userInfo.getIsMessageBoard()){
+			allMessageBoard = getAllMessageBoard();
+		}
+		if(null == allMessageBoard || allMessageBoard.size() == 0){
 			return ApiResponse.build(ResponseStatus.PERMISSION, null);
 		}
-		return ApiResponse.build(ResponseStatus.SUCCESS, list);
+		return ApiResponse.build(ResponseStatus.SUCCESS, allMessageBoard);
+	}
+	
+	private List<MessageBoardCommand> getAllMessageBoard(){
+		return messageBoardManager.getAllMessageBoard();
 	}
 }

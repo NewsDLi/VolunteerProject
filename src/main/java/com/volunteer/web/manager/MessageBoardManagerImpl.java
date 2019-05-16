@@ -28,9 +28,7 @@ public class MessageBoardManagerImpl implements MessageBoardManager{
 	}
 
 	@Override
-	public List<MessageBoardCommand> getAllMessageBoard(Long userId) {
-		// TODO userId 判断此用户是否有权限查看留言板信息
-		
+	public List<MessageBoardCommand> getAllMessageBoard() {
 		return messageBoardMapper.getAllMessageBoard();
 	}
 }
