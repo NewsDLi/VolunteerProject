@@ -1,6 +1,9 @@
 package com.volunteer.web.controller;
 
 import com.feilong.core.Validator;
+import com.volunteer.model.CommunityArticles;
+import com.volunteer.web.manager.ForumManager;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -8,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * @author NewsDLee
@@ -16,6 +20,10 @@ import javax.servlet.http.HttpServletRequest;
  */
 @Controller
 public class ForwardController {
+
+    @Autowired
+    private ForumManager forumManager;
+
 
     /**
      * 跳转至首页
@@ -114,7 +122,9 @@ public class ForwardController {
      * 社区
      */
     @RequestMapping("/community.htm")
-    public String community() {
+    public String community(HttpServletRequest request) {
+        List<CommunityArticles> communityArticles = forumManager.selectForum(1);
+        request.setAttribute("communityArticles",communityArticles);
         return "community";
     }
 

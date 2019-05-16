@@ -16,4 +16,9 @@ public interface ForumManager {
 	 * 保存论坛信息
 	 */
 	Integer saveFroum(CommunityArticles communityArticles);
+
+	/**
+	 * 保存论坛信息
+	 */
+	List<CommunityArticles> selectForum(Integer type);
 }

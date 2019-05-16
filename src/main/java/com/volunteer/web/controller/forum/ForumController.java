@@ -4,23 +4,19 @@ import com.feilong.core.Validator;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.CommunityArticles;
 import com.volunteer.model.UserInfo;
+import com.volunteer.response.ApiResponse;
+import com.volunteer.response.ResponseStatus;
 import com.volunteer.utils.ImageUtils;
 import com.volunteer.web.manager.ForumManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author yuan.shi
@@ -66,5 +62,18 @@ public class ForumController {
         }
         Integer isSuccess = forumManager.saveFroum(communityArticles);
         return isSuccess.toString();
+    }
+    //富文本上传后台
+    @RequestMapping(value = "/forumList/{type}", method = {RequestMethod.GET})
+    @ResponseBody
+    public ApiResponse<Object> getFormList(HttpServletRequest request, HttpServletResponse response,@PathVariable("type") String type){
+        if(Validator.isNullOrEmpty(type)){
+            type = "1";
+        }
+        List<CommunityArticles> communityArticles = forumManager.selectForum(Integer.parseInt(type));
+        if(Validator.isNullOrEmpty(communityArticles)){
+            return  ApiResponse.build(ResponseStatus.SUCCESS,null);
+        }
+        return ApiResponse.build(ResponseStatus.SUCCESS, communityArticles);
     }
 }

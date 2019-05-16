@@ -1,8 +1,8 @@
-package com.volunteer.model;
+package com.volunteer.web.controller.forum.command;
 
 import java.util.Date;
 
-public class CommunityArticles {
+public class CommunityArticlesCommand {
     /**
      * 生命周期初始状态
      */
@@ -32,7 +32,7 @@ public class CommunityArticles {
 
     private String title;
 
-    private Date publicationTime;
+    private String publicationTime;
 
     private String subheading;
 
@@ -60,11 +60,11 @@ public class CommunityArticles {
         this.title = title == null ? null : title.trim();
     }
 
-    public Date getPublicationTime() {
+    public String getPublicationTime() {
         return publicationTime;
     }
 
-    public void setPublicationTime(Date publicationTime) {
+    public void setPublicationTime(String publicationTime) {
         this.publicationTime = publicationTime;
     }
 
