@@ -6,8 +6,8 @@
           content="width=device-width,initial-scale=1,user-scalable=0">
     <title>Summernote</title>
     <link href="http://netdna.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/weui.css" />
-    <link rel="stylesheet" href="css/weuix.css" />
+    <link rel="stylesheet" href="css/weui.css">
+    <link rel="stylesheet" href="css/weuix.css">
     <link rel="stylesheet" href="css/example.css" />
     <script src="js/zepto.min.js"></script>
     <script src="js/zepto.weui.js"></script>
@@ -17,12 +17,25 @@
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/summernote.js"></script>
     <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.11/lang/summernote-zh-CN.js"></script>
     <script>
-        $(function(){
+    /* 支持
+     $("input").select("update", { items: ["法官", "猎人"] })
+     $("input").select("open")
+     $("input").select("close")*/
+    $("#job").select({
+        title: "发布的类型",
+        items: ['柳岩','赵丽颖','杨颖','苍井空'],
+        onChange: function(d) {
+            console.log(this, d);
+        },
+        onClose: function() {
+            console.log("close");
+        },
+        onOpen: function() {
+            console.log("open");
+        }
+    });
 
-
-        });
-
-    </script>
+</script>
 </head>
 <body ontouchstart>
 <!--标题-->
@@ -46,37 +59,18 @@
 
 
 <div class="weui-cells weui-cells_form" style="margin-top: 0px;">
-<div class="weui-cell">
-    <div class="weui-cell__hd"><label for="job" class="weui-label">发布类型</label></div>
-    <div class="weui-cell__bd">
-        <input class="weui-input" id="job" type="text" value="" readonly="">
+    <div class="weui-cell">
+        <div class="weui-cell__hd"><label for="job" class="weui-label">发布类型</label></div>
+        <div class="weui-cell__bd">
+            <input class="weui-input" id="job" type="text" value="" readonly="">
+        </div>
     </div>
-</div>
 </div>
 
 <div id="summernote">   </div>
 <a href="javascript:;" class="weui-btn weui-btn_primary">保存</a>
 <div th:include="tabbar::pagination"></div>
 <script src="js/editor.js"></script>
-<script>
-    /* 支持
-     $("input").select("update", { items: ["法官", "猎人"] })
-     $("input").select("open")
-     $("input").select("close")*/
-    $("#job").select({
-        title: "发布的类型",
-        items: ['柳岩','赵丽颖','杨颖','苍井空'],
-        onChange: function(d) {
-            console.log(this, d);
-        },
-        onClose: function() {
-            console.log("close");
-        },
-        onOpen: function() {
-            console.log("open");
-        }
-    });
 
-</script>
 </body>
 </html>
