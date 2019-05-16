@@ -27,6 +27,63 @@ $(function() {
 		$('.show').css('display','block');
 		$('.person_honer').css('display','block');
 	})
+	
+	/** 添加权限 */
+	$('.addRole').click(function(){
+		var groupLeader = $('#job').attr('data-values');
+		if ('undefined' == typeof groupLeader){
+			groupLeader = '';
+	 	}
+		var role = $('#mobile').attr('data-values');
+		if ('undefined' == typeof role){
+			role = '';
+	 	}
+		if (role=='' && groupLeader==''){
+			return;
+		}
+		$.confirm({
+			  title: '添加权限',
+			  text: '确认添加权限？',
+			  onOK: function () {
+				  //发放勋章
+				  $.ajax({
+						type : "get",
+						url : "/updateRole?userId="+$('#userInfoId').val()+"&groupLeader="+groupLeader + "&role="+role,
+						success : function(data) {
+							if (data.message == 'success') {
+								location.href="/getOtherUserInfo?id="+$('#userInfoId').val()
+							}
+						}
+					});
+			  },
+			  onCancel: function () {
+				  return;
+			  }
+			});
+	});
+	$('.removePerson').click(function(){
+		$.confirm({
+			  title: '删除用户',
+			  text: '确认删除该用户？',
+			  onOK: function () {
+				  //发放勋章
+				  $.ajax({
+						type : "get",
+						url : "/removeUser?userId="+$('#userInfoId').val(),
+						success : function(data) {
+							if (data.message == 'success') {
+								location.href="/admin"
+							}else{
+								// TODO 删除失败要有提示
+							}
+						}
+					});
+			  },
+			  onCancel: function () {
+				  return;
+			  }
+			});
+	});
 	$('.updateUserInfo').click(function(){
 		var sex = 0;
 		if($('#sex').val() == "女"){
@@ -210,6 +267,7 @@ display: none;
 			</div>
 			<a href="javascript:;" class="hidden updateUserInfo weui-btn weui-btn_mini weui-btn_primary">确认修改</a>
 			<a href="javascript:;" class="hidden cancleUpdate weui-btn weui-btn_mini weui-btn_primary">取消修改</a>
+			<a th:if="${isCanUpdate}" href="javascript:;" class="show toUpdateUserInfo weui-btn weui-btn_mini weui-btn_primary">修改用户信息</a>
 			<div class="show person_hoppy">
 				<h2 class="career_title">义工生涯</h2>
 				<p class="career_count">
@@ -231,8 +289,26 @@ display: none;
 				</ul>
 				<div th:if="${showHoner}">
 					<p class="person_info">添加义工岗位：<input id="station" type="text"/></p>
-					<button class="addStation">确认添加</button>
+					<button class="addButton addStation">确认添加</button>
 				</div>
+			</div>
+			<div th:if="${showHoner}" class="show person_hoppy">
+				<h2 class="career_title">权限设置</h2>
+				<div class="weui-cells weui-cells_form">
+				    <div class="weui-cell">
+				        <div class="weui-cell__hd"><label for="job" class="weui-label">组长</label></div>
+				        <div class="weui-cell__bd">
+				            <input class="weui-input" id="job" type="text" value="" readonly="">
+				        </div>
+				    </div>
+				    <div class="weui-cell">
+				        <div class="weui-cell__hd"><label for="mobile" class="weui-label">角色</label></div>
+				        <div class="weui-cell__bd">
+				            <input class="weui-input" id="mobile" type="text" value="" readonly="">
+				        </div>
+				    </div>
+				</div>
+				<button class="addButton addRole">确认添加权限</button>
 			</div>
 			<div th:if="${showHoner}" class="person_hoppy person_honer" style="margin-bottom: 30px;">
 				<h2 class="career_title">义工勋章</h2>
@@ -247,11 +323,43 @@ display: none;
 					<li><img class="razx" src="images/graystar.png" width="100px;" alt="仁爱之心" /><p style="text-indent: 0;">仁爱之心</p></li>
 				</ul>
 			</div>
-			<a th:if="${isCanUpdate}" href="javascript:;" class="show toUpdateUserInfo weui-btn weui-btn_mini weui-btn_primary">修改用户信息</a>
+			<button th:if="${showHoner}" class="addButton removePerson">删除该用户</button>
 		</div>
 		<div th:include="tabbar::pagination"></div>
 	</div>
 </body>
+<script>
+ $("#job").select({
+     title: "设置组长",
+     items: [
+         {
+             title: "任命组长",
+             value: "true",
+         },
+         {
+             title: "撤销组长",
+             value: "false",
+         }
+     ]
+ });
+ $("#mobile").select({
+     title: "设置角色",
+     items: [
+         {
+             title: "义工角色",
+             value: "1",
+         },
+         {
+             title: "教授角色",
+             value: "2",
+         },
+         {
+             title: "管理员角色",
+             value: "3",
+         }
+     ]
+ });
+</script>
 <style>
 @media {
 	.honer{
@@ -273,7 +381,7 @@ display: none;
 	.main_info{
 		padding-bottom: 70px;
 	}
-	.addStation{
+	.addButton{
 	    width: 100%;
 	    border-radius: 10px;
 	    border: 1px solid rgba(0, 0, 0, 0.2);

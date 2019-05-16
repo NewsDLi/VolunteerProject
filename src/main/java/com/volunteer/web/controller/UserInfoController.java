@@ -351,6 +351,12 @@ public class UserInfoController {
 	public ApiResponse<Object> addStation(HttpServletRequest request,
 			@RequestParam(value="userId", required=true)Long userId,
 			@RequestParam(value="station", required=true)String station){
+		// 判断是否管理员
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		if (loginUserInfo.getRoleId() != 3L) {
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		
 		UserInfoTag userInfoTag = new UserInfoTag();
 		userInfoTag.setTagCount(1);
 		userInfoTag.setTagName(station);
@@ -359,6 +365,67 @@ public class UserInfoController {
 		
 		int insertUserInfoTag = userInfoTagManager.insertUserInfoTag(userInfoTag);
 		if(insertUserInfoTag !=1){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		return ApiResponse.build(ResponseStatus.SUCCESS, null);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/updateRole",method = RequestMethod.GET)
+	public ApiResponse<Object> addRole(HttpServletRequest request,
+			@RequestParam(value="userId", required=true)Long userId,
+			@RequestParam(value="groupLeader", required=true)String groupLeader,
+			@RequestParam(value="role", required=true)String role){
+		// 判断是否管理员
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		if (loginUserInfo.getRoleId() != 3L) {
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		Boolean leader = null;
+		Long roleId = null;
+		if(StringUtils.isNotBlank(groupLeader)){
+			if("true".equals(groupLeader)){
+				leader = true;
+			}
+			if("false".equals(groupLeader)){
+				leader = false;
+			}
+		}
+		if (StringUtils.isNotBlank(role)){
+			roleId = Long.parseLong(role);
+		}
+		if (roleId!=null){
+			loginUserInfo.setRoleId(roleId);
+		}
+		if (leader != null){
+			loginUserInfo.setIsGroupLeader(leader);
+		}
+		loginUserInfo.setVersion(new Date());
+		loginUserInfo.setUpdateBy(loginUserInfo.getId());
+		boolean updateUserInfoById = userInfoManager.updateUserInfoById(loginUserInfo);
+		if (!updateUserInfoById){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		// 更新session中的userinfo信息
+		UserInfo userInfoById = userInfoManager.getUserInfoById(loginUserInfo.getId());
+		request.getSession().setAttribute(UserConstant.LOGIN_PHONE, userInfoById);
+		return ApiResponse.build(ResponseStatus.SUCCESS, true);
+	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/removeUser",method = RequestMethod.GET)
+	public ApiResponse<Object> removeUser(HttpServletRequest request,
+			@RequestParam(value="userId", required=true)Long userId){
+		// 判断是否管理员,自己不能删除自己
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		if (loginUserInfo.getRoleId() != 3L || userId.equals(loginUserInfo.getId())) {
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		UserInfo updateUser = new UserInfo();
+		updateUser.setLifecycle(0);
+		updateUser.setId(userId);
+		boolean updateUserInfoById = userInfoManager.updateUserInfoById(updateUser);
+		if (!updateUserInfoById){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
 		return ApiResponse.build(ResponseStatus.SUCCESS, null);

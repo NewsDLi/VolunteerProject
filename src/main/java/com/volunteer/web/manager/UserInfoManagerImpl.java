@@ -116,7 +116,7 @@ public class UserInfoManagerImpl implements UserInfoManager{
 	@Override
 	public UserInfo getUserInfoById(Long id) {
 		UserInfoExample userInfoExample = new UserInfoExample();
-		userInfoExample.createCriteria().andIdEqualTo(id);
+		userInfoExample.createCriteria().andIdEqualTo(id).andLifecycleEqualTo(1);
 		return userInfoMapper.selectByExample(userInfoExample).get(0);
 	}
 
