@@ -57,15 +57,34 @@
 
 }
     $(".weui-btn_primary").click(function(){
-      var html = $(".note-editable").html();
-      $.ajax({
+        var html = $(".note-editable").html();
+        if(isNull(html)) $.toast("内容不能为空", "forbidden");
+        var zheng = $("#zheng").val();
+        if(isNull(zheng)) $.toast("请填写标题", "forbidden");
+        var fu = $("#fu").val();
+        var type = $("#job").attr("data-values");
+        if(isNull(type)) $.toast("请选择发布类型", "forbidden");
+        $.ajax({
               url: "/uploadEditor",
               data: {
-      data:html
+                  'heading':fu,
+                  'type':type,
+                  'title':zheng,
+                  'data':html
       },
               type: 'POST',
               success: function (data) {
-              
+              if(data == 1){
+
+              }else{
+          $.toast("禁止操作", "forbidden");
+              }
       }
           });
     });
+
+    function isNull(str){
+        var regu = "^[ ]+$";
+        var re = new RegExp(regu);
+        return re.test(str);
+        };

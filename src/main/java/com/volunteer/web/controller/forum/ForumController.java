@@ -52,7 +52,7 @@ public class ForumController {
     //富文本上传后台
     @RequestMapping(value = "/uploadEditor", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public String uploadEditor(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "heading",required=false) String heading,@RequestParam("type") Integer type,@RequestParam("title") String title , @RequestParam("data") String data){
+    public String uploadEditor(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "heading",required=false) String heading,@RequestParam("type") String type,@RequestParam("title") String title , @RequestParam("data") String data){
         UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
         CommunityArticles communityArticles = new CommunityArticles();
         communityArticles.setContent(data);
@@ -60,7 +60,7 @@ public class ForumController {
         communityArticles.setTitle(title);
         communityArticles.setPublicationTime(new Date());
         communityArticles.setLifecycle(CommunityArticles.START_LIFECYCLE);
-        communityArticles.setType(type);
+        communityArticles.setType(Integer.parseInt(type));
         if(Validator.isNotNullOrEmpty(heading)){
             communityArticles.setSubheading(heading);
         }
