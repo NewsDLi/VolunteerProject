@@ -208,4 +208,7 @@
       type = #{type,jdbcType=INTEGER}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  <update id="tagCountPlusOne" parameterType="java.lang.Long">
+  	update user_info_tag set tag_count = tag_count + 1 where id = #{value}
+  </update>
 </mapper>

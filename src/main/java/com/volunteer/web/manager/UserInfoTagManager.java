@@ -11,4 +11,6 @@ public interface UserInfoTagManager {
 	List<UserInfoTag> getUserCareer(Long id);
 
 	List<UserInfoTag> getMyHoner(Long id);
+
+	void tagCountPlusOne(Long id);
 }

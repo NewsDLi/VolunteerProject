@@ -38,7 +38,11 @@ $(function() {
 		if ('undefined' == typeof role){
 			role = '';
 	 	}
-		if (role=='' && groupLeader==''){
+		var messageboard = $('#message_board').attr('data-values');
+		if ('undefined' == typeof messageboard){
+			messageboard = '';
+	 	}
+		if (role=='' && groupLeader==''&& messageboard==''){
 			return;
 		}
 		$.confirm({
@@ -48,10 +52,13 @@ $(function() {
 				  //发放勋章
 				  $.ajax({
 						type : "get",
-						url : "/updateRole?userId="+$('#userInfoId').val()+"&groupLeader="+groupLeader + "&role="+role,
+						url : "/updateRole?userId="+$('#userInfoId').val()+"&groupLeader="+groupLeader + "&role="+role+"&messageboard="+messageboard,
 						success : function(data) {
 							if (data.message == 'success') {
-								location.href="/getOtherUserInfo?id="+$('#userInfoId').val()
+								$.toast("操作成功");
+								setTimeout(function(){
+									location.href="/getOtherUserInfo?id="+$('#userInfoId').val();
+								},2000);
 							}
 						}
 					});
@@ -72,9 +79,13 @@ $(function() {
 						url : "/removeUser?userId="+$('#userInfoId').val(),
 						success : function(data) {
 							if (data.message == 'success') {
-								location.href="/admin"
+								$.toast("操作成功");
+								setTimeout(function(){
+									location.href="/admin";
+								},2000);
+								
 							}else{
-								// TODO 删除失败要有提示
+								$.toast("操作失败！");
 							}
 						}
 					});
@@ -96,7 +107,10 @@ $(function() {
 			data : "id=" + $('#userInfoId').val() +"&sex="+ sex +"&nation="+ $('#nation').val() +"&birthplace=" + $('#birthplace').val()+"&loginPhone="+$('#loginPhone').val()+"&worker="+$('#worker').val(),
 			success : function(data) {
 				if(data.data){
-					location.href="/getOtherUserInfo?id="+$('#userInfoId').val()
+					$.toast("操作成功");
+					setTimeout(function(){
+						location.href="/getOtherUserInfo?id="+$('#userInfoId').val();
+					},2000);
 				}
 				if(!data.data){
 					Toast("操作失败",2000);
@@ -152,7 +166,10 @@ $(function() {
 						url : "/addStation?userId="+$('#userInfoId').val()+"&station="+station,
 						success : function(data) {
 							if (data.message == 'success') {
-								location.href="/getOtherUserInfo?id="+$('#userInfoId').val()
+								$.toast("操作成功");
+								setTimeout(function(){
+									location.href="/getOtherUserInfo?id="+$('#userInfoId').val();
+								},2000);
 							}
 						}
 					});
@@ -176,6 +193,7 @@ function confirmSendHoner(val){
 					success : function(data) {
 						if (data.message == 'success') {
 							$('.' + val).attr('src','images/star.png');
+							$.toast("操作成功");
 						}
 					}
 				});
@@ -212,6 +230,32 @@ function showHoner(){
 			}
 		}
 	});
+}
+function plusOne(id){
+	$.confirm({
+		  title: '添加期数',
+		  text: '确认添加该期数？',
+		  onOK: function () {
+			  //发放勋章
+			  $.ajax({
+					type : "get",
+					url : "/plusOne?id="+id,
+					success : function(data) {
+						if (data.message == 'success') {
+							$.toast("操作成功");
+							setTimeout(function(){
+								location.href="/getOtherUserInfo?id="+$('#userInfoId').val();
+							},2000);
+						}else{
+							$.toast("操作失败！");
+						}
+					}
+				});
+		  },
+		  onCancel: function () {
+			  return;
+		  }
+		});
 }
 </script>
 <style>
@@ -255,6 +299,7 @@ display: none;
 				<p class="person_info">兴趣爱好：<span th:text="${userInfo.hobby}"></span></p>
 				<p class="person_info">自我介绍：<span th:text="${userInfo.descption}"></span></p>
 				<p class="person_info" th:if="${userInfo.isGroupLeader}">是否组长：<span>是</span></p>
+				<p class="person_info" th:if="${userInfo.isMessageBoard}">是否可查留言板：<span>是</span></p>
 				<p class="person_info">角色：<span th:if="${userInfo.roleId eq 1}">义工</span><span th:if="${userInfo.roleId eq 2}">教授</span><span th:if="${userInfo.roleId eq 3}">管理员</span></p>
 			</div>
 			<div class="hidden updateInfo info_message">
@@ -274,11 +319,15 @@ display: none;
 					义工总期数：<span th:text="${count}"></span>
 				</p>
 				<ul class="person_career">
-					<li th:each="info,infoStat : ${havingClass}"><span th:text="${info.tagName}"></span>:<span th:text="${info.tagCount}"></span></li>
+					<li th:each="info,infoStat : ${havingClass}">
+					<span th:text="${info.tagName}"></span>:
+					<span th:text="${info.tagCount}"></span>
+					<span class="plusOne" th:onclick="'javascript:plusOne(\''+${info.id}+'\')'">+1</span>
+					</li>
 				</ul>
-				<p class="person_first_career">
+				<!-- <p class="person_first_career">
 					首次做义工时间：<span>2018年2月7号</span>
-				</p>
+				</p> -->
 			</div>
 			<div class="show person_hoppy">
 				<h2 class="career_title">义工岗位</h2>
@@ -296,15 +345,21 @@ display: none;
 				<h2 class="career_title">权限设置</h2>
 				<div class="weui-cells weui-cells_form">
 				    <div class="weui-cell">
-				        <div class="weui-cell__hd"><label for="job" class="weui-label">组长</label></div>
+				        <div class="weui-cell__hd"><label for="job" class="weui-label">组长权限</label></div>
 				        <div class="weui-cell__bd">
 				            <input class="weui-input" id="job" type="text" value="" readonly="">
 				        </div>
 				    </div>
 				    <div class="weui-cell">
-				        <div class="weui-cell__hd"><label for="mobile" class="weui-label">角色</label></div>
+				        <div class="weui-cell__hd"><label for="mobile" class="weui-label">角色权限</label></div>
 				        <div class="weui-cell__bd">
 				            <input class="weui-input" id="mobile" type="text" value="" readonly="">
+				        </div>
+				    </div>
+				    <div class="weui-cell">
+				        <div class="weui-cell__hd"><label for="message_board" class="weui-label">留言板权限</label></div>
+				        <div class="weui-cell__bd">
+				            <input class="weui-input" id="message_board" type="text" value="" readonly="">
 				        </div>
 				    </div>
 				</div>
@@ -323,7 +378,7 @@ display: none;
 					<li><img class="razx" src="images/graystar.png" width="100px;" alt="仁爱之心" /><p style="text-indent: 0;">仁爱之心</p></li>
 				</ul>
 			</div>
-			<button th:if="${showHoner}" class="addButton removePerson">删除该用户</button>
+			<button th:if="${showHoner}" class="show addButton removePerson">删除该用户</button>
 		</div>
 		<div th:include="tabbar::pagination"></div>
 	</div>
@@ -359,6 +414,19 @@ display: none;
          }
      ]
  });
+ $("#message_board").select({
+     title: "留言板权限",
+     items: [
+         {
+             title: "可查看信息",
+             value: "true",
+         },
+         {
+             title: "不可查看信息",
+             value: "false",
+         }
+     ]
+ });
 </script>
 <style>
 @media {
@@ -388,6 +456,15 @@ display: none;
 	    color: #FFFFFF;
 	    background-color: #1AAD19;
 	    height: 22px;
+	}
+	.plusOne{
+	    background: #1AAD19;
+	    padding: 0 0px;
+	    border-radius: 16px;
+	    color: #FFFFFF;
+	    padding: 0px 5px;
+	    float: right;
+	    cursor: pointer;
 	}
 }
 </style>

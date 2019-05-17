@@ -38,7 +38,7 @@
 		width: 40%;
 		padding-top: 5px;
 		padding-bottom: 5px;
-		padding-left: 10%;
+		padding-left: 5%;
 	}
 	.person_career:after {
 		content: "";
@@ -51,7 +51,7 @@
 		padding-top: 5px;
 	}
 	.career_count{
-		padding-left: 10%;
+		padding-left: 5%;
 	}
 	.weui-switch:checked, .weui-switch-cp__input:checked,
 		.weui-switch-cp__box {
