@@ -1,4 +1,8 @@
 $(function(){
+$(".link").click(function(){
+        var id = $(".hidden").val();
+		location.href = "/forum.htm/"+id;
+});
 $(".type1").click(function(){
 	if($(".type1").hasClass("bg-green")){
               $.toast("已经在此页面", "text");
@@ -49,7 +53,7 @@ var list = data.data;
 var html = "";
         $(".lists").empty();
         for (var i=0; i<list.length; i++){
-         html = "<a href='/'><li class='weui-news-item'><div class='weui-news-inners'><!--标题--><div class='weui-news-title'>"+list[i].title+"</div><!--副标题--><p class='weui-news-p'>"+list[i].subheading+"</p><div class='weui-news-info'><!--时间--><div class='weui-news-infoitem'>"+list[i].publicationTime+"</div><input type='hidden' value='"+list[i].id+"'></div></div></li></a>";
+         html = "<a href='/'><li class='weui-news-item'><div class='weui-news-inners'><!--标题--><div class='weui-news-title'>"+list[i].title+"</div><!--副标题--><p class='weui-news-p'>"+list[i].subheading+"</p><div class='weui-news-info'><!--时间--><div class='weui-news-infoitem'>"+list[i].publicationTime+"</div><input class='hidden' type='hidden' value='"+list[i].id+"'></div></div></li></a>";
         $(".lists").append(html);
           }
 }

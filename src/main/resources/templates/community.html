@@ -38,7 +38,7 @@
 
 <div class="weui-news">
 	<ul class="weui-news-list lists" id="lists">
-		<a href="/" th:each="communityArticle,communityArticleStart : ${communityArticles}">
+		<a href="" class="link" th:each="communityArticle,communityArticleStart : ${communityArticles}">
 		<li class="weui-news-item">
 			<div class="weui-news-inners">
 				<!--标题-->
@@ -49,7 +49,7 @@
 					<!--时间-->
 					<div class="weui-news-infoitem" th:text="${communityArticle.publicationTime}"></div>
 
-					<input type="hidden" value="th:text='${communityArticle.id}'">
+					<input class="hidden" type="hidden" th:value="${communityArticle.id}">
 				</div>
 			</div>
 		</li>
