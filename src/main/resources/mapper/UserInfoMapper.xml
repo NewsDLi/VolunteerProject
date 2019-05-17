@@ -388,6 +388,9 @@
 			<if test="nation != null">
 				nation = #{nation,jdbcType=VARCHAR},
 			</if>
+			<if test="isMessageBoard != null">
+				is_message_board = #{isMessageBoard,jdbcType=BIT},
+			</if>
 		</set>
 		where id = #{id,jdbcType=BIGINT}
 	</update>

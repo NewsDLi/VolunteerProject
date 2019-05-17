@@ -152,7 +152,11 @@ public class UserInfoController {
 		}
 		if(StringUtils.isNotBlank(group)){
 			// 权限是普通义工的话只能查看本组
-			groupteam = (userInfo.getRoleId().equals(1L))?1:Integer.parseInt(group);
+			if (userInfo.getRoleId().equals(1L)){
+				groupteam = userInfo.getGroupTeam();
+			}else{
+				groupteam = Integer.parseInt(group);
+			}
 		}
 		Long roles = null;
 		if(StringUtils.isNotBlank(role)){
@@ -375,14 +379,17 @@ public class UserInfoController {
 	public ApiResponse<Object> addRole(HttpServletRequest request,
 			@RequestParam(value="userId", required=true)Long userId,
 			@RequestParam(value="groupLeader", required=true)String groupLeader,
-			@RequestParam(value="role", required=true)String role){
+			@RequestParam(value="role", required=true)String role,
+			@RequestParam(value="messageboard", required=true)String messageboard){
 		// 判断是否管理员
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (loginUserInfo.getRoleId() != 3L) {
+		// 不是管理员的不能修改，不同修改自己一些的信息
+		if (loginUserInfo.getRoleId() != 3L || loginUserInfo.getId().equals(userId)) {
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
 		Boolean leader = null;
 		Long roleId = null;
+		Boolean message = null;
 		if(StringUtils.isNotBlank(groupLeader)){
 			if("true".equals(groupLeader)){
 				leader = true;
@@ -391,24 +398,38 @@ public class UserInfoController {
 				leader = false;
 			}
 		}
+		if(StringUtils.isNotBlank(messageboard)){
+			if("true".equals(messageboard)){
+				message = true;
+			}
+			if("false".equals(messageboard)){
+				message = false;
+			}
+		}
+		
+		UserInfo updateUserInfo = new UserInfo();
 		if (StringUtils.isNotBlank(role)){
 			roleId = Long.parseLong(role);
 		}
 		if (roleId!=null){
-			loginUserInfo.setRoleId(roleId);
+			updateUserInfo.setRoleId(roleId);
 		}
 		if (leader != null){
-			loginUserInfo.setIsGroupLeader(leader);
+			updateUserInfo.setIsGroupLeader(leader);
 		}
-		loginUserInfo.setVersion(new Date());
-		loginUserInfo.setUpdateBy(loginUserInfo.getId());
-		boolean updateUserInfoById = userInfoManager.updateUserInfoById(loginUserInfo);
+		if (message != null){
+			updateUserInfo.setIsMessageBoard(message);
+		}
+		if (message == null && leader==null && roleId==null){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		updateUserInfo.setId(userId);
+		updateUserInfo.setVersion(new Date());
+		updateUserInfo.setUpdateBy(loginUserInfo.getId());
+		boolean updateUserInfoById = userInfoManager.updateUserInfoById(updateUserInfo);
 		if (!updateUserInfoById){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
-		// 更新session中的userinfo信息
-		UserInfo userInfoById = userInfoManager.getUserInfoById(loginUserInfo.getId());
-		request.getSession().setAttribute(UserConstant.LOGIN_PHONE, userInfoById);
 		return ApiResponse.build(ResponseStatus.SUCCESS, true);
 	}
 	
