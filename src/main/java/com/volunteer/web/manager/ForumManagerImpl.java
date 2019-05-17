@@ -35,12 +35,6 @@ public class ForumManagerImpl implements ForumManager{
 		communityArticlesExample.createCriteria().andTypeEqualTo(type);
 		communityArticlesExample.setOrderByClause("publication_time desc");
 		List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
-		List<CommunityArticles> communityArticlesList = new ArrayList<>();
-		for(CommunityArticles communityArticle : communityArticles){
-			communityArticle.getPublicationTime();
-			SimpleDateFormat dateFm = new SimpleDateFormat(DatePattern.CHINESE_DATE_AND_TIME);
-			String format = dateFm.format(communityArticle.getPublicationTime());
-		}
 		return communityArticles;
 	}
 }

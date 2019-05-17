@@ -7,6 +7,6 @@ $(function(){
 		location.href = "/mypage";
 	})
 	$('.community').click(function(){
-		location.href = "/forumList/";
+		location.href = "/community.htm";
 	})
 })

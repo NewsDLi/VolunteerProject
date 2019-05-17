@@ -63,7 +63,7 @@ public class ForumController {
         Integer isSuccess = forumManager.saveFroum(communityArticles);
         return isSuccess.toString();
     }
-    //富文本上传后台
+    //获取列表
     @RequestMapping(value = "/forumList/{type}", method = {RequestMethod.GET})
     @ResponseBody
     public ApiResponse<Object> getFormList(HttpServletRequest request, HttpServletResponse response,@PathVariable("type") String type){
@@ -72,7 +72,7 @@ public class ForumController {
         }
         List<CommunityArticles> communityArticles = forumManager.selectForum(Integer.parseInt(type));
         if(Validator.isNullOrEmpty(communityArticles)){
-            return  ApiResponse.build(ResponseStatus.SUCCESS,null);
+            return  ApiResponse.build(ResponseStatus.FAIL,null);
         }
         return ApiResponse.build(ResponseStatus.SUCCESS, communityArticles);
     }

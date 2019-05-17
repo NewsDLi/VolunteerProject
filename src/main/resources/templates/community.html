@@ -21,19 +21,12 @@
 	<script src="js/zepto.min.js"></script>
 	<script src="js/zepto.weui.js"></script>
 	<script src="js/iscroll-lite.js"></script>
-	<script>
-        $(function(){
-
-            $('#t5').tab({defaultIndex:2,activeClass:"bg-red"});
-
-        })
-
-    </script>
+	<script src="js/community.js"></script>
 </head>
 <body ontouchstart="" class="page-bg">
 <div class="weui-tab" style="height:35px;" id="t5">
 	<div class="weui-tab-nav">
-		<a href="javascript:" class="weui-navbar__item weui-nav-green type1 bg-red"> 义工心得 </a>
+		<a href="javascript:" class="weui-navbar__item weui-nav-green type1 bg-green"> 义工心得 </a>
 		<a href="javascript:" class="weui-navbar__item weui-nav-green type2"> 国学经典 </a>
 		<a href="javascript:" class="weui-navbar__item weui-nav-green type3"> 曲艺杂谈 </a>
 		<a href="javascript:" class="weui-navbar__item weui-nav-green type4"> 诗词歌赋 </a>
@@ -44,8 +37,8 @@
 
 
 <div class="weui-news">
-	<ul class="weui-news-list" th:each="communityArticle,communityArticleStart : ${communityArticles}" >
-		<a href="/">
+	<ul class="weui-news-list lists" id="lists">
+		<a href="/" th:each="communityArticle,communityArticleStart : ${communityArticles}">
 		<li class="weui-news-item">
 			<div class="weui-news-inners">
 				<!--标题-->
