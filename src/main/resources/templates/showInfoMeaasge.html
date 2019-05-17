@@ -231,6 +231,32 @@ function showHoner(){
 		}
 	});
 }
+function plusOne(id){
+	$.confirm({
+		  title: '添加期数',
+		  text: '确认添加该期数？',
+		  onOK: function () {
+			  //发放勋章
+			  $.ajax({
+					type : "get",
+					url : "/plusOne?id="+id,
+					success : function(data) {
+						if (data.message == 'success') {
+							$.toast("操作成功");
+							setTimeout(function(){
+								location.href="/getOtherUserInfo?id="+$('#userInfoId').val();
+							},2000);
+						}else{
+							$.toast("操作失败！");
+						}
+					}
+				});
+		  },
+		  onCancel: function () {
+			  return;
+		  }
+		});
+}
 </script>
 <style>
 .info_message p{
@@ -293,11 +319,15 @@ display: none;
 					义工总期数：<span th:text="${count}"></span>
 				</p>
 				<ul class="person_career">
-					<li th:each="info,infoStat : ${havingClass}"><span th:text="${info.tagName}"></span>:<span th:text="${info.tagCount}"></span></li>
+					<li th:each="info,infoStat : ${havingClass}">
+					<span th:text="${info.tagName}"></span>:
+					<span th:text="${info.tagCount}"></span>
+					<span class="plusOne" th:onclick="'javascript:plusOne(\''+${info.id}+'\')'">+1</span>
+					</li>
 				</ul>
-				<p class="person_first_career">
+				<!-- <p class="person_first_career">
 					首次做义工时间：<span>2018年2月7号</span>
-				</p>
+				</p> -->
 			</div>
 			<div class="show person_hoppy">
 				<h2 class="career_title">义工岗位</h2>
@@ -426,6 +456,15 @@ display: none;
 	    color: #FFFFFF;
 	    background-color: #1AAD19;
 	    height: 22px;
+	}
+	.plusOne{
+	    background: #1AAD19;
+	    padding: 0 0px;
+	    border-radius: 16px;
+	    color: #FFFFFF;
+	    padding: 0px 5px;
+	    float: right;
+	    cursor: pointer;
 	}
 }
 </style>

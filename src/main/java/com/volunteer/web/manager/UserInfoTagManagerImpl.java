@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.volunteer.constant.CommonConstant;
 import com.volunteer.model.UserInfoTag;
@@ -11,6 +12,7 @@ import com.volunteer.model.UserInfoTagExample;
 import com.volunteer.web.dao.UserInfoTagMapper;
 
 @Service
+@Transactional
 public class UserInfoTagManagerImpl implements UserInfoTagManager{
 
 	@Autowired
@@ -34,6 +36,11 @@ public class UserInfoTagManagerImpl implements UserInfoTagManager{
 		UserInfoTagExample example = new UserInfoTagExample();
 		example.createCriteria().andTypeEqualTo(CommonConstant.TYPE_MEDAL_WALL).andUserIdEqualTo(id);
 		return userInfoTagMapper.selectByExample(example);
+	}
+
+	@Override
+	public void tagCountPlusOne(Long id) {
+		userInfoTagMapper.tagCountPlusOne(id);
 	}
 
 }

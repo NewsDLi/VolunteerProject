@@ -27,4 +27,6 @@ public interface UserInfoTagMapper {
     int updateByPrimaryKeySelective(UserInfoTag record);
 
     int updateByPrimaryKey(UserInfoTag record);
+
+	void tagCountPlusOne(Long id);
 }
