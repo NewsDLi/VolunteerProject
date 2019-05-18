@@ -45,4 +45,9 @@ public class ForumManagerImpl implements ForumManager{
 		List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
 		return communityArticles;
 	}
+
+	@Override
+	public List<ArticleMessageBoard> selectArticleList(Long id) {
+		return null;
+	}
 }

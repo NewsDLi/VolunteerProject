@@ -87,7 +87,7 @@
               type: 'POST',
               success: function (data) {
               if(data == 1){
-                history.go(-1);
+                history.back(-1);
               }else{
                 $.toast("禁止操作", "forbidden");
               }

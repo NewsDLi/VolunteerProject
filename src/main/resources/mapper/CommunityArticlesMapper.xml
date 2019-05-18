@@ -9,6 +9,7 @@
     <result column="author" property="author" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="lifecycle" property="lifecycle" jdbcType="INTEGER" />
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.volunteer.model.CommunityArticles" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -72,7 +73,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, title, publication_time, subheading, author, type, lifecycle
+    id, title, publication_time, subheading, author, type, lifecycle,content
   </sql>
   <sql id="Blob_Column_List" >
     content

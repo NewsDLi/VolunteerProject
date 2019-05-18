@@ -1,5 +1,6 @@
 package com.volunteer.web.manager;
 
+import com.volunteer.model.ArticleMessageBoard;
 import com.volunteer.model.CommunityArticles;
 import com.volunteer.model.UserPower;
 
@@ -26,4 +27,8 @@ public interface ForumManager {
 	 * 查询论坛内容
 	 */
 	List<CommunityArticles> selectForumText(Long id);
+	/**
+	 * 查询留言内容
+	 */
+	List<ArticleMessageBoard> selectArticleList(Long id);
 }
