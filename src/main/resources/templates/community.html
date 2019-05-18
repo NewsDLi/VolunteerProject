@@ -38,8 +38,8 @@
 
 <div class="weui-news">
 	<ul class="weui-news-list lists" id="lists">
-		<a href="" class="link" th:each="communityArticle,communityArticleStart : ${communityArticles}">
-		<li class="weui-news-item">
+
+		<li class="weui-news-item link" th:each="communityArticle,communityArticleStart : ${communityArticles}">
 			<div class="weui-news-inners">
 				<!--标题-->
 				<div class="weui-news-title" th:text="${communityArticle.title}"></div>
@@ -47,13 +47,12 @@
 				<p class="weui-news-p" th:text="${communityArticle.subheading}"></p>
 				<div class="weui-news-info">
 					<!--时间-->
-					<div class="weui-news-infoitem" th:text="${communityArticle.publicationTime}"></div>
+					<div class="weui-news-infoitem" th:text="${#dates.format(communityArticle.publicationTime, 'yyyy-MM-dd HH:mm')}"></div>
 
 					<input class="hidden" type="hidden" th:value="${communityArticle.id}">
 				</div>
 			</div>
 		</li>
-		</a>
 	</ul>
 </div>
 

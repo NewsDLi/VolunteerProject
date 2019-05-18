@@ -37,4 +37,12 @@ public class ForumManagerImpl implements ForumManager{
 		List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
 		return communityArticles;
 	}
+
+	@Override
+	public List<CommunityArticles> selectForumText(Long id) {
+		CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
+		communityArticlesExample.createCriteria().andIdEqualTo(id);
+		List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
+		return communityArticles;
+	}
 }

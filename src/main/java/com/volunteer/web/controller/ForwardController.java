@@ -126,13 +126,6 @@ public class ForwardController {
     }
 
     /**
-     * 论坛
-     */
-    @RequestMapping("/forum.htm/{id}")
-    public String forum(HttpServletRequest request, @PathVariable("id") String id) {
-
-        return "forum";
-    }
 
     /**
      * 权限管理页面

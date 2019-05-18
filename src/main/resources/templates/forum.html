@@ -26,12 +26,15 @@
 <div class="weui-content">
     <div class="weui-c-inner">
         <div class="weui-c-content">
-            <h2 class="weui-c-title">Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面</h2>
+            <!--标题-->
+            <h2 class="weui-c-title" th:text="${communityArticle.title}">Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面</h2>
             <div class="weui-c-meta">
-                <span class="weui-c-nickname"><a href="javascript:;">Yoby开发者</a></span>
-                <em class="weui-c-nickname">2018-10-10 10:10</em>
+                <!--作者-->
+                <span class="weui-c-nickname"><a href="javascript:;" th:text="${communityArticle.author}">Yoby开发者</a></span>
+                <!--时间-->
+                <em class="weui-c-nickname"  th:text="${#dates.format(communityArticle.publicationTime,'yyyy-MM-dd')}">2018-10-10 10:10</em>
             </div>
-            <div class="weui-c-article">
+            <div class="weui-c-article" th:text="${communityArticle.content}">
                 <p> Flutter是谷歌的移动UI框架 [4] ，可以快速在iOS和Android上构建高质量的原生用户界面。
                     Flutter可以与现有的代码一起工作。在全世界，Flutter正在被越来越多的开发者和组织使用，并且Flutter是完全免费、开源的。它也是构建未来的Google Fuchsia [1]
                     应用的主要方式。</p>

@@ -45,10 +45,11 @@ public class ForumController {
         }
         return null;
     }
+
     //富文本上传后台
     @RequestMapping(value = "/uploadEditor", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
-    public String uploadEditor(HttpServletRequest request, HttpServletResponse response,@RequestParam(value = "heading",required=false) String heading,@RequestParam("type") String type,@RequestParam("title") String title , @RequestParam("data") String data){
+    public String uploadEditor(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "heading", required = false) String heading, @RequestParam("type") String type, @RequestParam("title") String title, @RequestParam("data") String data) {
         UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
         CommunityArticles communityArticles = new CommunityArticles();
         communityArticles.setContent(data);
@@ -57,23 +58,36 @@ public class ForumController {
         communityArticles.setPublicationTime(new Date());
         communityArticles.setLifecycle(CommunityArticles.START_LIFECYCLE);
         communityArticles.setType(Integer.parseInt(type));
-        if(Validator.isNotNullOrEmpty(heading)){
+        if (Validator.isNotNullOrEmpty(heading)) {
             communityArticles.setSubheading(heading);
         }
         Integer isSuccess = forumManager.saveFroum(communityArticles);
         return isSuccess.toString();
     }
+
     //获取列表
     @RequestMapping(value = "/forumList/{type}", method = {RequestMethod.GET})
     @ResponseBody
-    public ApiResponse<Object> getFormList(HttpServletRequest request, HttpServletResponse response,@PathVariable("type") String type){
-        if(Validator.isNullOrEmpty(type)){
+    public ApiResponse<Object> getFormList(HttpServletRequest request, HttpServletResponse response, @PathVariable("type") String type) {
+        if (Validator.isNullOrEmpty(type)) {
             type = "1";
         }
         List<CommunityArticles> communityArticles = forumManager.selectForum(Integer.parseInt(type));
-        if(Validator.isNullOrEmpty(communityArticles)){
-            return  ApiResponse.build(ResponseStatus.FAIL,null);
+        if (Validator.isNullOrEmpty(communityArticles)) {
+            return ApiResponse.build(ResponseStatus.FAIL, null);
         }
         return ApiResponse.build(ResponseStatus.SUCCESS, communityArticles);
+    }
+
+    //获取列表
+    @RequestMapping(value = "/forum.htm", method = {RequestMethod.GET})
+    public String getForm(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id) {
+        if (Validator.isNullOrEmpty(id)) {
+            String url = request.getHeader("Referer");
+            return "redirect:"+url;
+        }
+        List<CommunityArticles> communityArticles = forumManager.selectForumText(Long.parseLong(id));
+        request.setAttribute("communityArticle",communityArticles.get(0));
+        return "forum";
     }
 }
