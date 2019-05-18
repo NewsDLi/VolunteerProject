@@ -440,7 +440,12 @@ public class UserInfoController {
 		// 判断是否管理员,自己不能删除自己
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
 		if (loginUserInfo.getRoleId() != 3L || userId.equals(loginUserInfo.getId())) {
-			return ApiResponse.build(ResponseStatus.FAIL, null);
+			return ApiResponse.build(ResponseStatus.PERMISSION, null);
+		}
+		// 等级相同无法删除
+		UserInfo userInfoById = userInfoManager.getUserInfoById(userId);
+		if (userInfoById.getRoleId().equals(loginUserInfo.getRoleId())){
+			return ApiResponse.build(ResponseStatus.PERMISSION, null);
 		}
 		UserInfo updateUser = new UserInfo();
 		updateUser.setLifecycle(0);

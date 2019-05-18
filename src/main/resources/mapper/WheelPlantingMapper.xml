@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.volunteer.web.dao.WheelPlantingMapper" >
+  <resultMap id="BaseResultMap" type="com.volunteer.model.WhellPlanting" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="pic" property="pic" jdbcType="VARCHAR" />
+    <result column="desc" property="desc" jdbcType="VARCHAR" />
+    <result column="link_address" property="linkAddress" jdbcType="VARCHAR" />
+    <result column="version" property="version" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <select id="queryAll" resultMap="BaseResultMap">
+  	SELECT * FROM wheel_planting ORDER BY `version` DESC LIMIT 5 
+  </select>
+  <select id="queryById" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	SELECT * FROM wheel_planting where id = #{value}
+  </select>
+</mapper>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<meta charset="UTF-8">
+<!-- 引入样式 -->
+ <link rel="stylesheet" href="css/weui.css" />
+<link rel="stylesheet" href="css/weuix.css" />
+<link rel="stylesheet" href="css/common.css" />
+<script src="js/zepto.min.js"></script>
+<script src="js/common.js"></script>
+<script src="js/swipe.js"></script>
+ <script>
+$(function(){
+	init();
+});
+function init(){
+	$.ajax({
+		type : "get",
+		url : "/queryAll",
+		success : function(data) {
+			if (data.message == 'success') {
+				var html = '';
+				for(var i=0; i<data.data.length; i++){
+					html = html+'<li class="weui-news-item" onclick="gotoThisPage('+ data.data[i].id +')"><div class="weui-news-inners"><div class="weui-news-text"><div class="weui-news-title">'+data.data[i].desc +'</div></div><div class="weui-news-info"><div class="weui-news-infoitem">'+data.data[i].time+'</div></div></div></li>';
+				}
+				$('.weui-news-list').html(html);
+			}
+		}
+	});
+}
+function getDate(version){
+	var date = new Date(version);
+	return date.getFullYear() + "-" +date.getMonth() + 1 + "-" + date.getDate();
+}
+function gotoThisPage(id){
+	location.href="/getWhellPlantingById?id="+id;
+}
+</script>
+</head>
+<body ontouchstart="" class="page-bg">
+
+<div class="weui-news">
+	<div class="weui-flex header">
+			<h2>首页●轮播管理</h2>
+	</div>
+	<ul class="weui-news-list">
+		<!-- <li class="weui-news-item">
+			<div class="weui-news-inners">
+				<div class="weui-news-text">
+					<div class="weui-news-title">Flutter 是 Google 用以帮助开发者在 Android 和 iOS 两个平台，同时开发高质量原生应用的全新移动 UI 框架</div>
+				</div>
+				<div class="weui-news-info">
+					<div class="weui-news-infoitem">2018-12-14 10:31</div>
+				</div>
+			</div>
+		</li> -->
+	</ul>
+</div>
+
+<br>
+<br>
+<div th:include="tabbar::pagination"></div>
+</body>
+</html>

@@ -84,8 +84,10 @@ $(function() {
 									location.href="/admin";
 								},2000);
 								
-							}else{
-								$.toast("操作失败！");
+							} else if (data.code == '1000200'){
+								$.toast("权限不够", "forbidden");
+							} else {
+								$.toast("操作失败", "forbidden");
 							}
 						}
 					});

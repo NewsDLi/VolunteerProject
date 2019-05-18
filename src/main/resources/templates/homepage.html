@@ -5,54 +5,68 @@
 	content="width=device-width,initial-scale=1,user-scalable=0">
 <meta charset="UTF-8">
 <!-- 引入样式 -->
-<link rel="stylesheet"
-	href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-<link rel="stylesheet" href="css/weui.css" />
+ <link rel="stylesheet" href="css/weui.css" />
 <link rel="stylesheet" href="css/weuix.css" />
-<link rel="stylesheet" href="css/example.css" />
-<link rel="stylesheet" href="css/myinfo.css" />
 <link rel="stylesheet" href="css/common.css" />
 <script src="js/zepto.min.js"></script>
 <script src="js/common.js"></script>
-<script type="text/javascript"
-	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
 <script src="js/swipe.js"></script>
-<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+ <script>
+    $(function(){
+        $('#slide1').swipeSlide({
+            autoSwipe:true,//自动切换默认是
+            speed:3000,//速度默认4000
+            continuousScroll:true,//默认否
+            transitionType:'cubic-bezier(0.22, 0.69, 0.72, 0.88)',//过渡动画linear/ease/ease-in/ease-out/ease-in-out/cubic-bezier
+            lazyLoad:true,//懒加载默认否
+            firstCallback : function(i,sum,me){
+                me.find('.dot').children().first().addClass('cur');
+            },
+            callback : function(i,sum,me){
+                me.find('.dot').children().eq(i).addClass('cur').siblings().removeClass('cur');
+            }
+        });
+    });
+</script>
 </head>
 <body ontouchstart="" class="page-bg">
 <div class="slide" id="slide1">
-	<ul style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(0px, 0px, 0px);"><li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(-411px, 0px, 0px);">
-		<a href="javascript:;">
-			<img src="../images/3.jpg" alt="">
-		</a>
-		<div class="slide-desc">千金易得一将难求</div>
-	</li>
+	<ul style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(0px, 0px, 0px);">
+		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(-411px, 0px, 0px);">
+			<a href="javascript:;">
+				<img src="/images/3.jpg" alt="">
+			</a>
+			<div class="slide-desc">1</div>
+		</li>
 		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(0px, 0px, 0px);">
 			<a href="javascript:;">
-				<img src="../images/1.jpg" alt="">
+				<img src="/images/11.jpg" alt="">
 			</a>
-			<div class="slide-desc">白日依山尽黄河入海流鱼群千里马更上高楼处</div>
+			<div class="slide-desc">2</div>
 		</li>
 		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(411px, 0px, 0px);">
 			<a href="javascript:;">
-				<img src="../images/2.jpg" alt="">
+				<img src="/images/22.jpg" alt="">
 			</a>
-			<div class="slide-desc">东风无力百花残</div>
+			<div class="slide-desc">3</div>
 		</li>
 		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(822px, 0px, 0px);">
-			<a href="javascript:;">
-				<img src="../images/3.jpg" alt="">
+			<a href="www.baidu.com">
+				<img src="/images/11.jpg" alt="">
 			</a>
-			<div class="slide-desc">千金易得一将难求</div>
+			<div class="slide-desc">4</div>
 		</li>
 		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(1233px, 0px, 0px);">
-			<a href="javascript:;">
-				<img src="../images/1.jpg" alt="">
+			<a href="www.baidu.com">
+				<img src="/images/22.jpg" alt="">
 			</a>
-			<div class="slide-desc">白日依山尽黄河入海流鱼群千里马更上高楼处</div>
-		</li></ul>
+			<div class="slide-desc">5</div>
+		</li>
+	</ul>
 	<div class="dot">
 		<span class="cur"></span>
+		<span class=""></span>
+		<span class=""></span>
 		<span class=""></span>
 		<span class=""></span>
 	</div>
@@ -128,24 +142,6 @@
 						<span>微信小程序</span>
 					</div>
 					<div class="weui-news-infoitem">1条评论</div>
-				</div>
-			</div>
-
-		</li>
-		<li class="weui-news-item">
-			<div class="weui-news-inners">
-				<div class="weui-news-title">中国拥有世界顶级航天芯片产品：俄罗斯造不出来了只能求中国分享</div>
-				<p class="weui-news-p">如果谈及中国在技术领域的短板，那么大家可能想到的是发动机，其实还有一样：高级电子芯片！人们通常所说的CPU，所谓CPU即中央处理器，就是其代表产品，它可是为电子信息产品的心脏,是集成电路产品的终端级产品。</p>
-				<div class="weui-news-medias">
-					<div class="weui-news-medialist">
-						<img src="../images/3.jpg">
-					</div>
-					<div class="weui-news-medialist">
-						<img src="../images/2.jpg">
-					</div>
-					<div class="weui-news-medialist">
-						<img src="../images/3.jpg">
-					</div>
 				</div>
 			</div>
 		</li>
