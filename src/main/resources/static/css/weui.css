@@ -423,7 +423,6 @@ input.weui-btn_plain-default{
           transform-origin:0 0;
   -webkit-transform:scaleY(0.5);
           transform:scaleY(0.5);
-  left:15px;
   z-index:2;
 }
 .weui-cell:first-child:before{

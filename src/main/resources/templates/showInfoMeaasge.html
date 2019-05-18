@@ -15,6 +15,7 @@
 <script src="js/common.js"></script>
 <script src="js/toast.js"></script>
 <script type="text/javascript">
+var groupTeam=[];
 $(function() {
 	$('.mine').addClass('weui-bar__item_on');
 	$('.toUpdateUserInfo').click(function(){
@@ -181,7 +182,68 @@ $(function() {
 			  }
 			});
 	});
+	
+	$('.updateGroupTeam').click(function(){
+		var groupTeam = $("#group").val();
+		if ('undefined' == typeof groupTeam){
+			return;
+	 	}
+		$.confirm({
+			  title: '调整组别',
+			  text: '确认调整至该组别？',
+			  onOK: function () {
+				  //发放勋章
+				  $.ajax({
+						type : "get",
+						url : "/updateUserInfo?id="+$('#userInfoId').val()+"&groupTeam="+groupTeam,
+						success : function(data) {
+							if (data.message == 'success') {
+								$.toast("操作成功");
+								setTimeout(function(){
+									location.href="/getOtherUserInfo?id="+$('#userInfoId').val();
+								},2000);
+							}
+						}
+					});
+			  },
+			  onCancel: function () {
+				  return;
+			  }
+			});
+	});
+	
+	// 获取所有组别
+	getAllGroups();
+	$("#group").select({
+	     title: "选择组别",
+	     items: groupTeam,
+	     onChange: function(d) {
+	         console.log(this, d);
+	     },
+	     onClose: function() {
+	         console.log("close");
+	     },
+	     onOpen: function() {
+	         console.log("open");
+	     },
+	 });
 });
+
+function getAllGroups(){
+	 //发放勋章
+  $.ajax({
+		type : "get",
+		async: false,
+		url : "/getAllGroups",
+		success : function(data) {
+			if (data.message == 'success') {
+				for(var i=0;i<data.data.length;i++){
+					groupTeam.push(data.data[i]+'');
+				}
+			}
+		}
+  });
+}
 
 function confirmSendHoner(val){
 	$.confirm({
@@ -287,11 +349,11 @@ display: none;
 <input id="showHoner" th:value="${showHoner}"/>
 	<div class="container" id="container">
 		<div class="weui-flex header">
-			<h2>●用户信息</h2>
+			<h2 th:text="${userInfo.name}"></h2>
 		</div>
 		<div class="main_info">
 			<div class="show showInfo info_message">
-				<h2 class="name"><span th:text="${userInfo.name}"></span></h2>
+				<!-- <h2 class="name"><span th:text="${userInfo.name}"></span></h2> -->
 				<p class="person_info">性别：<span th:if="${userInfo.sex} eq 1">女</span><span th:if="${userInfo.sex} eq 0">男</span></p>
 				<p class="person_info">年龄：<span th:text="${userInfo.age}"></span></p>
 				<p class="person_info">民族：<span th:text="${userInfo.nation}"></span></p>
@@ -342,6 +404,19 @@ display: none;
 					<p class="person_info">添加义工岗位：<input id="station" type="text"/></p>
 					<button class="addButton addStation">确认添加</button>
 				</div>
+			</div>
+			<div th:if="${showHoner}" class="show person_hoppy">
+				<h2 class="career_title">组别调整</h2>
+				<p class="career_count">当前所在组别：<span th:text="${userInfo.groupTeam}"></span>
+				<div class="weui-cells weui-cells_form">
+				    <div class="weui-cell">
+				        <div class="weui-cell__hd"><label for="group" class="weui-label">组别</label></div>
+				        <div class="weui-cell__bd">
+				            <input class="weui-input" id="group" type="text" value="" readonly="">
+				        </div>
+				    </div>
+				</div>
+				<button class="addButton updateGroupTeam">确认调整</button>
 			</div>
 			<div th:if="${showHoner}" class="show person_hoppy">
 				<h2 class="career_title">权限设置</h2>

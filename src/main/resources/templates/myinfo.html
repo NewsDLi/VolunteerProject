@@ -50,7 +50,7 @@ $(function(){
 <body>
 	<div class="container" id="container">
 		<div class="weui-flex header">
-			<h2>我的●个人信息</h2>
+			<h2>我的-个人信息</h2>
 		</div>
 		<div class="main_info">
 			<div class="show">
@@ -68,20 +68,23 @@ $(function(){
 					</div>
 				</div>
 				<div class="person_info_work">
-					<p class="person_info">
+					<p class="person_info qwe">
 						工作岗位：<span th:text="${userInfo.worker}"></span>
 					</p>
-					<p class="person_info">
+					<p class="person_info qwe">
+						组别：<span th:text="${userInfo.groupTeam}"></span>
+					</p>
+					<p class="person_info qwe">
 						身份证号：<span th:text="${userInfo.idCard}"></span>
 					</p>
 				</div>
 				<div class="person_hoppy">
 					<h2 class="hoppy_title">兴趣爱好</h2>
-					<p class="person_info" th:text="${userInfo.hobby}"></p>
+					<p class="person_info qwe" th:text="${userInfo.hobby}"></p>
 				</div>
 				<div class="person_hoppy">
 					<h2 class="hoppy_title">自我介绍</h2>
-					<p class="person_info"  th:text="${userInfo.descption}" ></p>
+					<p class="person_info qwe"  th:text="${userInfo.descption}" ></p>
 				</div>
 			</div>
 			<div class="hidden updateInfo info_message">
@@ -91,7 +94,7 @@ $(function(){
 				<p class="person_info">籍贯：<input id="birthplace" th:value="${userInfo.birthplace}"/></p>
 				<p class="person_info">电话：<input id="loginPhone" type="phone" th:value="${userInfo.loginPhone}"/></p>
 				<p class="person_info">工作岗位：<input id="worker" th:value="${userInfo.worker}"/></p>
-				<p class="person_info">身份证号：<input id="idCard" th:value="${userInfo.idCard}"/></p>
+				<!-- <p class="person_info">身份证号：<input id="idCard" th:value="${userInfo.idCard}"/></p> -->
 				<p class="person_info">兴趣爱好：<input id="hobby" th:value="${userInfo.hobby}"/></p>
 				<p class="person_info">自我介绍：<textarea id="descption" rows="0" cols="1" th:text="${userInfo.descption}"></textarea>
 				</p>
@@ -116,14 +119,17 @@ $(function(){
     text-indent: 1em;
     border: 1px solid #e1e1e1;
 }
-.info_message p {
-    text-indent: 2em;
-}
 #descption{
     margin: 0px;
     width: 171px;
     height: 34px;
     border: 1px solid #e1e1e1;
+}
+.qwe{
+	padding-left: 12px !important;
+}
+.updateInfo{
+	padding-left: 10px;
 }
 </style>
 </html>

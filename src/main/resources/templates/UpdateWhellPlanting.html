@@ -17,7 +17,19 @@ $(function(){
 		var imgBox = e.target;
         uploadImg($('#uploaderInput'), imgBox);
 	});
-	
+	$('.updateWhellPlanting').click(function(){
+		$.confirm({
+			  title: '添加',
+			  text: '确认添加？',
+			  onOK: function () {
+				  $('.form').attr("action", "/updateWhellPlanting");
+				  $('.form').submit();
+			  },
+			  onCancel: function () {
+				  return;
+			  }
+			});
+	});
 });
 function uploadImg(element, tag) {
     var file = tag.files[0];
@@ -59,14 +71,22 @@ function gotoThisPage(id){
 
 <div class="weui-news">
 	<div class="weui-flex header">
-			<h2>首页●轮播管理</h2>
+			<h2>首页-轮播管理</h2>
 	</div>
 </div>
 <div class="weui-cells weui-cells_form">
+	<form class="form" enctype="multipart/form-data">
+	<input id="id" name="id" th:value="${whellPlanting.id}" type="text">
 	 <div class="weui-cell">
 	 	<div class="weui-cell__hd"><label class="weui-label">标题</label></div>
 	    <div class="weui-cell__bd">
 	      <input class="weui-input" th:value="${whellPlanting.desc}" type="text" placeholder="请输入">
+	    </div>
+	 </div>
+	 <div class="weui-cell">
+	 	<div class="weui-cell__hd"><label class="weui-label">跳转链接</label></div>
+	    <div class="weui-cell__bd">
+	      <input class="weui-input" th:value="${whellPlanting.linkAddress}" type="text" placeholder="请输入">
 	    </div>
 	 </div>
 	 <div class="weui-cell">
@@ -80,10 +100,21 @@ function gotoThisPage(id){
 	    	<img class="img" width="100%" alt="" th:src="${whellPlanting.pic}">
 	    </div>
 	 </div>
-	 <a href="javascript:;" class="updateWhellPlanting weui-btn weui-btn_mini weui-btn_primary">确认修改</a>
+	 <button class="addButton updateWhellPlanting">确认添加</button>
+	 </form>
 </div>
 <br>
 <br>
 <div th:include="tabbar::pagination"></div>
 </body>
+<style>
+.addButton {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: #FFFFFF;
+    background-color: #1AAD19;
+    height: 22px;
+}
+</style>
 </html>

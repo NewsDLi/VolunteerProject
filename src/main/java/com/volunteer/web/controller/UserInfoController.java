@@ -456,4 +456,17 @@ public class UserInfoController {
 		}
 		return ApiResponse.build(ResponseStatus.SUCCESS, null);
 	}
+	
+	@ResponseBody
+	@RequestMapping(value = "/getAllGroups",method = RequestMethod.GET)
+	public ApiResponse<Object> getAllGroups(){
+		try{
+			List<Integer> allGroups = userInfoManager.getAllGroups();
+			return ApiResponse.build(ResponseStatus.SUCCESS, allGroups);
+		}catch(Exception e){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		
+	}
+	
 }
