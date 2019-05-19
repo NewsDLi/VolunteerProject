@@ -8,11 +8,14 @@ import com.volunteer.common.WechatMessage;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.WechatInfo;
 import com.volunteer.web.manager.UserInfoManager;
+import com.volunteer.web.manager.WechatInfoManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @Component
 public class WeChatLoginHandler {
@@ -20,22 +23,19 @@ public class WeChatLoginHandler {
     @Autowired
     private UserInfoManager userInfoManager;
 
+    @Autowired
+    private WechatInfoManager wechatInfoManager;
 
     @Autowired
     private CacheManager cacheManager;
 
 
-    public UserInfo wechatOAuthSuccess(HttpServletRequest request, WechatMessage wechatMessage){
-        UserInfo userInfo = cacheManager.getObject(WxLoginConstant.USERINFO+wechatMessage.getOpenId());
-        if(Validator.isNotNullOrEmpty(userInfo)){
-            return userInfo;
-        }
-        userInfo = userInfoManager.getUserInfoByOpenId(wechatMessage);
+    public UserInfo wechatOAuthSuccess(HttpServletRequest request, WechatInfo wechatInfo){
+        UserInfo userInfo = userInfoManager.getUserInfoByOpenId(wechatInfo,request);
         if(Validator.isNullOrEmpty(userInfo)){
-            return  userInfo;
+            return  null;
         }
         request.getSession().setAttribute(UserConstant.LOGIN_PHONE,userInfo);
-        cacheManager.setObject(WxLoginConstant.USERINFO+wechatMessage.getOpenId(),userInfo, TimeInterval.SECONDS_PER_HOUR*2);
         return  userInfo;
 
    }

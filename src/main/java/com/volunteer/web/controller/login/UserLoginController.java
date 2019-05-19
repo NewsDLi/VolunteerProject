@@ -69,24 +69,27 @@ public class UserLoginController {
      */
     @RequestMapping(value = "/weChatLogin")
     public String mobileWechatLogin(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "code", required = true) String code) {
-        Map<String, String> parameterMap = RequestUtil.getParameterSingleValueMap(request);
-        //请求链接
-        String returnUrl = parameterMap.get("returnUrl");
         try {
-            if (StringUtils.isBlank(returnUrl)) {
-                returnUrl = "";
-            }
             //判断是否登录
             UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
             if(Validator.isNotNullOrEmpty(userInfo)){
                 return "mypage";
             }
             //通过code换取用户信息--先从缓存中获取，没有就从第三方获取
-            String httpResponse = (String) request.getSession().getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
-            //                    cacheManager.getValue(WxLoginConstant.WECHAT_USERINFO);
-            if (httpResponse == null) {
+            WechatInfo wechatInfo = (WechatInfo)request.getSession().getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
+            if(Validator.isNotNullOrEmpty(wechatInfo)){
+            List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
+            if(Validator.isNotNullOrEmpty(userInfoBinds)){
+                UserInfo userInfo1 = userInfoManager.selectByPrimaryKey(userInfoBinds.get(0).getUserId());
+                request.getSession().setAttribute(UserConstant.LOGIN_PHONE,userInfo1);
+                return "mypage";
+            }
+            }
+            String httpResponse = null;
+            if (Validator.isNullOrEmpty(wechatInfo)) {
                 httpResponse = getWechatMemberInfo(code);
             }
+
             if (StringUtils.isBlank(httpResponse)) {
                 return "index";
             }
@@ -95,18 +98,18 @@ public class UserLoginController {
             if (Validator.isNullOrEmpty(wechatMessage.getOpenId())) {
                 return "index";
             }
-            //查询成功
-            //如果是微信会员 ---将信息缓存起来
-
-            request.getSession().setAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION, httpResponse);
+            WechatInfo wechatInfo2 = bulidWechatInfo(wechatMessage);
+            if (Validator.isNullOrEmpty(wechatInfo2)){
+                return "index";
+            }
 
             //登录用户的处理方法
-            UserInfo userInfos = weChatLoginHandler.wechatOAuthSuccess(request, wechatMessage);
+            UserInfo userInfos = weChatLoginHandler.wechatOAuthSuccess(request, wechatInfo2);
             //通过openId查询是否有用户信息，，判断为第一次登陆
             if (Validator.isNullOrEmpty(userInfos)) {
                 return "index";
             }
-            return "redirect:" + returnUrl;
+            return "mypage";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -114,7 +117,16 @@ public class UserLoginController {
         return "index";
 
     }
-
+    private WechatInfo bulidWechatInfo(WechatMessage wechatMessage){
+        WechatInfo wechatInfo = new WechatInfo();
+        wechatInfo.setOpenId(wechatMessage.getOpenId());
+        wechatInfo.setNickName(wechatMessage.getNickname());
+        wechatInfo.setSex(wechatMessage.getSex());
+        wechatInfo.setProvince(wechatMessage.getProvince());
+        wechatInfo.setCountry(wechatMessage.getCountry());
+        wechatInfo.setCity(wechatMessage.getCity());
+        return wechatInfo;
+    }
 
     /**
      * 跳转至登录页面
@@ -133,24 +145,28 @@ public class UserLoginController {
             return "index";
         }
         //通过code换取用户信息--先从缓存中获取，没有就从第三方获取
-        HttpSession session = request.getSession();
         //微信绑定
         UserInfo userInfo = userInfoByMobile.get(0);
-        String httpResponse = (String) session.getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
-        if(Validator.isNotNullOrEmpty(httpResponse)){
-            WechatMessage wechatMessage = JSON.parseObject(httpResponse, WechatMessage.class);
-            List<WechatInfo> wechatInfos = userInfoManager.getWechatInfoByOpenId(wechatMessage);
-            if(Validator.isNotNullOrEmpty(wechatInfos.get(0).getOpenId())){
-                UserInfoBind userInfoBind = new UserInfoBind();
-                userInfoBind.setUserId(userInfo.getId());
-                userInfoBind.setWechatId(wechatInfos.get(0).getId());
-                userInfoBindManager.saveUserInfoBind(userInfoBind);
-            }
+        HttpSession session = request.getSession();
+        WechatInfo wechatInfo = (WechatInfo) session.getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
+        if (Validator.isNullOrEmpty(wechatInfo)){
+            return returnLogin(session,userInfo);
         }
-            session.setAttribute(UserConstant.LOGIN_PHONE, userInfo);
+        List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
+        if(Validator.isNullOrEmpty(userInfoBinds)){
+            UserInfoBind userInfoBind = new UserInfoBind();
+            userInfoBind.setUserId(userInfo.getId());
+            userInfoBind.setWechatId(wechatInfo.getId());
+            userInfoBindManager.saveUserInfoBind(userInfoBind);
+        }
+        return returnLogin(session,userInfo);
+    }
 
+    private String returnLogin(HttpSession session,UserInfo userInfo){
+        session.setAttribute(UserConstant.LOGIN_PHONE, userInfo);
         return "mypage";
     }
+
 
     /**
      * 跳转至登录页面
@@ -182,7 +198,7 @@ public class UserLoginController {
             //从配置文件中拿信息
             String appid = prop.getAppid();
             String appsercet = prop.getAppsecret();
-            String accessUrl = prop.getAccessToken() + "appid=" + appid + "&secret=" + appsercet + "&code=" + code + "&grant_type=authorization_code";
+            String accessUrl = prop.getAccessToken() + "code=" + code + "&appid=" + appid + "&secret=" + appsercet  + "&grant_type=authorization_code";
             //获取accessToken，openId
             String json = HttpsUtils.sendGet(accessUrl);
             JSONObject jsonObject = JSONObject.fromObject(json);

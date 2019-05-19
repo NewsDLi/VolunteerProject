@@ -109,7 +109,7 @@
       #{sex,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
       #{country,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.volunteer.model.WechatInfo" >
+  <insert id="insertSelective" parameterType="com.volunteer.model.WechatInfo" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
     insert into wechat_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >

@@ -1,12 +1,15 @@
 package com.volunteer.web.manager;
 
 import com.volunteer.common.WechatMessage;
+import com.volunteer.model.WechatInfoExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.volunteer.model.WechatInfo;
 import com.volunteer.web.dao.WechatInfoMapper;
+
+import java.util.List;
 
 @Service
 public class WechatInfoManagerImpl implements WechatInfoManager{
@@ -16,20 +19,21 @@ public class WechatInfoManagerImpl implements WechatInfoManager{
 
 	@Override
 	@Transactional
-	public Integer saveWechatInfo(WechatMessage wechatMessage) {
+	public WechatInfo saveWechatInfo(WechatInfo wechatInfo) {
 		Integer integer = null;
 		try {
-			WechatInfo wechatInfo = new WechatInfo();
-			wechatInfo.setOpenId(wechatMessage.getOpenId());
-			wechatInfo.setNickName(wechatMessage.getNickname());
-			wechatInfo.setSex(wechatMessage.getSex());
-			wechatInfo.setProvince(wechatMessage.getProvince());
-			wechatInfo.setCountry(wechatMessage.getCountry());
-			wechatInfo.setCity(wechatMessage.getCity());
-			integer = wechatInfoMapper.insert(wechatInfo);
+			integer = wechatInfoMapper.insertSelective(wechatInfo);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return integer;
+		return wechatInfo;
+	}
+
+	@Override
+	public List<WechatInfo> findWechatInfo(WechatInfo wechatInfo) {
+		WechatInfoExample wechatInfoExample = new WechatInfoExample();
+		wechatInfoExample.createCriteria().andOpenIdEqualTo(wechatInfo.getOpenId());
+		List<WechatInfo> wechatInfos = wechatInfoMapper.selectByExample(wechatInfoExample);
+		return wechatInfos;
 	}
 }

@@ -7,11 +7,13 @@ import com.volunteer.common.WechatMessage;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.WechatInfo;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface UserInfoManager {
 	/**
 	 *通过openid查询用户信息
 	 */
-	UserInfo getUserInfoByOpenId(WechatMessage wechatMessage);
+	UserInfo getUserInfoByOpenId(WechatInfo wechatInfo, HttpServletRequest request);
 
 	/**
 	 *通过openid查询微信信息
