@@ -3,6 +3,8 @@ package com.volunteer.web.manager;
 import java.util.List;
 
 import com.volunteer.constant.WxLoginConstant;
+import com.volunteer.model.*;
+import com.volunteer.web.dao.WechatInfoMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,14 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.feilong.core.Validator;
 import com.volunteer.common.WechatMessage;
-import com.volunteer.model.PageNation;
-import com.volunteer.model.UserInfo;
-import com.volunteer.model.UserInfoBind;
-import com.volunteer.model.UserInfoExample;
-import com.volunteer.model.WechatInfo;
-import com.volunteer.model.WechatInfoExample;
 import com.volunteer.web.dao.UserInfoMapper;
-import com.volunteer.web.dao.WechatInfoMapper;
 
 import javax.servlet.http.HttpServletRequest;
 

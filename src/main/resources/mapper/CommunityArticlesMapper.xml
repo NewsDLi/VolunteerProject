@@ -9,7 +9,8 @@
     <result column="author" property="author" jdbcType="VARCHAR" />
     <result column="type" property="type" jdbcType="INTEGER" />
     <result column="lifecycle" property="lifecycle" jdbcType="INTEGER" />
-    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.volunteer.model.CommunityArticles" extends="BaseResultMap" >
     <result column="content" property="content" jdbcType="LONGVARCHAR" />
@@ -73,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, title, publication_time, subheading, author, type, lifecycle,content
+    id, title, publication_time, subheading, author, type, lifecycle, sort, image
   </sql>
   <sql id="Blob_Column_List" >
     content
@@ -129,10 +130,12 @@
   <insert id="insert" parameterType="com.volunteer.model.CommunityArticles" >
     insert into community_articles (id, title, publication_time, 
       subheading, author, type, 
-      lifecycle, content)
+      lifecycle, sort, image, 
+      content)
     values (#{id,jdbcType=BIGINT}, #{title,jdbcType=VARCHAR}, #{publicationTime,jdbcType=TIMESTAMP}, 
       #{subheading,jdbcType=VARCHAR}, #{author,jdbcType=VARCHAR}, #{type,jdbcType=INTEGER}, 
-      #{lifecycle,jdbcType=INTEGER}, #{content,jdbcType=LONGVARCHAR})
+      #{lifecycle,jdbcType=INTEGER}, #{sort,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, 
+      #{content,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.volunteer.model.CommunityArticles" >
     insert into community_articles
@@ -157,6 +160,12 @@
       </if>
       <if test="lifecycle != null" >
         lifecycle,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="image != null" >
+        image,
       </if>
       <if test="content != null" >
         content,
@@ -183,6 +192,12 @@
       </if>
       <if test="lifecycle != null" >
         #{lifecycle,jdbcType=INTEGER},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
       </if>
       <if test="content != null" >
         #{content,jdbcType=LONGVARCHAR},
@@ -219,6 +234,12 @@
       <if test="record.lifecycle != null" >
         lifecycle = #{record.lifecycle,jdbcType=INTEGER},
       </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
       <if test="record.content != null" >
         content = #{record.content,jdbcType=LONGVARCHAR},
       </if>
@@ -236,6 +257,8 @@
       author = #{record.author,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
       lifecycle = #{record.lifecycle,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=VARCHAR},
       content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -249,7 +272,9 @@
       subheading = #{record.subheading,jdbcType=VARCHAR},
       author = #{record.author,jdbcType=VARCHAR},
       type = #{record.type,jdbcType=INTEGER},
-      lifecycle = #{record.lifecycle,jdbcType=INTEGER}
+      lifecycle = #{record.lifecycle,jdbcType=INTEGER},
+      sort = #{record.sort,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -275,6 +300,12 @@
       <if test="lifecycle != null" >
         lifecycle = #{lifecycle,jdbcType=INTEGER},
       </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
       <if test="content != null" >
         content = #{content,jdbcType=LONGVARCHAR},
       </if>
@@ -289,6 +320,8 @@
       author = #{author,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
       lifecycle = #{lifecycle,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
       content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -299,7 +332,9 @@
       subheading = #{subheading,jdbcType=VARCHAR},
       author = #{author,jdbcType=VARCHAR},
       type = #{type,jdbcType=INTEGER},
-      lifecycle = #{lifecycle,jdbcType=INTEGER}
+      lifecycle = #{lifecycle,jdbcType=INTEGER},
+      sort = #{sort,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

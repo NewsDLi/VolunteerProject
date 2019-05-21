@@ -15,6 +15,8 @@ public class WechatInfo {
 
     private String country;
 
+    private String image;
+
     public Long getId() {
         return id;
     }
@@ -69,5 +71,13 @@ public class WechatInfo {
 
     public void setCountry(String country) {
         this.country = country == null ? null : country.trim();
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image == null ? null : image.trim();
     }
 }

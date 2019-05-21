@@ -2,7 +2,6 @@ package com.volunteer.web.manager;
 
 import com.volunteer.model.ArticleMessageBoard;
 import com.volunteer.model.CommunityArticles;
-import com.volunteer.model.UserPower;
 
 import java.util.List;
 

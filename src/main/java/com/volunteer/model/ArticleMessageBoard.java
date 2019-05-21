@@ -15,6 +15,8 @@ public class ArticleMessageBoard {
 
     private String userName;
 
+    private Integer sort;
+
     public Long getId() {
         return id;
     }
@@ -61,5 +63,13 @@ public class ArticleMessageBoard {
 
     public void setUserName(String userName) {
         this.userName = userName == null ? null : userName.trim();
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
     }
 }

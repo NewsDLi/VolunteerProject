@@ -42,7 +42,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         <!-- 指定数据库表 -->
-        <table domainObjectName="CommunityArticles" tableName="community_articles"></table>
+        <table domainObjectName="WechatInfo" tableName="wechat_info"></table>
 
 
     </context>

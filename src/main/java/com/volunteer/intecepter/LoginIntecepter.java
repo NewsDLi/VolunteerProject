@@ -1,20 +1,14 @@
 package com.volunteer.intecepter;
 
-import com.alibaba.fastjson.JSON;
 import com.feilong.core.Validator;
-import com.volunteer.common.WechatMessage;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoBind;
 import com.volunteer.model.WechatInfo;
 import com.volunteer.web.dao.UserInfoMapper;
-import com.volunteer.web.dao.WechatInfoMapper;
 import com.volunteer.web.manager.UserInfoBindManager;
 import com.volunteer.web.manager.UserInfoManager;
-import com.volunteer.web.manager.WechatInfoManager;
-import org.apache.catalina.User;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 

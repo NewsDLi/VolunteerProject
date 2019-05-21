@@ -9,6 +9,7 @@
     <result column="province" property="province" jdbcType="VARCHAR" />
     <result column="city" property="city" jdbcType="VARCHAR" />
     <result column="country" property="country" jdbcType="VARCHAR" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, open_id, nick_name, sex, province, city, country
+    id, open_id, nick_name, sex, province, city, country, image
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.volunteer.model.WechatInfoExample" >
     select
@@ -104,12 +105,12 @@
   <insert id="insert" parameterType="com.volunteer.model.WechatInfo" >
     insert into wechat_info (id, open_id, nick_name, 
       sex, province, city, 
-      country)
+      country, image)
     values (#{id,jdbcType=BIGINT}, #{openId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, 
       #{sex,jdbcType=INTEGER}, #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, 
-      #{country,jdbcType=VARCHAR})
+      #{country,jdbcType=VARCHAR}, #{image,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.volunteer.model.WechatInfo" keyProperty="id" keyColumn="id" useGeneratedKeys="true">
+  <insert id="insertSelective" parameterType="com.volunteer.model.WechatInfo" >
     insert into wechat_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -133,6 +134,9 @@
       <if test="country != null" >
         country,
       </if>
+      <if test="image != null" >
+        image,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -155,6 +159,9 @@
       </if>
       <if test="country != null" >
         #{country,jdbcType=VARCHAR},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -188,6 +195,9 @@
       <if test="record.country != null" >
         country = #{record.country,jdbcType=VARCHAR},
       </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -201,7 +211,8 @@
       sex = #{record.sex,jdbcType=INTEGER},
       province = #{record.province,jdbcType=VARCHAR},
       city = #{record.city,jdbcType=VARCHAR},
-      country = #{record.country,jdbcType=VARCHAR}
+      country = #{record.country,jdbcType=VARCHAR},
+      image = #{record.image,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -227,6 +238,9 @@
       <if test="country != null" >
         country = #{country,jdbcType=VARCHAR},
       </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -237,7 +251,8 @@
       sex = #{sex,jdbcType=INTEGER},
       province = #{province,jdbcType=VARCHAR},
       city = #{city,jdbcType=VARCHAR},
-      country = #{country,jdbcType=VARCHAR}
+      country = #{country,jdbcType=VARCHAR},
+      image = #{image,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -3,31 +3,8 @@ package com.volunteer.model;
 import java.util.Date;
 
 public class CommunityArticles {
-    /**
-     * 生命周期初始状态
-     */
     public static final Integer START_LIFECYCLE = 1;
-    /**
-     * 生命周期结束状态
-     */
     public static final Integer END_LIFECYCLE = 2;
-    /**
-     * 论坛类型:义工心得
-     */
-    public static final Integer TYPE_YIGONGXINDE = 1;
-    /**
-     * 论坛类型:国学经典
-     */
-    public static final Integer TYPE_GUOXUEJINGDIAN = 2;
-    /**
-     * 论坛类型:曲艺杂谈
-     */
-    public static final Integer TYPE_QUYIZATAN = 3;
-    /**
-     * 论坛类型:诗词歌赋
-     */
-    public static final Integer TYPE_SHICIGEFU = 4;
-
     private Long id;
 
     private String title;
@@ -41,6 +18,10 @@ public class CommunityArticles {
     private Integer type;
 
     private Integer lifecycle;
+
+    private Integer sort;
+
+    private String image;
 
     private String content;
 
@@ -98,6 +79,22 @@ public class CommunityArticles {
 
     public void setLifecycle(Integer lifecycle) {
         this.lifecycle = lifecycle;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image == null ? null : image.trim();
     }
 
     public String getContent() {

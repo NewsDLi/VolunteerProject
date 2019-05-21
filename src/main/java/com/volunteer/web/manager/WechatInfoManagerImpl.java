@@ -1,13 +1,11 @@
 package com.volunteer.web.manager;
 
-import com.volunteer.common.WechatMessage;
+import com.volunteer.model.WechatInfo;
 import com.volunteer.model.WechatInfoExample;
+import com.volunteer.web.dao.WechatInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import com.volunteer.model.WechatInfo;
-import com.volunteer.web.dao.WechatInfoMapper;
 
 import java.util.List;
 

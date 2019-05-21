@@ -2,7 +2,6 @@ package com.volunteer.web.manager;
 
 import java.util.List;
 
-import com.volunteer.common.UserInfoBindCommand;
 import com.volunteer.common.WechatMessage;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.WechatInfo;
@@ -64,7 +63,6 @@ public interface UserInfoManager {
 	 * @param kewWords 关键字
 	 * @param groupteam 组别
 	 * @param roles 角色
-	 * @param i 开始查询的条数
 	 * @return
 	 */
 	List<UserInfo> searchInfos(String kewWords, Integer groupteam, Long roles, int begin, int pagesize);
