@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.volunteer.web.dao.HonerMapper" >
+  <resultMap id="BaseResultMap" type="com.volunteer.model.Honer" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="gray" property="gray" jdbcType="VARCHAR" />
+    <result column="light" property="light" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="is_light" property="isLight" jdbcType="BIT" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="version" property="version" jdbcType="TIMESTAMP" />
+    <result column="range" property="range" jdbcType="INTEGER" />
+    <result column="is_click_send" property="isClickSend" jdbcType="BIT" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, gray, light, title, is_light, sort, version, range, is_click_send
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.volunteer.model.HonerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from honer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from honer
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from honer
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.volunteer.model.HonerExample" >
+    delete from honer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.volunteer.model.Honer" >
+    insert into honer (id, gray, light, 
+      title, is_light, sort, version, 
+      range, is_click_send)
+    values (#{id,jdbcType=BIGINT}, #{gray,jdbcType=VARCHAR}, #{light,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{isLight,jdbcType=BIT}, #{sort,jdbcType=INTEGER}, #{version,jdbcType=TIMESTAMP}, 
+      #{range,jdbcType=INTEGER}, #{isClickSend,jdbcType=BIT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.volunteer.model.Honer" >
+    insert into honer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="gray != null" >
+        gray,
+      </if>
+      <if test="light != null" >
+        light,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="isLight != null" >
+        is_light,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="version != null" >
+        version,
+      </if>
+      <if test="range != null" >
+        range,
+      </if>
+      <if test="isClickSend != null" >
+        is_click_send,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="gray != null" >
+        #{gray,jdbcType=VARCHAR},
+      </if>
+      <if test="light != null" >
+        #{light,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="isLight != null" >
+        #{isLight,jdbcType=BIT},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        #{version,jdbcType=TIMESTAMP},
+      </if>
+      <if test="range != null" >
+        #{range,jdbcType=INTEGER},
+      </if>
+      <if test="isClickSend != null" >
+        #{isClickSend,jdbcType=BIT},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.volunteer.model.HonerExample" resultType="java.lang.Integer" >
+    select count(*) from honer
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update honer
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.gray != null" >
+        gray = #{record.gray,jdbcType=VARCHAR},
+      </if>
+      <if test="record.light != null" >
+        light = #{record.light,jdbcType=VARCHAR},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isLight != null" >
+        is_light = #{record.isLight,jdbcType=BIT},
+      </if>
+      <if test="record.sort != null" >
+        sort = #{record.sort,jdbcType=INTEGER},
+      </if>
+      <if test="record.version != null" >
+        version = #{record.version,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.range != null" >
+        range = #{record.range,jdbcType=INTEGER},
+      </if>
+      <if test="record.isClickSend != null" >
+        is_click_send = #{record.isClickSend,jdbcType=BIT},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update honer
+    set id = #{record.id,jdbcType=BIGINT},
+      gray = #{record.gray,jdbcType=VARCHAR},
+      light = #{record.light,jdbcType=VARCHAR},
+      title = #{record.title,jdbcType=VARCHAR},
+      is_light = #{record.isLight,jdbcType=BIT},
+      sort = #{record.sort,jdbcType=INTEGER},
+      version = #{record.version,jdbcType=TIMESTAMP},
+      range = #{record.range,jdbcType=INTEGER},
+      is_click_send = #{record.isClickSend,jdbcType=BIT}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.volunteer.model.Honer" >
+    update honer
+    <set >
+      <if test="gray != null" >
+        gray = #{gray,jdbcType=VARCHAR},
+      </if>
+      <if test="light != null" >
+        light = #{light,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="isLight != null" >
+        is_light = #{isLight,jdbcType=BIT},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="version != null" >
+        version = #{version,jdbcType=TIMESTAMP},
+      </if>
+      <if test="range != null" >
+        range = #{range,jdbcType=INTEGER},
+      </if>
+      <if test="isClickSend != null" >
+        is_click_send = #{isClickSend,jdbcType=BIT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.volunteer.model.Honer" >
+    update honer
+    set gray = #{gray,jdbcType=VARCHAR},
+      light = #{light,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      is_light = #{isLight,jdbcType=BIT},
+      sort = #{sort,jdbcType=INTEGER},
+      version = #{version,jdbcType=TIMESTAMP},
+      range = #{range,jdbcType=INTEGER},
+      is_click_send = #{isClickSend,jdbcType=BIT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
