@@ -68,7 +68,10 @@
  */
 function getDate(version){
 	var date = new Date(version);
-	return date.getFullYear() + "-" +date.getMonth() + 1 + "-" + date.getDate();
+	return date.getFullYear() + "-" +getMonthPlusOne(date.getMonth()) + "-" + date.getDate();
+}
+function getMonthPlusOne(month){
+	return month*1+1;
 }
 /**
  * 初始化页数
