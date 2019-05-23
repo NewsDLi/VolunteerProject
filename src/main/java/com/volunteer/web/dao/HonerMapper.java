@@ -27,4 +27,6 @@ public interface HonerMapper {
     int updateByPrimaryKeySelective(Honer record);
 
     int updateByPrimaryKey(Honer record);
+
+	List<Honer> getAllHoner();
 }

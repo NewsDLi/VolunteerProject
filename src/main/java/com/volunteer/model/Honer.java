@@ -2,6 +2,10 @@ package com.volunteer.model;
 
 import java.util.Date;
 
+/**
+ * @author RichLi
+ *
+ */
 public class Honer {
     private Long id;
 
@@ -92,4 +96,11 @@ public class Honer {
     public void setIsClickSend(Boolean isClickSend) {
         this.isClickSend = isClickSend;
     }
+
+	@Override
+	public String toString() {
+		return "Honer [id=" + id + ", gray=" + gray + ", light=" + light + ", title=" + title + ", isLight=" + isLight
+				+ ", sort=" + sort + ", version=" + version + ", range=" + range + ", isClickSend=" + isClickSend + "]";
+	}
+    
 }

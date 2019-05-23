@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<meta charset="UTF-8">
+<!-- 引入样式 -->
+<link rel="stylesheet" href="css/weui.css" />
+<link rel="stylesheet" href="css/weuix.css">
+<link rel="stylesheet" href="css/myinfo.css" />
+<link rel="stylesheet" href="css/common.css" />
+<script src="js/common.js"></script>
+<script src="js/zepto.min.js"></script>
+<script src="js/zepto.weui.js"></script>
+<script type="text/javascript">
+$(function() {
+	
+});
+function showInfo1(a,b,c){
+	if(b == 'true'){
+		alert(b);
+		$.toast('此勋章需要管理员进行发放','text');
+		return;
+	}
+	$.toast("义工总期数达到"+c+'期,即可点亮','text');
+}
+function showInfo(a){
+	$.toast("您已经点亮此勋章",'text');
+}
+</script>
+</head>
+<body>
+	<div class="container" id="container">
+		<div class="weui-flex header">
+			<h2>我的-勋章墙</h2>
+		</div>
+		<div class="main_info">
+			<div class="info_message">
+					<ul th:each="info,infoStat : ${myHoner}" class="honer flex-list">
+						<li th:each="myhoner,honer : ${info}">
+						<img th:onclick="'javascript:showInfo(\''+${myhoner.isLight}+'\')'" th:if="${myhoner.isLight eq true}" th:src="${myhoner.light}" width="100px;" />
+						<img th:onclick="'javascript:showInfo1(\''+${myhoner.isLight}+'\',\''+${myhoner.isClickSend}+'\',\''+${myhoner.range}+'\')'" th:if="${myhoner.isLight eq false}" th:src="${myhoner.gray}" width="100px;" />
+						<p th:text="${myhoner.title}"></p>
+						</li>
+					</ul>
+			</div>
+		</div>
+		<button class="addButton">添加勋章墙</button>
+		<div th:include="tabbar::pagination"></div>
+	</div>
+</body>
+</html>
+<style>
+@media {
+	.honer{
+		height: auto;
+		width: auto;
+		display: flex;
+	}
+	.honer li{
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		text-align: center;
+		flex-wrap:wrap;
+		width: 33%;
+	}
+	.addButton{
+	    width: 100%;
+	    border-radius: 10px;
+	    border: 1px solid rgba(0, 0, 0, 0.2);
+	    color: #FFFFFF;
+	    background-color: #1AAD19;
+	    height: 22px;
+	}
+}
+</style>

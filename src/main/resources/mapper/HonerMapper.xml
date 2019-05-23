@@ -270,4 +270,8 @@
       is_click_send = #{isClickSend,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id="getAllHoner" resultMap="BaseResultMap">
+  	SELECT * FROM honer ORDER BY sort ASC, version DESC 
+  </select>
 </mapper>

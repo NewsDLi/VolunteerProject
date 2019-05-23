@@ -40,6 +40,8 @@ public class UserInfo {
     private Integer age;
     
     private Boolean isMessageBoard;
+    
+    private String honerId;
 
     public Long getId() {
         return id;
@@ -191,6 +193,14 @@ public class UserInfo {
 
 	public void setIsMessageBoard(Boolean isMessageBoard) {
 		this.isMessageBoard = isMessageBoard;
+	}
+
+	public String getHonerId() {
+		return honerId;
+	}
+
+	public void setHonerId(String honerId) {
+		this.honerId = honerId;
 	}
 
 }
