@@ -38,8 +38,8 @@ function showInfo(a){
 			<div class="info_message">
 					<ul th:each="info,infoStat : ${myHoner}" class="honer flex-list">
 						<li th:each="myhoner,honer : ${info}">
-						<img th:onclick="'javascript:showInfo(\''+${myhoner.isLight}+'\')'" th:if="${myhoner.isLight eq true}" th:src="${myhoner.light}" width="100px;" />
-						<img th:onclick="'javascript:showInfo1(\''+${myhoner.isLight}+'\',\''+${myhoner.isClickSend}+'\',\''+${myhoner.range}+'\')'" th:if="${myhoner.isLight eq false}" th:src="${myhoner.gray}" width="100px;" />
+						<img th:onclick="'javascript:showInfo(\''+${myhoner.isLight}+'\')'" th:src="${myhoner.light}" width="100px;" />
+						<!-- <img th:onclick="'javascript:showInfo1(\''+${myhoner.isLight}+'\',\''+${myhoner.isClickSend}+'\',\''+${myhoner.range}+'\')'" th:if="${myhoner.isLight eq false}" th:src="${myhoner.gray}" width="100px;" /> -->
 						<p th:text="${myhoner.title}"></p>
 						</li>
 					</ul>

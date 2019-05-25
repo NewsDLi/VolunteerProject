@@ -7,17 +7,29 @@
 	content="width=device-width,initial-scale=1,user-scalable=0,viewport-fit=cover">
 <title>WeUI</title>
 <link rel="stylesheet" href="css/weui.css" />
+<link rel="stylesheet" href="css/weuix.css">
 <link rel="stylesheet" href="css/example.css" />
-</head>
-<script type="text/javascript"
-	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
-<script src="js/jquery.js"></script>
+<link rel="stylesheet" href="css/mycareer.css" />
+<link rel="stylesheet" href="css/common.css" />
+<script src="js/zepto.min.js"></script>
+<script src="js/zepto.weui.js"></script>
 <script src="js/toast.js"></script>
 <script type="text/javascript">
 	$(function() {
 		init();
-		$('.weui-btn_primary').click(function() {
+		$('.weui-textarea').bind('input propertychange',function() {
+			if ($(".weui-textarea").val().length >= 200) {
+				$(".weui-textarea").val(
+						$(".weui-textarea").val().substring(0,
+								200))
+			}
+			if ($(".weui-textarea").val().length != "") {
+				$('.fountCount').html(
+						$(".weui-textarea").val().length);
+			}
+		});
+		
+		$('.add_btn_primary').click(function() {
 			var content = $(".weui-textarea").val();
 			if (content.trim().length == 0) {
 				return false;
@@ -34,17 +46,6 @@
 					}
 				}
 			});
-		})
-		$('.weui-textarea').bind('input propertychange',function() {
-			if ($(".weui-textarea").val().length >= 200) {
-				$(".weui-textarea").val(
-						$(".weui-textarea").val().substring(0,
-								200))
-			}
-			if ($(".weui-textarea").val().length != "") {
-				$('.fountCount').html(
-						$(".weui-textarea").val().length);
-			}
 		});
 	})
 	function init() {
@@ -69,15 +70,13 @@
 		$(".container").css("height", $('.page__hd').height()+ $('.button-sp-area').height() + $('.show_message_board').height()+200)
 	}
 </script>
-<body ontouchstart>
+</head>
+<body>
 	<div class="container" id="container">
-		<div class="page button js_show">
 			<div class="page__hd">
 				<h1 class="page__title">留言板</h1>
 			</div>
 			<div class="button-sp-area">
-				<a href="javascript:;"
-					class="weui-btn weui-btn_mini weui-btn_primary">发表</a>
 				<div class="weui-cells weui-cells_form">
 					<div class="weui-cell" style="height: 400px;">
 						<div class="weui-cell__bd" style="height: 100%">
@@ -89,10 +88,32 @@
 						</div>
 					</div>
 				</div>
+				<button class="addButton add_btn_primary">发表</button>
 			</div>
 			<div class="none show_message_board button-sp-area"></div>
-		</div>
+		<br>
+	<br>
 		<div th:include="tabbar::pagination"></div>
 	</div>
 </body>
+<style>
+.addButton{
+	    width: 100%;
+	    border-radius: 10px;
+	    border: 1px solid rgba(0, 0, 0, 0.2);
+	    color: #FFFFFF;
+	    background-color: #1AAD19;
+	    height: 22px;
+	    margin-top: 20px;
+	}
+	.button-sp-area{
+		width: 90%;
+    	margin: 0 auto;
+	}
+	.show_message_board{
+		width: 90%;
+	    margin: 0 auto;
+	    margin-top: 20px;
+	}
+</style>
 </html>

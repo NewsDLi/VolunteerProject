@@ -5,17 +5,14 @@
 	content="width=device-width,initial-scale=1,user-scalable=0">
 <meta charset="UTF-8">
 <!-- 引入样式 -->
-<link rel="stylesheet"
-	href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 <link rel="stylesheet" href="css/weui.css" />
+<link rel="stylesheet" href="css/weuix.css">
 <link rel="stylesheet" href="css/example.css" />
 <link rel="stylesheet" href="css/mycareer.css" />
 <link rel="stylesheet" href="css/common.css" />
 <script src="js/zepto.min.js"></script>
+<script src="js/zepto.weui.js"></script>
 <script src="js/common.js"></script>
-<script type="text/javascript"
-	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
 </head>
 <body>
 	<div class="container" id="container">
@@ -41,21 +38,11 @@
 					<li  th:each="info,infoStat : ${post}">
 					<span th:text="${info.tagName}"></span>:<input class="weui-switch" onclick="return false" type="checkbox" checked="checked">
 					</li>
-					<!-- <li>主持:<input class="weui-switch" onclick="return false"
-						type="checkbox"></li>
-					<li>课堂:<input class="weui-switch" onclick="return false"
-						type="checkbox" checked="checked"></li>
-					<li>组长:<input class="weui-switch" onclick="return false"
-						type="checkbox" checked="checked"></li>
-					<li>洗完:<input class="weui-switch" onclick="return false"
-						type="checkbox" checked="checked"></li>
-					<li>后厨:<input class="weui-switch" onclick="return false"
-						type="checkbox" checked="checked"></li>
-					<li>大厨:<input class="weui-switch" onclick="return false"
-						type="checkbox" checked="checked"></li> -->
 				</ul>
 			</div>
 		</div>
+		<br>
+	<br>
 		<div th:include="tabbar::pagination"></div>
 	</div>
 </body>
