@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.volunteer.model.Honer;
+import com.volunteer.model.HonerExample;
 import com.volunteer.model.UserInfo;
 import com.volunteer.web.dao.HonerMapper;
 import com.volunteer.web.dao.UserInfoMapper;
@@ -45,5 +46,20 @@ public class HonerManagerImpl implements HonerManager{
 	@Override
 	public List<Honer> getAllHoner() {
 		return honerMapper.getAllHoner();
+	}
+
+	@Override
+	public Honer getHonerById(Long id) {
+		return honerMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public Long save(Honer honer) {
+		if (null == honer.getId()){
+			honerMapper.insertSelective(honer);
+			return honer.getId();
+		}
+		honerMapper.updateByPrimaryKeySelective(honer);
+		return honer.getId();
 	}
 }

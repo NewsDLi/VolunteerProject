@@ -10,4 +10,8 @@ public interface HonerManager {
 	
 	List<Honer> getAllHoner();
 
+	Honer getHonerById(Long id);
+
+	Long save(Honer honer);
+
 }

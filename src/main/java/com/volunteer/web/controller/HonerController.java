@@ -1,18 +1,26 @@
 package com.volunteer.web.controller;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.Honer;
 import com.volunteer.model.UserInfo;
+import com.volunteer.utils.ImageUtils;
 import com.volunteer.web.manager.HonerManager;
 
 @Controller
@@ -80,6 +88,68 @@ public class HonerController {
 			object.add(honer);
 		}
 		return object;
+	}
+	
+	@RequestMapping("/toUpdateHoner")
+	public String toUpdateHoner(HttpServletRequest request, Model model, Long id) {
+		String attribute = (String)request.getSession().getAttribute("showMessage");
+		request.getSession().removeAttribute("showMessage");
+		if(StringUtils.isNotBlank(attribute)){
+			model.addAttribute("showMessage", attribute);
+		}
+		if (null == id){
+			model.addAttribute("add", true);
+			return "updateHoner";
+		}
+		Honer honer = honerManager.getHonerById(id);
+		model.addAttribute("honer", honer);
+		model.addAttribute("update", true);
+		return "updateHoner";
+	}
+	
+	@RequestMapping(value = "/updateHoner", method = {RequestMethod.POST, RequestMethod.GET})
+	public String updateHoner(HttpServletRequest request, 
+			HttpServletResponse response, 
+			Model model,
+			Honer honer,
+			MultipartFile lightImg,
+			MultipartFile grayImg){
+		// 不为空表示更新 为空表示新增
+		if(null == honer.getId()){
+			if (StringUtils.isBlank(lightImg.getOriginalFilename()) || StringUtils.isBlank(grayImg.getOriginalFilename())){
+				request.getSession().setAttribute("showMessage", "新增，两张图片都不能为空");
+				return "redirect:/toUpdateHoner";
+			}
+			honer.setLight(savePic(lightImg, request));
+			honer.setGray(savePic(grayImg, request));
+			Long id = honerManager.save(honer);
+			request.getSession().setAttribute("showMessage", "添加成功！");
+			return "redirect:/toUpdateHoner?id=" + id;
+		}
+		if(StringUtils.isNotBlank(lightImg.getOriginalFilename())){
+			String light = savePic(lightImg, request);
+			honer.setLight(light);
+		}
+		if(StringUtils.isNotBlank(grayImg.getOriginalFilename())){
+			String gray = savePic(grayImg, request);
+			honer.setGray(gray);
+		}
+		if (null != honer.getRange() && 0 <= honer.getRange()){
+			honer.setRange(null);
+		}
+		Long id = honerManager.save(honer);
+		request.getSession().setAttribute("showMessage", "修改成功！");
+		return "redirect:/toUpdateHoner?id=" + id;
+	}
+	
+	private String savePic(MultipartFile lightImg, HttpServletRequest request){
+		String originalFilename = lightImg.getOriginalFilename();
+		//上传图片
+		if(lightImg!=null && originalFilename!=null && originalFilename.length()>0){
+			String url = ImageUtils.saveImage(request, lightImg, "images/honer/");
+			return url;
+		}
+		return null;
 	}
 	
 }

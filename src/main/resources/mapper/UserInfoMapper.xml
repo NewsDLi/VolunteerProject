@@ -465,6 +465,6 @@
 		LIMIT #{begin},#{pagesize}
 	</select>
 	<select id="getAllGroups" resultType="int">
-		SELECT group_team FROM user_info GROUP BY group_team
+		SELECT group_team FROM user_info WHERE group_team IS NOT NULL  GROUP BY group_team
 	</select>
 </mapper>

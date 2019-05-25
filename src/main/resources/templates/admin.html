@@ -179,6 +179,9 @@ function getData(kewWords, group, role, pageNum){
 				}
 				$("#list").html(html);
 			}
+			if (data.code == '1000200'){
+				$.toast('不好意思，您还没有组别','text');
+			}
 		}
 	});
 	initPage(pageSize,pageNum);

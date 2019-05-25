@@ -71,7 +71,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, gray, light, title, is_light, sort, version, range, is_click_send
+    id, gray, light, title, is_light, sort, version, `range`, is_click_send
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.volunteer.model.HonerExample" >
     select
@@ -106,12 +106,12 @@
   <insert id="insert" parameterType="com.volunteer.model.Honer" >
     insert into honer (id, gray, light, 
       title, is_light, sort, version, 
-      range, is_click_send)
+      `range`, is_click_send)
     values (#{id,jdbcType=BIGINT}, #{gray,jdbcType=VARCHAR}, #{light,jdbcType=VARCHAR}, 
       #{title,jdbcType=VARCHAR}, #{isLight,jdbcType=BIT}, #{sort,jdbcType=INTEGER}, #{version,jdbcType=TIMESTAMP}, 
       #{range,jdbcType=INTEGER}, #{isClickSend,jdbcType=BIT})
   </insert>
-  <insert id="insertSelective" parameterType="com.volunteer.model.Honer" >
+  <insert id="insertSelective" parameterType="com.volunteer.model.Honer"  useGeneratedKeys="true" keyProperty="id">
     insert into honer
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -136,7 +136,7 @@
         version,
       </if>
       <if test="range != null" >
-        range,
+        `range`,
       </if>
       <if test="isClickSend != null" >
         is_click_send,
@@ -203,7 +203,7 @@
         version = #{record.version,jdbcType=TIMESTAMP},
       </if>
       <if test="record.range != null" >
-        range = #{record.range,jdbcType=INTEGER},
+        `range` = #{record.range,jdbcType=INTEGER},
       </if>
       <if test="record.isClickSend != null" >
         is_click_send = #{record.isClickSend,jdbcType=BIT},
@@ -222,7 +222,7 @@
       is_light = #{record.isLight,jdbcType=BIT},
       sort = #{record.sort,jdbcType=INTEGER},
       version = #{record.version,jdbcType=TIMESTAMP},
-      range = #{record.range,jdbcType=INTEGER},
+      `range` = #{record.range,jdbcType=INTEGER},
       is_click_send = #{record.isClickSend,jdbcType=BIT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -250,7 +250,7 @@
         version = #{version,jdbcType=TIMESTAMP},
       </if>
       <if test="range != null" >
-        range = #{range,jdbcType=INTEGER},
+        `range` = #{range,jdbcType=INTEGER},
       </if>
       <if test="isClickSend != null" >
         is_click_send = #{isClickSend,jdbcType=BIT},
@@ -266,7 +266,7 @@
       is_light = #{isLight,jdbcType=BIT},
       sort = #{sort,jdbcType=INTEGER},
       version = #{version,jdbcType=TIMESTAMP},
-      range = #{range,jdbcType=INTEGER},
+      `range` = #{range,jdbcType=INTEGER},
       is_click_send = #{isClickSend,jdbcType=BIT}
     where id = #{id,jdbcType=BIGINT}
   </update>

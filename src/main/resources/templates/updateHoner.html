@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<meta charset="UTF-8">
+<!-- 引入样式 -->
+ <link rel="stylesheet" href="css/weui.css" />
+<link rel="stylesheet" href="css/weuix.css" />
+<link rel="stylesheet" href="css/common.css" />
+<script src="js/zepto.min.js"></script>
+<script src="js/zepto.weui.js"></script>
+<script src="js/swipe.js"></script>
+ <script type="text/javascript">
+$(function(){
+	init();
+	$('#uploaderGray').change(function(e){
+		var imgBox = e.target;
+        uploadImg($('#uploaderGray'), imgBox, '.img-gray');
+	});
+	$('#uploaderLight').change(function(e){
+		var imgBox = e.target;
+        uploadImg($('#uploaderLight'), imgBox, '.img-light');
+	});
+	$('.updateHoner').click(function(){
+		$.confirm({
+			  title: '添加',
+			  text: '确认操作？',
+			  onOK: function () {
+				  if ($('.clickSend').val()=="是"){
+					  $('.clickSend').val("true");
+				  } else if ($('.clickSend').val()=="否"){
+					  $('.clickSend').val("false");
+				  } else {
+					  $.toast('手动颁发:请填写“是”或“否”','text');
+					  return;
+				  }
+				  
+				 $('.form').attr("action", "/updateHoner");
+				  $('.form').submit();
+			  },
+			  onCancel: function () {
+				  return;
+			  }
+			});
+	});
+});
+function uploadImg(element, tag, cla) {
+    var file = tag.files[0];
+    var imgSrc;
+    if (!/image\/\w+/.test(file.type)) {
+        alert("看清楚，这个需要图片！");
+        return false;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function() {
+        console.log(this.result);
+        imgSrc = this.result;
+        $(cla).attr("src", imgSrc);
+    };
+}
+function gotoThisPage(id){
+	location.href="/getWhellPlantingById?id="+id;
+}
+function init(){
+	if($('#showMessage').val() != ''){
+		var aaa = $('#showMessage').val();
+		$.toast(aaa,'text');
+	}
+}
+</script>
+</head>
+<body ontouchstart="" class="page-bg">
+
+<div class="weui-news">
+	<div class="weui-flex header">
+			<h2>首页-勋章墙管理</h2>
+	</div>
+</div>
+<div class="weui-cells weui-cells_form">
+<input id="showMessage" th:if="${showMessage != null}" type="hidden" th:value="${showMessage}">
+<input id="showMessage" th:else type="hidden">
+	<form class="form" method="post" enctype="multipart/form-data">
+	<div th:if="${update}">
+		<input id="id" name="id" th:value="${honer.id}" type="hidden">
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">标题</label></div>
+		    <div class="weui-cell__bd">
+		      <input class="weui-input" name="title" th:value="${honer.title}" type="text" placeholder="请输入标题">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">点亮期数</label></div>
+		    <div class="weui-cell__bd">
+		      <input class="weui-input" name="range" th:value="${honer.range}" type="number" placeholder="请输入具体数字">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">排序</label></div>
+		    <div class="weui-cell__bd">
+		      <input class="weui-input" name="sort" th:value="${honer.sort}" type="number" required="required" placeholder="请输入具体数字">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">手动颁发</label></div>
+		    <div class="weui-cell__bd">
+		      <input class="weui-input clickSend" name="isClickSend" th:if="${honer.isClickSend eq true}" value="是" type="text" required="required" placeholder="请输入是或否">
+		      <input class="weui-input clickSend" name="isClickSend" th:if="${honer.isClickSend eq false}" value="否" type="text" required="required" placeholder="请输入是或否">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">点亮图片</label></div>
+		    <div class="weui-cell__bd">点我选择图片
+		      <input id="uploaderLight" name="lightImg" class="weui-uploader__input" type="file" accept="image/*">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">灰色图片</label></div>
+		    <div class="weui-cell__bd">点我选择图片
+		      <input id="uploaderGray" name="grayImg" class="weui-uploader__input" type="file" accept="image/*">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		    <div class="weui-cell__bd image_style">
+		    	<img class="img-light" width="45%" height="45%" alt="" th:src="${honer.light}">
+		    	<img class="img-gray" width="45%" height="45%" alt="" th:src="${honer.gray}">
+		    </div>
+		 </div>
+	 </div>
+	<div th:if="${add}">
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">标题</label></div>
+		    <div class="weui-cell__bd">
+		      <input class="weui-input" name="title" type="text" placeholder="请输入标题">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">点亮期数</label></div>
+		    <div class="weui-cell__bd">
+		      <input class="weui-input" name="range" type="number" placeholder="请输入具体数字">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">排序</label></div>
+		    <div class="weui-cell__bd">
+		      <input class="weui-input" name="sort" type="number" required="required" placeholder="请输入具体数字">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">手动颁发</label></div>
+		    <div class="weui-cell__bd">
+		      <input class="weui-input clickSend" name="clickSend" type="text" required="required" placeholder="请输入是或否">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">点亮图片</label></div>
+		    <div class="weui-cell__bd">点我选择图片
+		      <input id="uploaderLight" name="lightImg" class="weui-uploader__input" type="file" accept="image/*">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		 	<div class="weui-cell__hd"><label class="weui-label">灰色图片</label></div>
+		    <div class="weui-cell__bd">点我选择图片
+		      <input id="uploaderGray" name="grayImg" class="weui-uploader__input" type="file" accept="image/*">
+		    </div>
+		 </div>
+		 <div class="weui-cell">
+		    <div class="weui-cell__bd image_style">
+		    	<img class="img-light" width="45%" height="45%" alt="" src="">
+		    	<img class="img-gray" width="45%" height="45%" alt="" src="">
+		    </div>
+		 </div>
+	 </div>
+	 </form>
+	 <button th:if="${update}" class="addButton updateHoner">确认更新</button>
+	 <button th:if="${add}" class="addButton updateHoner">确认添加</button>
+</div>
+<br>
+<br>
+<div th:include="tabbar::pagination"></div>
+</body>
+<style>
+.addButton {
+    width: 100%;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    color: #FFFFFF;
+    background-color: #1AAD19;
+    height: 22px;
+}
+.image_style{
+    display: flex;
+    justify-content: space-around;
+}
+</style>
+</html>

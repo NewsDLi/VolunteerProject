@@ -140,6 +140,11 @@ public class UserInfoController {
 			@RequestParam(value="role", required=false, defaultValue="")String role,
 			@RequestParam(value="pageNum", required=false)String pageNum){
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		
+		if(userInfo.getRoleId().equals(1L) && null == userInfo.getGroupTeam()){
+			return ApiResponse.build(ResponseStatus.PERMISSION, null);
+		}
+		
 		String header = request.getHeader("referer");
 		// 每页10条数据
 		int pagesize = 10;
@@ -208,7 +213,7 @@ public class UserInfoController {
 		UserInfo userInfo = userInfoManager.getUserInfoById(id);
 		
 		boolean isCanUpdate = false;
-		if ((loginUserInfo.getGroupTeam().equals(userInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(3L)){
+		if ((userInfo.getGroupTeam().equals(loginUserInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(3L)){
 			isCanUpdate = true;
 		}
 		
