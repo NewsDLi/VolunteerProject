@@ -92,15 +92,6 @@ public class ForwardController {
         return "messageBoard";
     }
 
-    /**
-     * 勋章墙
-     *
-     * @return
-     */
-    @RequestMapping("/honer.htm")
-    public String honer() {
-        return "honer";
-    }
 
     @RequestMapping("/weui.htm")
     public String weui() {

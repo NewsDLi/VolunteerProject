@@ -7,5 +7,7 @@ import com.volunteer.model.Honer;
 public interface HonerManager {
 
 	List<Honer> getMyHoner(Long id);
+	
+	List<Honer> getAllHoner();
 
 }
