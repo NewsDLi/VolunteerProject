@@ -116,11 +116,18 @@ public class ForwardController {
     }
 
     /**
+     * 社区主页
+     */
+    @RequestMapping("/communityPage.htm")
+    public String communityPage() {
+        return "communityPage";
+    }
+    /**
      * 社区
      */
     @RequestMapping("/community.htm")
-    public String community(HttpServletRequest request) {
-        List<CommunityArticles> communityArticles = forumManager.selectForum(1);
+    public String community(HttpServletRequest request,@RequestParam Integer type) {
+        List<CommunityArticles> communityArticles = forumManager.selectForum(type);
         request.setAttribute("communityArticles",communityArticles);
         return "community";
     }

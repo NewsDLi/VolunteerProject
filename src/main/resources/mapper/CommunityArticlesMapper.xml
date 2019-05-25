@@ -74,7 +74,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, title, publication_time, subheading, author, type, lifecycle, sort, image
+    id, title, publication_time, subheading, author, type, lifecycle, sort, image,content
   </sql>
   <sql id="Blob_Column_List" >
     content

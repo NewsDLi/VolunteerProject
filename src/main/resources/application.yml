@@ -33,7 +33,12 @@ spring:
     cache: false
     servlet:
       content-type: text/html
-  
+  #静态资源对外暴露的访问路径
+  mvc:
+    stastatic-path-pattern: /**
+  resources:
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/upload/,file:/C:/upload
+
 mybatis:
   mapper-locations:
   - classpath*:mapper/*.xml

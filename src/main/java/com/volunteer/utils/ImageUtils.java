@@ -39,8 +39,8 @@ public class ImageUtils {
             return null;
         }
         // String ext = file.getContentType().split("\\/")[1];
-        String newFileName = UUID.randomUUID().toString().replaceAll("-", "") + "." + ext;
-        String realPath = request.getServletContext().getRealPath(uploadPath);
+        String newFileName = UUID.randomUUID().toString().replaceAll("-", "")+ fileName;
+        String realPath =uploadPath;
         String filePathAndName = null;
         if (realPath.endsWith(File.separator)) {
             filePathAndName = realPath + newFileName;
@@ -56,7 +56,7 @@ public class ImageUtils {
         }
         // 然后进行压缩处理
         thumbImage(filePathAndName);
-        return uploadPath + newFileName;
+        return "/" + newFileName;
     }
 
 

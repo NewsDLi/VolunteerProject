@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.util.*;
 
 /**
@@ -40,7 +41,10 @@ public class ForumController {
         Iterator<String> iterator = mr.getFileNames();
         while (iterator.hasNext()) {
             MultipartFile multipartFile = mr.getFile(iterator.next());
-            String url = ImageUtils.saveImage(request, multipartFile, "/images/");
+            String url = ImageUtils.saveImage(request, multipartFile, "c:/upload");
+           if(Validator.isNullOrEmpty(request.getSession().getAttribute("image"))){
+               request.getSession().setAttribute("image",url);
+           }
             return url;
         }
         return null;
@@ -50,6 +54,8 @@ public class ForumController {
     @RequestMapping(value = "/uploadEditor", method = {RequestMethod.POST, RequestMethod.GET})
     @ResponseBody
     public String uploadEditor(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "heading", required = false) String heading, @RequestParam("type") String type, @RequestParam("title") String title, @RequestParam("data") String data) {
+        HttpSession session = request.getSession();
+        String url = (String)session.getAttribute("image");
         UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
         CommunityArticles communityArticles = new CommunityArticles();
         communityArticles.setContent(data);
@@ -58,6 +64,10 @@ public class ForumController {
         communityArticles.setPublicationTime(new Date());
         communityArticles.setLifecycle(CommunityArticles.START_LIFECYCLE);
         communityArticles.setType(Integer.parseInt(type));
+        communityArticles.setImage(url);
+        if(Validator.isNotNullOrEmpty(url)){
+            session.removeAttribute("image");
+        }
         if (Validator.isNotNullOrEmpty(heading)) {
             communityArticles.setSubheading(heading);
         }
@@ -65,21 +75,22 @@ public class ForumController {
         return isSuccess.toString();
     }
 
+
     //获取列表
-    @RequestMapping(value = "/forumList/{type}", method = {RequestMethod.GET})
-    @ResponseBody
-    public ApiResponse<Object> getFormList(HttpServletRequest request, HttpServletResponse response, @PathVariable("type") String type) {
+    @RequestMapping(value = "/forumList/{type}")
+    public String getFormList(HttpServletRequest request, @PathVariable("type") String type) {
         if (Validator.isNullOrEmpty(type)) {
             type = "1";
         }
         List<CommunityArticles> communityArticles = forumManager.selectForum(Integer.parseInt(type));
         if (Validator.isNullOrEmpty(communityArticles)) {
-            return ApiResponse.build(ResponseStatus.FAIL, null);
+            return "communityPage";
         }
-        return ApiResponse.build(ResponseStatus.SUCCESS, communityArticles);
+        request.setAttribute("communityArticles",communityArticles);
+        return "community";
     }
 
-    //获取列表
+    //获取内容
     @RequestMapping(value = "/forum.htm", method = {RequestMethod.GET})
     public String getForm(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id) {
         if (Validator.isNullOrEmpty(id)) {
