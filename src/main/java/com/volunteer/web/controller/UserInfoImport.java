@@ -49,7 +49,7 @@ import com.volunteer.web.manager.UserInfoTagManager;
 @Controller
 public class UserInfoImport {
 
-	private Logger LOGGER = LoggerFactory.getLogger(this.getClass());
+	private Logger LOGGER = LoggerFactory.getLogger(UserInfoImport.class);
 	
 	@Autowired
 	private UserInfoManager userInfoManager;
@@ -116,7 +116,7 @@ public class UserInfoImport {
             List<Object> userInfo = getUserInfo(cacher);
             boolean isSuccess = doHandleUserInfo(userInfo);
         } catch (IOException e) {
-        	
+        	LOGGER.error("导入模板信息报错", e);
         }
         return ApiResponse.build(ResponseStatus.SUCCESS, "");
     }

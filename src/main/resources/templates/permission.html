@@ -1,0 +1,233 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<title></title>
+<meta name="viewport"
+	content="width=device-width,initial-scale=1,user-scalable=0">
+<link rel="stylesheet" href="css/weui.css">
+<link rel="stylesheet" href="css/weuix.css">
+<link rel="stylesheet" href="css/common.css" />
+<script src="js/zepto.min.js"></script>
+<script src="js/zepto.weui.js"></script>
+<script>
+	var groupTeam=[];
+	var pageSize = 1;
+	$(function() {
+		getData('', '', '', 1);
+		$("#job").select({
+		     title: "选择组别",
+		     items: groupTeam,
+		     onChange: function(d) {
+		         console.log(this, d);
+		     },
+		     onClose: function() {
+		         console.log("close");
+		     },
+		     onOpen: function() {
+		         console.log("open");
+		     },
+		 });
+		 $("#mobile").select({
+		     title: "义工权限",
+		     items: [
+		         {
+		             title: "义工",
+		             value: "001",
+		         },
+		         {
+		             title: "组长",
+		             value: "004",
+		         },
+		         {
+		             title: "教授",
+		             value: "002",
+		         },
+		         {
+		             title: "",
+		             value: "",
+		         }
+		     ]
+		 });
+		 /**
+		 * 搜索按钮点击
+		 */
+		 $('.weui-btn_mini').click(function(){
+			 var keywords = $('.search-input').val();
+			 var group = $('#job').val();
+			 var role = $('#mobile').attr('data-values');
+			 if ('undefined' == typeof role){
+					role = '';
+			 }
+			// 默认页数1
+			var pageNum = 1;
+			getData(keywords, group, role, pageNum);
+		 });
+	});
+/**
+ * 时间转换
+ */
+function getDate(version){
+	var date = new Date(version);
+	return date.getFullYear() + "-" +getMonthPlusOne(date.getMonth()) + "-" + date.getDate();
+}
+function getMonthPlusOne(month){
+	return month*1+1;
+}
+/**
+ * 初始化页数
+ */
+function initPage(pageSize, initPage){
+	var htmlpage = '';
+	if(pageSize>0){
+		htmlpage += '<a onclick="gotoPre()" class="pager2-pre">&lt;</a>';
+	}
+	if(initPage>=3 && pageSize > 5 && initPage + 2 <= pageSize){
+		for(var j=initPage-2;j<=initPage+2;j++){
+			if(j == initPage){
+				htmlpage+='<a class="active" onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
+			}else{
+				htmlpage+='<a onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
+			}
+		}
+	}else if(initPage + 2 > pageSize && pageSize > 5){
+		for(var j=pageSize-4;j<=pageSize;j++){
+			if(j == initPage){
+				htmlpage+='<a class="active" onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
+			}else{
+				htmlpage+='<a onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
+			}
+		}
+	}else{
+		for(var j=1;j<=pageSize;j++){
+			if(j == initPage){
+				htmlpage+='<a class="active" onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
+			}else{
+				htmlpage+='<a onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
+			}
+			
+		}
+	}
+	if(pageSize>0){
+		htmlpage+='<a onclick="gotoNext()" class="pager2-next">&gt;</a>';
+	}
+	$('.pager2').html(htmlpage);
+}
+/**
+ * 跳转去pageNum页
+ */
+function gotoThisPage(pageNum, event){
+	var keywords = $('.search-input').val();
+	var group = $('#job').val();
+	var role = $('#mobile').attr('data-values');
+	if ('undefined' == typeof role){
+		role = '';
+ 	}
+	getData(keywords, group, role, pageNum);
+}
+/**
+ * 上一页
+ */
+function gotoPre(){
+	if(($('.active').html()*1 - 1) <= 0){
+		return;
+	}
+	gotoThisPage($('.active').html()*1 - 1);
+}
+/**
+ * 下一页
+ */
+function gotoNext(){
+	if($('.active').html()*1+1 > pageSize){
+		return;
+	}
+	gotoThisPage($('.active').html()*1 + 1);
+}
+/**
+ * 获取列表数据
+ */
+function getData(kewWords, group, role, pageNum){
+	var html = '';
+	$.ajax({
+		type : "post",
+		url : "/powerManager",
+		async: false,
+		data : "kewWords=" + kewWords + "&group="+ group +"&role="+ role +"&pageNum=" + pageNum,
+		success : function(data) {
+			if (data.message == 'success') {
+				for(var i=0;i<data.data.groups.length;i++){
+					groupTeam.push(data.data.groups[i]+'');
+				}
+				groupTeam.push('');
+				pageNum = data.data.pageNum;
+				pageSize = data.data.pageCount;
+				for(var i=0; i<data.data.infos.length; i++){
+					html += ' <a class="weui-cell weui-cell_access" href=/getOtherUserInfo?id='+ data.data.infos[i].id +'>'
+						+ '<div class="weui-cell__hd">'
+						+ '<p>'
+						+ data.data.infos[i].name
+						+ '</p>'
+						+ '</div>'
+						+ '<div class="weui-cell__bd">'
+						+ '<p>&nbsp;&nbsp;'
+						+ data.data.infos[i].loginPhone
+						+ '</p>'
+						+ '</div>'
+						+ '<div class="weui-cell__ft">'
+						+ getDate(data.data.infos[i].version)
+						+ '</div>'
+						+ '</a>'
+				}
+				$("#list").html(html);
+			}
+			if (data.code == '1000200'){
+				$.toast('不好意思，您还没有组别','text');
+			}
+		}
+	});
+	initPage(pageSize,pageNum);
+}
+</script>
+</head>
+
+<body ontouchstart>
+	<div class="weui-flex header">
+			<h2>权限管理</h2>
+	</div>
+	
+	<div class="weui-cells weui-cells_form">
+	    <div class="weui-cell">
+	        <div class="weui-cell__hd"><label for="job" class="weui-label">组别</label></div>
+	        <div class="weui-cell__bd">
+	            <input class="weui-input" id="job" type="text" value="" readonly="">
+	        </div>
+	    </div>
+	    <div class="weui-cell">
+	        <div class="weui-cell__hd"><label for="mobile" class="weui-label">义工权限</label></div>
+	        <div class="weui-cell__bd">
+	            <input class="weui-input" id="mobile" type="text" value="" readonly="">
+	        </div>
+	    </div>
+	</div>
+	<!--搜索-->
+	<div class="weui-search-bar">
+		<input type="search" class="search-input" id="search"
+			placeholder="关键字">
+		<button class="weui-btn weui-btn_mini weui-btn_primary">
+			<i class="icon icon-4"></i>
+		</button>
+	</div>
+	<!--列表-->
+	<div class="weui-cells" id="list">
+	</div>
+	<div class="pager2">
+        <!-- <a class="active">1</a>
+        <a>2</a>
+        <a>3</a>
+        <a>4</a>
+        <a>5</a> -->
+    </div>
+	<br>
+	<br>
+	<div th:include="tabbar::pagination"></div>
+</body>
+</html>

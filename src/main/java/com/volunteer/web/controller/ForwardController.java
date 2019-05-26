@@ -126,12 +126,21 @@ public class ForwardController {
     /**
 
     /**
-     * 权限管理页面
+     * 义工组别
      */
     @RequestMapping("/admin")
     public String admin() {
         return "admin";
     }
+    /**
+     * 权限管理
+     */
+    @RequestMapping("/permission.htm")
+    public String permission() {
+    	return "permission";
+    }
+    
+    
     /**
      * 论坛编辑
      */
