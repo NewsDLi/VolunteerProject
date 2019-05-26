@@ -17,6 +17,8 @@ public class ArticleMessageBoard {
 
     private Integer sort;
 
+    private Integer pid;
+
     public Long getId() {
         return id;
     }
@@ -71,5 +73,13 @@ public class ArticleMessageBoard {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public Integer getPid() {
+        return pid;
+    }
+
+    public void setPid(Integer pid) {
+        this.pid = pid;
     }
 }

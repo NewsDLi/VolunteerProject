@@ -42,7 +42,7 @@
             <property name="enableSubPackages" value="true" />
         </javaClientGenerator>
         <!-- 指定数据库表 -->
-        <table domainObjectName="Honer" tableName="honer"></table>
+        <table domainObjectName="ArticleMessageBoard" tableName="article_message_board"></table>
 
 
     </context>

@@ -2,6 +2,7 @@ package com.volunteer.web.controller.forum;
 
 import com.feilong.core.Validator;
 import com.volunteer.constant.UserConstant;
+import com.volunteer.model.ArticleMessageBoard;
 import com.volunteer.model.CommunityArticles;
 import com.volunteer.model.UserInfo;
 import com.volunteer.response.ApiResponse;
@@ -65,6 +66,7 @@ public class ForumController {
         communityArticles.setLifecycle(CommunityArticles.START_LIFECYCLE);
         communityArticles.setType(Integer.parseInt(type));
         communityArticles.setImage(url);
+        communityArticles.setSort(0);
         if(Validator.isNotNullOrEmpty(url)){
             session.removeAttribute("image");
         }
@@ -98,7 +100,28 @@ public class ForumController {
             return "redirect:"+url;
         }
         List<CommunityArticles> communityArticles = forumManager.selectForumText(Long.parseLong(id));
+        List<ArticleMessageBoard> articleMessageBoards = forumManager.selectArticleList(Long.parseLong(id));
         request.setAttribute("communityArticle",communityArticles.get(0));
+
         return "forum";
+    }
+    //顶置
+    @RequestMapping(value = "/forum/top", method = {RequestMethod.GET})
+    public ApiResponse<Object> getFormTop(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id) {
+        if (Validator.isNullOrEmpty(id)) {
+            return ApiResponse.build(ResponseStatus.FAIL, "");
+        }
+        int i = forumManager.updateArticleListbySort(Long.parseLong(id));
+        if(i>0){
+            return ApiResponse.build(ResponseStatus.SUCCESS, i);
+        }
+        return ApiResponse.build(ResponseStatus.FAIL, "");
+    }
+
+    //发表评论
+    public ApiResponse<Object> saveArticleMwssageBoard(HttpServletRequest request, HttpServletResponse response){
+
+
+        return null;
     }
 }

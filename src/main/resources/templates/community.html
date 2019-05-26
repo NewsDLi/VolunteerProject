@@ -1,27 +1,37 @@
 <!DOCTYPE html>
 <html lang="zh-cmn-Hans" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta name="viewport"
-	content="width=device-width,initial-scale=1,user-scalable=0">
-<meta charset="UTF-8">
-<!-- 引入样式 -->
-<link rel="stylesheet"
-	href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
-<link rel="stylesheet" href="css/weui.css" />
-<link rel="stylesheet" href="css/weuix.css" />
-<link rel="stylesheet" href="css/example.css" />
-<link rel="stylesheet" href="css/myinfo.css" />
-<link rel="stylesheet" href="css/common.css" />
-<script src="js/zepto.min.js"></script>
-<script src="js/common.js"></script>
-<script type="text/javascript"
-	src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
-<script src="js/swipe.js"></script>
-<script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
-	<script src="js/zepto.min.js"></script>
-	<script src="js/zepto.weui.js"></script>
-	<script src="js/iscroll-lite.js"></script>
-	<script src="js/community.js"></script>
+    <meta name="viewport"
+          content="width=device-width,initial-scale=1,user-scalable=0">
+    <meta charset="UTF-8">
+    <!-- 引入样式 -->
+    <link rel="stylesheet"
+          href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="css/weui.css"/>
+    <link rel="stylesheet" href="css/weuix.css"/>
+    <link rel="stylesheet" href="css/example.css"/>
+    <link rel="stylesheet" href="css/myinfo.css"/>
+    <link rel="stylesheet" href="css/common.css"/>
+    <style>
+	.icon-7{
+                position: absolute;
+    left: 50%;
+    top: -5%;
+    font-size: 26px;
+    color: grey;
+		}
+
+    </style>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/common.js"></script>
+    <script type="text/javascript"
+            src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script src="js/swipe.js"></script>
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/zepto.weui.js"></script>
+    <script src="js/iscroll-lite.js"></script>
+    <script src="js/community.js"></script>
 </head>
 <body ontouchstart="" class="page-bg">
 <!--<div class="weui-tab" style="height:35px;" id="t5">-->
@@ -35,57 +45,67 @@
 <!--</div>-->
 
 
+<div class="weui-news" style="height: 94%;">
+    <ul class="weui-news-list lists" id="lists">
 
-<div class="weui-news">
-	<ul class="weui-news-list lists" id="lists">
-
-		<li class="weui-news-item link"  th:each="communityArticle,communityArticleStart : ${communityArticles}">
-			<div class="weui-news-inner">
-			<div class="weui-news-inners">
-				<!--标题-->
-				<div class="weui-news-title" th:text="${communityArticle.title}"></div>
-				<!--副标题-->
-				<p class="weui-news-p" th:text="${communityArticle.subheading}"></p>
-				<div class="weui-news-info">
-					<!--时间-->
-					<div class="weui-news-infoitem" th:text="${#dates.format(communityArticle.publicationTime, 'yyyy-MM-dd HH:mm')}"></div>
-
-					<input class="hidden" type="hidden" th:value="${communityArticle.id}">
-				</div>
-			</div>
-				<div class="weui-news-media" th:if="${communityArticle.image}">
-					<img th:src="@{${communityArticle.image}}"/>
-				</div>
-			</div>
-		</li>
-
-
-
-	</ul>
+        <li class="weui-news-item link" th:each="communityArticle,communityArticleStart : ${communityArticles}">
+            <div class="weui-news-inner">
+                <div class="weui-news-inners">
+                    <!--标题-->
+                    <div class="weui-news-title" th:text="${communityArticle.title}"></div>
+                    <!--副标题-->
+                    <p class="weui-news-p" th:text="${communityArticle.subheading}"></p>
+                    <div class="weui-news-info">
+                        <!--时间-->
+                        <div class="weui-news-infoitem"
+                             th:text="${#dates.format(communityArticle.publicationTime, 'yyyy-MM-dd HH:mm')}"></div>
+                        <input class="hidden" type="hidden" th:value="${communityArticle.id}">
+                        <div th:if="${session.login_phone.roleId} eq 3">
+                            <div th:if="${communityArticle.sort} eq 0">
+                            <span class="icon icon-7" ></span>
+                            </div>
+                            <div th:if="${communityArticle.sort} eq 1">
+                            <span class="icon icon-7 top" ></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="weui-news-media" th:if="${communityArticle.image}">
+                    <img th:src="@{${communityArticle.image}}"/>
+                </div>
+            </div>
+        </li>
+    </ul>
 </div>
 <div class="weui-footer weui-footer_fixed-bottom" style="bottom: 6.52em;left: 78%;">
-	<p class="weui-footer__links">
-		<a href="/editor" class="weui-footer__link"><ul class="icon_lists clear"><li ><span class="icon icon-115" style="font-size: 35px;line-height: 40px;margin: 5px 0;color: #10AEFF;-webkit-transition: font-size 0.5s ease-out 0s;-moz-transition: font-size 0.5s ease-out 0s;transition: font-size 0.5s ease-out 0s;"></span></li></ul></a>
-	</p>
+    <p class="weui-footer__links">
+        <a href="/editor" class="weui-footer__link">
+            <ul class="icon_lists clear">
+                <li><span class="icon icon-115"
+                          style="font-size: 35px;line-height: 40px;margin: 5px 0;color: #10AEFF;-webkit-transition: font-size 0.5s ease-out 0s;-moz-transition: font-size 0.5s ease-out 0s;transition: font-size 0.5s ease-out 0s;"></span>
+                </li>
+            </ul>
+        </a>
+    </p>
 </div>
 <script src="js/common.js"></script>
 <!-- 与下拉框特效存在冲突，暂时注释掉 -->
 <!-- <script src="js/jquery.js"></script> -->
 <div class="weui-tab tab-bottom " style="height:44px; position: fixed;">
-	<div class="weui-tabbar">
-		<a href="javascript:;" class="weui-tabbar__item mine">
-			<i class="icon icon-30 f27 weui-tabbar__icon"></i>
-			<p class="weui-tabbar__label">我的</p>
-		</a>
-		<a href="javascript:;" class="weui-tabbar__item homepage">
-			<i class="icon icon-27 f27 weui-tabbar__icon"></i>
-			<p class="weui-tabbar__label">主页</p>
-		</a>
-		<a href="javascript:;" class="weui-tabbar__item community">
-			<i class="icon icon-5 f27 weui-tabbar__icon"></i>
-			<p class="weui-tabbar__label">社区</p>
-		</a>
-	</div>
+    <div class="weui-tabbar">
+        <a href="javascript:;" class="weui-tabbar__item mine">
+            <i class="icon icon-30 f27 weui-tabbar__icon"></i>
+            <p class="weui-tabbar__label">我的</p>
+        </a>
+        <a href="javascript:;" class="weui-tabbar__item homepage">
+            <i class="icon icon-27 f27 weui-tabbar__icon"></i>
+            <p class="weui-tabbar__label">主页</p>
+        </a>
+        <a href="javascript:;" class="weui-tabbar__item community">
+            <i class="icon icon-5 f27 weui-tabbar__icon"></i>
+            <p class="weui-tabbar__label">社区</p>
+        </a>
+    </div>
 </div>
 </body>
 </html>

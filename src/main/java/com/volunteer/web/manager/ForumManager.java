@@ -29,5 +29,15 @@ public interface ForumManager {
 	/**
 	 * 查询留言内容
 	 */
-	List<ArticleMessageBoard> selectArticleList(Long id);
+	List<ArticleMessageBoard> selectArticleList(Long communityArticlesId);
+
+	/**
+	 * 保存留言内容
+	 */
+	ArticleMessageBoard saveArticleList(ArticleMessageBoard communityArticlesId);
+
+	/**
+	 * 更新论坛排序
+	 */
+	int updateArticleListbySort(Long communityArticlesId);
 }
