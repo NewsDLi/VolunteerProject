@@ -65,7 +65,7 @@
                             <span class="icon icon-7" ></span>
                             </div>
                             <div th:if="${communityArticle.sort} eq 1">
-                            <span class="icon icon-7 top" ></span>
+                            <span class="icon icon-7 top"  th:onclick="'javascript:fungetone(\''+${communityArticle:.id}+'\')'"></span>
                             </div>
                         </div>
                     </div>

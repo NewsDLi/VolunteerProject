@@ -5,6 +5,7 @@ $(".link").click(function(){
         var id = $('ul input:eq('+a+')').val();
         urls(id);
 });
+
 $(".type1").click(function(){
 	if($(".type1").hasClass("bg-green")){
               $.toast("已经在此页面", "text");
@@ -62,4 +63,8 @@ var html = "";
 function urls(id){
 location.href = "/forum.htm?id="+id;
 		return false;
+}
+function fungetone(uid){
+    var s = uid;
+
 }
