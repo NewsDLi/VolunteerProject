@@ -32,15 +32,13 @@ public class UserInfoTagManagerImpl implements UserInfoTagManager{
 	}
 
 	@Override
-	public List<UserInfoTag> getMyHoner(Long id) {
-		UserInfoTagExample example = new UserInfoTagExample();
-		example.createCriteria().andTypeEqualTo(CommonConstant.TYPE_MEDAL_WALL).andUserIdEqualTo(id);
-		return userInfoTagMapper.selectByExample(example);
+	public void tagCountPlusOne(Long id) {
+		userInfoTagMapper.tagCountPlusOne(id);
 	}
 
 	@Override
-	public void tagCountPlusOne(Long id) {
-		userInfoTagMapper.tagCountPlusOne(id);
+	public UserInfoTag getUserInfoTag(Long id) {
+		return userInfoTagMapper.selectByPrimaryKey(id);
 	}
 
 }

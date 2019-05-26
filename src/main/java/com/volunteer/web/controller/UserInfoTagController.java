@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserInfoTag;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
+import com.volunteer.web.manager.HonerManager;
+import com.volunteer.web.manager.UserInfoManager;
 import com.volunteer.web.manager.UserInfoTagManager;
 
 @Controller
@@ -20,6 +23,9 @@ public class UserInfoTagController {
 
 	@Autowired
 	private UserInfoTagManager userInfoTagManager;
+	
+	@Autowired
+	private HonerManager honerManager;
 	
 	@ResponseBody
 	@RequestMapping(value="/plusOne",method = RequestMethod.GET)
@@ -30,6 +36,8 @@ public class UserInfoTagController {
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
 		userInfoTagManager.tagCountPlusOne(id);
+		UserInfoTag userInfoTag = userInfoTagManager.getUserInfoTag(id);
+		honerManager.updateUserHonerInfo(userInfoTag.getUserId());
 		return ApiResponse.build(ResponseStatus.SUCCESS, null);
 	}
 }

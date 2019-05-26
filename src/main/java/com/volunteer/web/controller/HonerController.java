@@ -3,6 +3,7 @@ package com.volunteer.web.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,19 +16,34 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.volunteer.constant.CommonConstant;
+import com.volunteer.constant.HonerlEnum;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.Honer;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserInfoTag;
+import com.volunteer.response.ApiResponse;
+import com.volunteer.response.ResponseStatus;
 import com.volunteer.utils.ImageUtils;
 import com.volunteer.web.manager.HonerManager;
+import com.volunteer.web.manager.UserInfoManager;
+import com.volunteer.web.manager.UserInfoTagManager;
 
 @Controller
 public class HonerController {
 
 	@Autowired
 	private HonerManager honerManager;
+	
+	@Autowired
+	private UserInfoManager userInfoManager;
+	
+	@Autowired
+	private UserInfoTagManager userInfoTagManager;
 	
 	/**
      * 勋章墙
@@ -37,7 +53,7 @@ public class HonerController {
     @RequestMapping("/honer.htm")
     public String honer(HttpServletRequest request, Model model) {
     	UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		List<Honer> list = honerManager.getMyHoner(userInfo.getId());
+		List<Honer> list = honerManager.getHoner(userInfo.getId());
 		List<Object> object = sortListHoner(list);
 		if (null == object) {
 			return "redirect:/login.json";
@@ -115,6 +131,7 @@ public class HonerController {
 			MultipartFile lightImg,
 			MultipartFile grayImg){
 		// 不为空表示更新 为空表示新增
+		honer.setVersion(new Date());
 		if(null == honer.getId()){
 			if (StringUtils.isBlank(lightImg.getOriginalFilename()) || StringUtils.isBlank(grayImg.getOriginalFilename())){
 				request.getSession().setAttribute("showMessage", "新增，两张图片都不能为空");
@@ -145,11 +162,75 @@ public class HonerController {
 	private String savePic(MultipartFile lightImg, HttpServletRequest request){
 		String originalFilename = lightImg.getOriginalFilename();
 		//上传图片
+		String realPath = request.getSession().getServletContext().getRealPath("/");
 		if(lightImg!=null && originalFilename!=null && originalFilename.length()>0){
-			String url = ImageUtils.saveImage(request, lightImg, "images/honer/");
+			String url = ImageUtils.saveImage(request, lightImg, realPath+"/images/honer/");
+			url = "/images/honer/"+url;
 			return url;
 		}
 		return null;
 	}
 	
+	/**
+	 * 查看荣誉勋章
+	 * @param request
+	 * @param userId
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/showPersonHoner",method = RequestMethod.GET)
+	public ApiResponse<Object> showPersonHoner(HttpServletRequest request,
+			@RequestParam(value="userId", required=true)Long userId){
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		if (loginUserInfo.getRoleId() != 3L) {
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		List<Honer> list = honerManager.getHoner(userId);
+		List<Object> object = sortListHoner(list);
+		if (null == object) {
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		return ApiResponse.build(ResponseStatus.SUCCESS, object);
+	}
+	
+	/**
+	 * 发送荣誉勋章
+	 * @param request
+	 * @param userId
+	 * @param honer
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value="/sendHoner",method = RequestMethod.GET)
+	public ApiResponse<Object> sendHoner(HttpServletRequest request,
+			@RequestParam(value="userId", required=true)Long userId,
+			@RequestParam(value="honerId", required=true)Long honerId){
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		if (loginUserInfo.getRoleId() != 3L) {
+			return ApiResponse.build(ResponseStatus.PERMISSION, null);
+		}
+		Honer honer = honerManager.getHonerById(honerId);
+		if (!honer.getIsClickSend()){
+			return ApiResponse.build(ResponseStatus.PERMISSION, null);
+		}
+		String honerString = String.valueOf(honerId);
+		UserInfo userInfoById = userInfoManager.getUserInfoById(userId);
+		String honerId2 = userInfoById.getHonerId();
+		if(StringUtils.isBlank(honerId2)){
+			userInfoById.setHonerId(honerString);
+		} else {
+			String[] split = userInfoById.getHonerId().split(",");
+			for (String string : split) {
+				if (string.equals(honerString)){
+					return ApiResponse.build(ResponseStatus.FAIL, null);
+				}
+			}
+			userInfoById.setHonerId(userInfoById.getHonerId()+","+honerString);
+		}
+		boolean result = userInfoManager.updateUserInfoById(userInfoById);
+		if(result){
+			return ApiResponse.build(ResponseStatus.SUCCESS, null);
+		}
+		return ApiResponse.build(ResponseStatus.FAIL, null);
+	}
 }

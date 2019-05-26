@@ -3,28 +3,40 @@ package com.volunteer.web.manager;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.volunteer.constant.CommonConstant;
 import com.volunteer.model.Honer;
-import com.volunteer.model.HonerExample;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.UserInfoTag;
+import com.volunteer.utils.ImageUtils;
 import com.volunteer.web.dao.HonerMapper;
 import com.volunteer.web.dao.UserInfoMapper;
 
 @Service
 @Transactional
 public class HonerManagerImpl implements HonerManager{
-
+	
+	private final static Logger logger = LoggerFactory.getLogger(HonerManagerImpl.class);
+	
 	@Autowired
 	private HonerMapper honerMapper;
 	
 	@Autowired
     private UserInfoMapper userInfoMapper;
+	
+	@Autowired
+	private UserInfoManager userInfoManager;
+	
+	@Autowired
+	private UserInfoTagManager userInfoTagManager;
 
 	@Override
-	public List<Honer> getMyHoner(Long id) {
+	public List<Honer> getHoner(Long id) {
 		UserInfo userInfoById = userInfoMapper.selectByPrimaryKey(id);
 		String honerId = userInfoById.getHonerId();
 		List<Honer> list = getAllHoner();
@@ -61,5 +73,42 @@ public class HonerManagerImpl implements HonerManager{
 		}
 		honerMapper.updateByPrimaryKeySelective(honer);
 		return honer.getId();
+	}
+
+	@Override
+	public void updateUserHonerInfo(Long id){
+		try{
+			UserInfo userInfoById = userInfoManager.getUserInfoById(id);
+			List<UserInfoTag> list = userInfoTagManager.getUserCareer(id);
+			if (list.size()<=0){
+				return;
+			}
+			List<Honer> allHoner = getAllHoner();
+			Integer count = 0;
+			for (UserInfoTag userInfoTag : list) {
+				if(userInfoTag.getType().equals(CommonConstant.TYPE_CLASS)){
+					count += userInfoTag.getTagCount();
+					continue;
+				}
+			}
+			String honerId = userInfoById.getHonerId();
+			if(StringUtils.isBlank(honerId)){
+				honerId = "";
+			}
+			for (Honer honer : allHoner) {
+				Integer range = honer.getRange();
+				// 义工总期数大于或等于
+				if(count >= range && (honerId.indexOf(String.valueOf(honer.getId())) == -1)){
+					honerId = "," + String.valueOf(honer.getId());
+				}
+			}
+			if(honerId.startsWith(",")){
+				honerId.substring(1, honerId.length());
+			}
+			userInfoById.setHonerId(honerId);
+			boolean result = userInfoManager.updateUserInfoById(userInfoById);
+		}catch (Exception e){
+			logger.error("更新勋章墙出错！", e);
+		}
 	}
 }

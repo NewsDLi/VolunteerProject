@@ -122,37 +122,6 @@ $(function() {
 		});
 	});
 	showHoner();
-	//助人为乐
-	$('.lyzr').click(function(){
-		if($('.lyzr').attr('src').indexOf('graystar.png') > 0){
-			confirmSendHoner("lyzr");
-		}
-	});
-	$('.czyh').click(function(){
-		if($('.czyh').attr('src').indexOf('graystar.png') > 0){
-			confirmSendHoner("czyh");
-		}
-	});
-	$('.adts').click(function(){
-		if($('.adts').attr('src').indexOf('graystar.png') > 0){
-			confirmSendHoner("adts");
-		}
-	});
-	$('.adfx').click(function(){
-		if($('.adfx').attr('src').indexOf('graystar.png') > 0){
-			confirmSendHoner("adfx");
-		}
-	});
-	$('.shts').click(function(){
-		if($('.shts').attr('src').indexOf('graystar.png') > 0){
-			confirmSendHoner("shts");
-		}
-	});
-	$('.razx').click(function(){
-		if($('.razx').attr('src').indexOf('graystar.png') > 0){
-			confirmSendHoner("razx");
-		}
-	});
 	
 	$('.addStation').click(function(){
 		var station = $('#station').val();
@@ -253,11 +222,17 @@ function confirmSendHoner(val){
 			  //发放勋章
 			  $.ajax({
 					type : "get",
-					url : "/sendHoner?userId="+$('#userInfoId').val()+"&honer="+val,
+					url : "/sendHoner?userId="+$('#userInfoId').val()+"&honerId="+val,
 					success : function(data) {
 						if (data.message == 'success') {
-							$('.' + val).attr('src','images/star.png');
 							$.toast("操作成功");
+							setTimeout(function(){
+								location.href="/getOtherUserInfo?id="+$('#userInfoId').val();
+							},2000);
+						}else if (data.code == '1000200'){
+							$.toast("暂无设置颁发权限");
+						} else {
+							$.toast("操作失败");
 						}
 					}
 				});
@@ -276,24 +251,25 @@ function showHoner(){
 		url : "/showPersonHoner?userId="+$('#userInfoId').val(),
 		success : function(data) {
 			if (data.message == 'success') {
+				var html = '';
 				for(var i=0; i<data.data.length; i++){
-					if(data.data[i].tagName == $('.lyzr').attr('alt')){
-						$('.lyzr').attr('src','images/star.png');
-					}else if(data.data[i].tagName == $('.czyh').attr('alt')){
-						$('.czyh').attr('src','images/star.png');
-					}else if(data.data[i].tagName == $('.adts').attr('alt')){
-						$('.adts').attr('src','images/star.png');
-					}else if(data.data[i].tagName == $('.adfx').attr('alt')){
-						$('.adfx').attr('src','images/star.png');
-					}else if(data.data[i].tagName == $('.shts').attr('alt')){
-						$('.shts').attr('src','images/star.png');
-					}else if(data.data[i].tagName == $('.razx').attr('alt')){
-						$('.razx').attr('src','images/star.png');
+					html += '<ul class="honer flex-list">';
+					for(var j=0;j<data.data[i].length;j++){
+						if (data.data[i][j].isLight == true){
+							html += '<li><img onclick="showMessage()" src="'+data.data[i][j].light+'" width="100px;"/><p style="text-indent: 0;">'+ data.data[i][j].title +'</p></li>';
+						}else {
+							html += '<li><img onclick="confirmSendHoner('+data.data[i][j].id+')" src="'+data.data[i][j].gray+'" width="100px;"/><p style="text-indent: 0;">'+ data.data[i][j].title +'</p></li>';
+						}
 					}
+					html += '</ul>';
 				}
+				$('.honerList').html(html);
 			}
 		}
 	});
+}
+function showMessage(){
+	$.toast("此勋章已经点亮！");
 }
 function plusOne(id){
 	$.confirm({
@@ -353,12 +329,24 @@ display: none;
 		</div>
 		<div class="main_info">
 			<div class="show showInfo info_message">
-				<!-- <h2 class="name"><span th:text="${userInfo.name}"></span></h2> -->
-				<p class="person_info">性别：<span th:if="${userInfo.sex} eq 1">女</span><span th:if="${userInfo.sex} eq 0">男</span></p>
+				<div class="info_message">	
+					<div class="main_aside">
+						<img th:if="${userInfo.userPic != null}" th:src="${userInfo.userPic}" width="150px;" alt="头像" />
+						<img th:if="${userInfo.userPic == null}" src="images/common/1555840770.jpg" width="150px;" alt="头像" />
+					</div>
+					<div class="main_content">
+						<p class="person_info">性别：<span th:if="${userInfo.sex} eq 1">女</span><span th:if="${userInfo.sex} eq 0">男</span></p>
+						<p class="person_info">年龄：<span th:text="${userInfo.age}"></span></p>
+						<p class="person_info">民族：<span th:text="${userInfo.nation}"></span></p>
+						<p class="person_info">籍贯：<span th:text="${userInfo.birthplace}"></span></p>
+						<p class="person_info">电话：<span th:text="${userInfo.loginPhone}"></span></p>
+					</div>
+				</div>
+				<!-- <p class="person_info">性别：<span th:if="${userInfo.sex} eq 1">女</span><span th:if="${userInfo.sex} eq 0">男</span></p>
 				<p class="person_info">年龄：<span th:text="${userInfo.age}"></span></p>
 				<p class="person_info">民族：<span th:text="${userInfo.nation}"></span></p>
 				<p class="person_info">籍贯：<span th:text="${userInfo.birthplace}"></span></p>
-				<p class="person_info">电话：<span th:text="${userInfo.loginPhone}"></span></p>
+				<p class="person_info">电话：<span th:text="${userInfo.loginPhone}"></span></p> -->
 				<p class="person_info">工作岗位：<span th:text="${userInfo.worker}"></span></p>
 				<p class="person_info">兴趣爱好：<span th:text="${userInfo.hobby}"></span></p>
 				<p class="person_info">自我介绍：<span th:text="${userInfo.descption}"></span></p>
@@ -444,16 +432,18 @@ display: none;
 			</div>
 			<div th:if="${showHoner}" class="person_hoppy person_honer" style="margin-bottom: 30px;">
 				<h2 class="career_title">义工勋章</h2>
-				<ul class="honer flex-list">
-					<li><img class="lyzr" src="images/graystar.png" width="100px;" alt="乐于助人" /><p style="text-indent: 0;">乐于助人</p></li>
-					<li><img class="czyh" src="images/graystar.png" width="100px;" alt="持之以恒" /><p style="text-indent: 0;">持之以恒</p></li>
-					<li><img class="adts" src="images/graystar.png" width="100px;" alt="爱的天使" /><p style="text-indent: 0;">爱的天使</p></li>
-				</ul>
-				<ul class="honer flex-list">
-					<li><img class="adfx" src="images/graystar.png" width="100px;" alt="爱的奉献" /><p style="text-indent: 0;">爱的奉献</p></li>
-					<li><img class="shts" src="images/graystar.png" width="100px;" alt="守护天使" /><p style="text-indent: 0;">守护天使</p></li>
-					<li><img class="razx" src="images/graystar.png" width="100px;" alt="仁爱之心" /><p style="text-indent: 0;">仁爱之心</p></li>
-				</ul>
+				<div class="honerList">
+					<ul class="honer flex-list">
+						<li><img class="lyzr" src="images/graystar.png" width="100px;" alt="乐于助人" /><p style="text-indent: 0;">乐于助人</p></li>
+						<li><img class="czyh" src="images/graystar.png" width="100px;" alt="持之以恒" /><p style="text-indent: 0;">持之以恒</p></li>
+						<li><img class="adts" src="images/graystar.png" width="100px;" alt="爱的天使" /><p style="text-indent: 0;">爱的天使</p></li>
+					</ul>
+					<ul class="honer flex-list">
+						<li><img class="adfx" src="images/graystar.png" width="100px;" alt="爱的奉献" /><p style="text-indent: 0;">爱的奉献</p></li>
+						<li><img class="shts" src="images/graystar.png" width="100px;" alt="守护天使" /><p style="text-indent: 0;">守护天使</p></li>
+						<li><img class="razx" src="images/graystar.png" width="100px;" alt="仁爱之心" /><p style="text-indent: 0;">仁爱之心</p></li>
+					</ul>
+				</div>
 			</div>
 			<button th:if="${showHoner}" class="show addButton removePerson">删除该用户</button>
 		</div>
@@ -507,19 +497,6 @@ display: none;
 </script>
 <style>
 @media {
-	.honer{
-		height: auto;
-		width: auto;
-		display: flex;
-	}
-	.honer li{
-		list-style: none;
-		padding: 0;
-		margin: 0;
-		text-align: center;
-		flex-wrap:wrap;
-		flex-grow:1;
-	}
 	.flex-list p{
 		text-align: center;
 	}

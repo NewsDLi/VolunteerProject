@@ -392,6 +392,9 @@
 			<if test="isMessageBoard != null">
 				is_message_board = #{isMessageBoard,jdbcType=BIT},
 			</if>
+			<if test="honerId != null">
+				honer_id = #{honerId,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where id = #{id,jdbcType=BIGINT}
 	</update>

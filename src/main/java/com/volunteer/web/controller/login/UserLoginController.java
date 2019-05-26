@@ -12,7 +12,9 @@ import com.volunteer.model.WechatInfo;
 import com.volunteer.utils.HttpsUtils;
 import com.volunteer.utils.PropBean;
 import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
+import com.volunteer.web.dao.HonerMapper;
 import com.volunteer.web.dao.WechatInfoMapper;
+import com.volunteer.web.manager.HonerManager;
 import com.volunteer.web.manager.UserInfoBindManager;
 import com.volunteer.web.manager.UserInfoManager;
 import net.sf.json.JSONObject;
@@ -51,6 +53,9 @@ public class UserLoginController {
 
     @Autowired
     private UserInfoBindManager userInfoBindManager;
+    
+	@Autowired
+	private HonerManager honerManager;
 
     @Autowired
     private PropBean prop;
@@ -161,6 +166,7 @@ public class UserLoginController {
 
     private String returnLogin(HttpSession session,UserInfo userInfo){
         session.setAttribute(UserConstant.LOGIN_PHONE, userInfo);
+        honerManager.updateUserHonerInfo(userInfo.getId());
         return "mypage";
     }
 

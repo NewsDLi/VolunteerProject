@@ -8,27 +8,25 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.StringUtils;
-import org.jsoup.Connection.Method;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.volunteer.constant.CommonConstant;
-import com.volunteer.constant.HonerlEnum;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.PageInfoCommand;
 import com.volunteer.model.UserInfo;
-import com.volunteer.model.UserInfoExample;
 import com.volunteer.model.UserInfoTag;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
+import com.volunteer.utils.ImageUtils;
 import com.volunteer.web.manager.UserInfoManager;
 import com.volunteer.web.manager.UserInfoTagManager;
 
@@ -101,29 +99,6 @@ public class UserInfoController {
 		return "mycareer";
 	}
 	
-	
-	@RequestMapping("/userLogin/Demo.htm")
-	public String userLogin(HttpServletRequest request, Long id){
-		UserInfo userInfo = userInfoManager.selectByPrimaryKey(id);
-		request.getSession().setAttribute(UserConstant.LOGIN_PHONE, userInfo);
-		return "redirect:/mypage";
-	}
-	
-	/**
-	 * 勋章墙
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping("/getMyHoner")
-	public ApiResponse<Object> getMyHoner(HttpServletRequest request){
-		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		List<UserInfoTag> tags = userInfoTagManager.getMyHoner(userInfo.getId());
-		if(null == tags || tags.size() == 0){
-			return ApiResponse.build(ResponseStatus.FAIL, null);
-		}
-		return ApiResponse.build(ResponseStatus.SUCCESS, tags);
-	}
-	
 	/**
 	 * 权限管理
 	 * @param request
@@ -152,7 +127,7 @@ public class UserInfoController {
 		Integer pagenumber = 1;
 		
 		// 设置是否首次请求 或者页面是否刷新
-		if(header.indexOf("/admin")>0 && StringUtils.isBlank(group)){
+		if(header.indexOf("/admin")>0 && StringUtils.isBlank(group) && userInfo.getRoleId().equals(1L)){
 			groupteam = userInfo.getGroupTeam();
 		}
 		if(StringUtils.isNotBlank(group)){
@@ -213,7 +188,7 @@ public class UserInfoController {
 		UserInfo userInfo = userInfoManager.getUserInfoById(id);
 		
 		boolean isCanUpdate = false;
-		if ((userInfo.getGroupTeam().equals(loginUserInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(3L)){
+		if ((loginUserInfo.getGroupTeam() != null && loginUserInfo.getGroupTeam().equals(userInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(3L)){
 			isCanUpdate = true;
 		}
 		
@@ -268,7 +243,7 @@ public class UserInfoController {
 	@RequestMapping("/updateUserInfo")
 	public ApiResponse<Boolean> updateUserInfo(HttpServletRequest request, UserInfo userInfo){
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (!loginUserInfo.getIsGroupLeader()){
+		if (!loginUserInfo.getIsGroupLeader() && loginUserInfo.getRoleId() != 3L){
 			return ApiResponse.build(ResponseStatus.FAIL, false);
 		}
 		UserInfo beforeUpdatePersonInfo = userInfoManager.getUserInfoById(userInfo.getId());
@@ -283,54 +258,6 @@ public class UserInfoController {
 		return ApiResponse.build(ResponseStatus.FAIL, false);
 	}
 	
-	/**
-	 * 查看荣誉勋章
-	 * @param request
-	 * @param userId
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/showPersonHoner",method = RequestMethod.GET)
-	public ApiResponse<Object> showPersonHoner(HttpServletRequest request,
-			@RequestParam(value="userId", required=true)Long userId){
-		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (loginUserInfo.getRoleId() != 3L) {
-			return ApiResponse.build(ResponseStatus.FAIL, null);
-		}
-		List<UserInfoTag> tags = userInfoTagManager.getMyHoner(userId);
-		if(null == tags || tags.size() == 0){
-			return ApiResponse.build(ResponseStatus.FAIL, null);
-		}
-		return ApiResponse.build(ResponseStatus.SUCCESS, tags);
-	}
-	
-	/**
-	 * 发送荣誉勋章
-	 * @param request
-	 * @param userId
-	 * @param honer
-	 * @return
-	 */
-	@ResponseBody
-	@RequestMapping(value="/sendHoner",method = RequestMethod.GET)
-	public ApiResponse<Object> sendHoner(HttpServletRequest request,
-			@RequestParam(value="userId", required=true)Long userId,
-			@RequestParam(value="honer", required=true)String honer){
-		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (loginUserInfo.getRoleId() != 3L) {
-			return ApiResponse.build(ResponseStatus.FAIL, null);
-		}
-		UserInfoTag infoTag = new UserInfoTag();
-		infoTag.setUserId(userId);
-		infoTag.setType(CommonConstant.TYPE_MEDAL_WALL);
-		infoTag.setTagName(HonerlEnum.getValue(honer));
-		infoTag.setTagCount(1);
-		int insertUserInfoTag = userInfoTagManager.insertUserInfoTag(infoTag);
-		if(insertUserInfoTag !=1){
-			return ApiResponse.build(ResponseStatus.FAIL, null);
-		}
-		return ApiResponse.build(ResponseStatus.SUCCESS, null);
-	}
 	
 	/**
 	 * 用户自己更新信息
@@ -471,7 +398,31 @@ public class UserInfoController {
 		}catch(Exception e){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
+	}
+	
+	@RequestMapping(value="/uploadUserImg", method = {RequestMethod.POST, RequestMethod.GET})
+	public String uploadUserImg(HttpServletRequest request, MultipartFile userImg){
+		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
 		
+		String url = savePic(userImg, request);
+		loginUserInfo.setUserPic(url);
+		boolean result = userInfoManager.updateUserInfoById(loginUserInfo);
+		if(result) {
+			request.getSession().setAttribute(UserConstant.LOGIN_PHONE, loginUserInfo);
+		}
+		return "redirect:/getUserInfo";
+	}
+	
+	private String savePic(MultipartFile lightImg, HttpServletRequest request){
+		String originalFilename = lightImg.getOriginalFilename();
+		//上传图片
+		String realPath = request.getSession().getServletContext().getRealPath("/");
+		if(lightImg!=null && originalFilename!=null && originalFilename.length()>0){
+			String url = ImageUtils.saveImage(request, lightImg, realPath+"/images/userpic/");
+			url = "/images/userpic/"+url;
+			return url;
+		}
+		return null;
 	}
 	
 }

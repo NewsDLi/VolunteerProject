@@ -6,12 +6,14 @@ import com.volunteer.model.Honer;
 
 public interface HonerManager {
 
-	List<Honer> getMyHoner(Long id);
-	
 	List<Honer> getAllHoner();
 
 	Honer getHonerById(Long id);
 
 	Long save(Honer honer);
 
+	List<Honer> getHoner(Long id);
+	
+	void updateUserHonerInfo(Long id);
+	
 }

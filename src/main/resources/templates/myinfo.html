@@ -34,15 +34,34 @@ $(function(){
 			data : "name=" + $("#name").val() +"&sex="+ sex +"&nation="+ $('#nation').val() +"&birthplace=" + $('#birthplace').val()+"&loginPhone="+$('#loginPhone').val()+"&worker="+$('#worker').val() + "&idCard="+$('#idCard').val()+"&hobby="+$('#hobby').val()+"&descption="+$('#descption').val(),
 			success : function(data) {
 				if(data.data){
-					location.href="/getUserInfo";
+					$("#uploadUserImg").submit();
 				}
 				if(!data.data){
 					Toast("操作失败",2000);
 				}
 			}
 		});
-	})
+	});
+	$('#uploaderImage').change(function(e){
+		var imgBox = e.target;
+        uploadImg($('#uploaderImage'), imgBox, '.img-gray');
+	});
 })
+function uploadImg(element, tag, cla) {
+    var file = tag.files[0];
+    var imgSrc;
+    if (!/image\/\w+/.test(file.type)) {
+        alert("看清楚，这个需要图片！");
+        return false;
+    }
+    var reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = function() {
+        console.log(this.result);
+        imgSrc = this.result;
+        $(cla).attr("src", imgSrc);
+    };
+}
 </script>
 </head>
 <body>
@@ -54,7 +73,8 @@ $(function(){
 			<div class="show">
 				<div class="info_message">	
 					<div class="main_aside">
-						<img src="images/common/1555840770.jpg" width="150px;" alt="头像" />
+						<img th:if="${userInfo.userPic != null}" th:src="${userInfo.userPic}" width="150px;" alt="头像" />
+						<img th:if="${userInfo.userPic == null}" src="images/common/1555840770.jpg" width="150px;" alt="头像" />
 					</div>
 					<div class="main_content">
 						<h2 class="name"><span th:text="${userInfo.name}"></span></h2>
@@ -86,16 +106,67 @@ $(function(){
 				</div>
 			</div>
 			<div class="hidden updateInfo info_message">
-				<p class="person_info">姓名：<input id="name" th:value="${userInfo.name}"/></p>
-				<p class="person_info">性别：<input id="sex" th:if="${userInfo.sex} eq 1" value="女"/><input th:if="${userInfo.sex} eq 0" value="男"/></p>
-				<p class="person_info">民族：<input id="nation" th:value="${userInfo.nation}"/></p>
-				<p class="person_info">籍贯：<input id="birthplace" th:value="${userInfo.birthplace}"/></p>
-				<p class="person_info">电话：<input id="loginPhone" type="phone" th:value="${userInfo.loginPhone}"/></p>
-				<p class="person_info">工作岗位：<input id="worker" th:value="${userInfo.worker}"/></p>
-				<!-- <p class="person_info">身份证号：<input id="idCard" th:value="${userInfo.idCard}"/></p> -->
-				<p class="person_info">兴趣爱好：<input id="hobby" th:value="${userInfo.hobby}"/></p>
-				<p class="person_info">自我介绍：<textarea id="descption" rows="0" cols="1" th:text="${userInfo.descption}"></textarea>
-				</p>
+				<div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">姓名：</label></div>
+				    <div class="weui-cell__bd">
+				      <input id="name" th:value="${userInfo.name}"/>
+				    </div>
+				 </div>
+				<div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">性别：</label></div>
+				    <div class="weui-cell__bd">
+				      <input id="sex" th:if="${userInfo.sex} eq 1" value="女"/><input th:if="${userInfo.sex} eq 0" value="男"/>
+				    </div>
+				 </div>
+				<div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">民族：</label></div>
+				    <div class="weui-cell__bd">
+				    	<input id="nation" th:value="${userInfo.nation}"/>
+				    </div>
+				 </div>
+				<div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">籍贯：</label></div>
+				    <div class="weui-cell__bd">
+				    	<input id="birthplace" th:value="${userInfo.birthplace}"/>
+				    </div>
+				 </div>
+				<div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">电话：</label></div>
+				    <div class="weui-cell__bd">
+				    	<input id="loginPhone" type="phone" th:value="${userInfo.loginPhone}"/>
+				    </div>
+				 </div>
+				<div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">工作岗位：</label></div>
+				    <div class="weui-cell__bd">
+				    	<input id="worker" th:value="${userInfo.worker}"/>
+				    </div>
+				 </div>
+				<div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">兴趣爱好：</label></div>
+				    <div class="weui-cell__bd">
+				    	<input id="hobby" th:value="${userInfo.hobby}"/>
+				    </div>
+				 </div>
+				<div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">自我介绍：</label></div>
+				    <div class="weui-cell__bd">
+				    <textarea id="descption" rows="0" cols="1" th:text="${userInfo.descption}"></textarea>
+				    </div>
+				 </div>
+				 <form id="uploadUserImg" action="/uploadUserImg" enctype="multipart/form-data" method="post">
+				<div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">个人图片</label></div>
+				    <div class="weui-cell__bd">点我选择图片
+				      <input id="uploaderImage" name="userImg" class="weui-uploader__input" type="file" accept="image/*">
+				    </div>
+				 </div>
+				 </form>
+				 <div class="weui-cell">
+				    <div class="weui-cell__bd image_style">
+				    	<img class="img-gray" width="45%" height="45%" alt="" src="">
+				    </div>
+				 </div>
 			</div>
 			<a href="javascript:;" class="hidden updateUserInfo weui-btn weui-btn_mini weui-btn_primary">确认修改</a>
 			<a href="javascript:;" class="hidden cancleUpdate weui-btn weui-btn_mini weui-btn_primary">取消修改</a>
