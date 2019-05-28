@@ -71,8 +71,7 @@ public class UserInfoManagerImpl implements UserInfoManager {
 
     @Override
     public Integer checkUserIsExist(String idCard) {
-//		return userInfoMapper.checkUserIsExist(idCard);
-        return null;
+		return userInfoMapper.checkUserIsExist(idCard);
     }
 
     @Override
