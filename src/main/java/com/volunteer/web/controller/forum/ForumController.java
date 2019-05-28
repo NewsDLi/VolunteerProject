@@ -119,9 +119,16 @@ public class ForumController {
     }
 
     //发表评论
-    public ApiResponse<Object> saveArticleMwssageBoard(HttpServletRequest request, HttpServletResponse response){
-
-
-        return null;
+    @RequestMapping(value = "/forum/save", method = {RequestMethod.GET})
+    public ApiResponse<Object> saveArticleMwssageBoard(HttpServletRequest request, HttpServletResponse response,@RequestBody ArticleMessageBoard articleMessageBoard){
+        if(Validator.isNullOrEmpty(articleMessageBoard)){
+                return ApiResponse.build(ResponseStatus.FAIL, "");
+        }
+        articleMessageBoard.setVersion(new Date());
+        int i = forumManager.saveArticleList(articleMessageBoard);
+        if(i>0){
+            return ApiResponse.build(ResponseStatus.SUCCESS, i);
+        }
+        return ApiResponse.build(ResponseStatus.FAIL, "");
     }
 }

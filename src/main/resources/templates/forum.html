@@ -7,7 +7,9 @@
     <link rel="stylesheet" href="../css/weui.css">
     <link rel="stylesheet" href="../css/weuix.css">
 
-    <script src="../js/zepto.min.js"></script>
+    <script src="js/zepto.min.js"></script>
+    <script src="js/forum.js"></script>
+    <script src="js/zepto.weui.js"></script>
     <script>
         $(function () {
             $(".weui-c-like .icon").click(function () {
@@ -17,7 +19,6 @@
                     $(this).addClass('on')
                 }
             })
-
         });
     </script>
 </head>
@@ -30,6 +31,9 @@
             <h2 class="weui-c-title" th:text="${communityArticle.title}">Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面</h2>
             <div class="weui-c-meta">
                 <!--作者-->
+                <input type="hidden" id="hidden" th:value="${communityArticle.id}">
+                <input type="hidden" id="userId" th:value="${session.login_phone.id}">
+                <input type="hidden" id="userName" th:value="${session.login_phone.name}">
                 <span class="weui-c-nickname"><a href="javascript:;" th:text="${communityArticle.author}">Yoby开发者</a></span>
                 <!--时间-->
                 <em class="weui-c-nickname"  th:text="${#dates.format(communityArticle.publicationTime,'yyyy-MM-dd')}">2018-10-10 10:10</em>
@@ -53,10 +57,6 @@
     </div>
 </div>
 
-
-<div class="page-hd">
-    <p class="page-hd-desc"></p>
-</div>
 <div class="page-bd-15">
     <div class="weui_cells_title">留言</div>
     <ul class="weui-comment">
@@ -100,7 +100,24 @@
 
 <br>
 <br>
-<div th:include="tabbar::pagination"></div>
-
+<script src="js/common.js"></script>
+<!-- 与下拉框特效存在冲突，暂时注释掉 -->
+<!-- <script src="js/jquery.js"></script> -->
+<div class="weui-tab tab-bottom " style="height:44px; position: fixed;">
+    <div class="weui-tabbar">
+        <a href="javascript:;" class="weui-tabbar__item mine">
+            <i class="icon icon-30 f27 weui-tabbar__icon"></i>
+            <p class="weui-tabbar__label">我的</p>
+        </a>
+        <a href="javascript:;" class="weui-tabbar__item homepage">
+            <i class="icon icon-27 f27 weui-tabbar__icon"></i>
+            <p class="weui-tabbar__label">主页</p>
+        </a>
+        <a href="javascript:;" class="weui-tabbar__item community">
+            <i class="icon icon-5 f27 weui-tabbar__icon"></i>
+            <p class="weui-tabbar__label">社区</p>
+        </a>
+    </div>
+</div>
 </body>
 </html>

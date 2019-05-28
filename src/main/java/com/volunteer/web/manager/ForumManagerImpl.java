@@ -51,9 +51,9 @@ public class ForumManagerImpl implements ForumManager{
 	}
 
 	@Override
-	public ArticleMessageBoard saveArticleList(ArticleMessageBoard communityArticlesId) {
-		articleMessageBoardMapper.insertSelective(communityArticlesId);
-		return communityArticlesId;
+	public int saveArticleList(ArticleMessageBoard communityArticlesId) {
+		int i = articleMessageBoardMapper.insertSelective(communityArticlesId);
+		return  i ;
 	}
 
 	@Override

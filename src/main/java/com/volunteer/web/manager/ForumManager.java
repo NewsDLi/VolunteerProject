@@ -34,7 +34,7 @@ public interface ForumManager {
 	/**
 	 * 保存留言内容
 	 */
-	ArticleMessageBoard saveArticleList(ArticleMessageBoard communityArticlesId);
+	int saveArticleList(ArticleMessageBoard communityArticlesId);
 
 	/**
 	 * 更新论坛排序
