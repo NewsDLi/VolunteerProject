@@ -1,6 +1,7 @@
 package com.volunteer.web.controller.forum;
 
 import com.feilong.core.Validator;
+import com.feilong.core.util.CollectionsUtil;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.ArticleMessageBoard;
 import com.volunteer.model.CommunityArticles;
@@ -8,7 +9,9 @@ import com.volunteer.model.UserInfo;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
 import com.volunteer.utils.ImageUtils;
+import com.volunteer.model.ArticleMessageBoardCommand;
 import com.volunteer.web.manager.ForumManager;
+import org.apache.commons.collections4.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -100,8 +103,17 @@ public class ForumController {
             return "redirect:"+url;
         }
         List<CommunityArticles> communityArticles = forumManager.selectForumText(Long.parseLong(id));
-        List<ArticleMessageBoard> articleMessageBoards = forumManager.selectArticleList(Long.parseLong(id));
+        List<ArticleMessageBoardCommand> articleMessageBoards = forumManager.selectArticleList(Long.parseLong(id));
+        Map<String, List<ArticleMessageBoardCommand>> articleMessageBoardMap =  CollectionsUtil.group(articleMessageBoards, "pid", new Predicate<ArticleMessageBoardCommand>(){
+            @Override
+            public boolean evaluate(ArticleMessageBoardCommand articleMessage){
+                return Validator.isNotNullOrEmpty(articleMessage.getMessage());
+            }
+        });
+
+
         request.setAttribute("communityArticle",communityArticles.get(0));
+        request.setAttribute("articleMessageBoardMap",articleMessageBoardMap);
 
         return "forum";
     }

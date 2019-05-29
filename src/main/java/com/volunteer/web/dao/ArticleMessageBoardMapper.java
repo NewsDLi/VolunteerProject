@@ -3,6 +3,8 @@ package com.volunteer.web.dao;
 import com.volunteer.model.ArticleMessageBoard;
 import com.volunteer.model.ArticleMessageBoardExample;
 import java.util.List;
+
+import com.volunteer.model.ArticleMessageBoardCommand;
 import org.apache.ibatis.annotations.Param;
 
 public interface ArticleMessageBoardMapper {
@@ -17,6 +19,8 @@ public interface ArticleMessageBoardMapper {
     int insertSelective(ArticleMessageBoard record);
 
     List<ArticleMessageBoard> selectByExample(ArticleMessageBoardExample example);
+
+    List<ArticleMessageBoardCommand> selectArticleMessageBoardCommand(Long communityArticlesId);
 
     ArticleMessageBoard selectByPrimaryKey(Long id);
 

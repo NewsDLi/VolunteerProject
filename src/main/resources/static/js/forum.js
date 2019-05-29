@@ -18,8 +18,17 @@
 function saveForum(input,pid){
         var msg = input;
         var communityId = $("#hidden").val();
+
         var userid = $("#userId").val();
+        if (typeof(userid) == "undefined"){
+             $.toast("未使用微信登陆", "forbidden");
+             return;
+        }
         var username = $("#userName").val();
+        if (typeof(username) == "undefined"){
+             $.toast("未使用微信登陆", "forbidden");
+             return;
+        }
         if (typeof(pid) == "undefined"){
 
             pid = 0;

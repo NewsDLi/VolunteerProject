@@ -2,6 +2,7 @@ package com.volunteer.web.manager;
 
 import com.volunteer.model.ArticleMessageBoard;
 import com.volunteer.model.CommunityArticles;
+import com.volunteer.model.ArticleMessageBoardCommand;
 
 import java.util.List;
 
@@ -29,7 +30,7 @@ public interface ForumManager {
 	/**
 	 * 查询留言内容
 	 */
-	List<ArticleMessageBoard> selectArticleList(Long communityArticlesId);
+	List<ArticleMessageBoardCommand> selectArticleList(Long communityArticlesId);
 
 	/**
 	 * 保存留言内容
