@@ -16,6 +16,7 @@
  });
 
 function saveForum(input,pid){
+        var msg = input;
         var communityId = $("#hidden").val();
         var userid = $("#userId").val();
         var username = $("#userName").val();
@@ -23,19 +24,22 @@ function saveForum(input,pid){
 
             pid = 0;
         }
+        var articleMessageBoard = {
+            communityArticlesId:communityId,
+            message:msg,
+            userId:userid,
+            userName:username,
+            pid:pid
+        }
          $.ajax({
                       url: "/forum/save",
-                      type: 'GET',
-                      data:{
-                      communityArticlesId:communityId,
-                      message:input,
-                      userId:userid,
-                      userName:username,
-                      pid:pid
-                      },
+                      type: 'post',
+                      dataType:"json",
+                      contentType:'application/json;charset=utf-8',
+                      data:JSON.stringify(articleMessageBoard),
                       success: function (data) {
                       if (data.code == '1000002') {
-
+                          window.location.reload();
                       }else{
                          $.toast("请稍等", "forbidden");
                       }

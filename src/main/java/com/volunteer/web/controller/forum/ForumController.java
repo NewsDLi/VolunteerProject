@@ -119,12 +119,14 @@ public class ForumController {
     }
 
     //发表评论
-    @RequestMapping(value = "/forum/save", method = {RequestMethod.GET})
+    @RequestMapping(value = "/forum/save", method = {RequestMethod.POST})
+    @ResponseBody
     public ApiResponse<Object> saveArticleMwssageBoard(HttpServletRequest request, HttpServletResponse response,@RequestBody ArticleMessageBoard articleMessageBoard){
         if(Validator.isNullOrEmpty(articleMessageBoard)){
                 return ApiResponse.build(ResponseStatus.FAIL, "");
         }
         articleMessageBoard.setVersion(new Date());
+        articleMessageBoard.setSort(0);
         int i = forumManager.saveArticleList(articleMessageBoard);
         if(i>0){
             return ApiResponse.build(ResponseStatus.SUCCESS, i);
