@@ -13,6 +13,21 @@
                     }
                 });
             });
+             $(document).on("click", "#fand", function(e) {
+             var pid = $(this).find("input").val();
+                            $.prompt({
+                                title: '留言',
+                                text: '内容文案',
+                                input: '请输入',
+                                empty: false, // 是否允许为空
+                                onOK: function (input) {
+                                    saveForum(input,pid);
+                                },
+                                onCancel: function () {
+                                    //点击取消
+                                }
+                            });
+                        });
  });
 
 function saveForum(input,pid){
@@ -20,17 +35,16 @@ function saveForum(input,pid){
         var communityId = $("#hidden").val();
 
         var userid = $("#userId").val();
-        if (typeof(userid) == "undefined"){
-             $.toast("未使用微信登陆", "forbidden");
-             return;
-        }
+//        if (typeof(userid) == "undefined"){
+//             $.toast("请微信登陆后留言", "forbidden");
+//             return;
+//        }
         var username = $("#userName").val();
-        if (typeof(username) == "undefined"){
-             $.toast("未使用微信登陆", "forbidden");
-             return;
-        }
+//        if (typeof(username) == "undefined"){
+//             $.toast("请微信登陆后留言", "forbidden");
+//             return;
+//        }
         if (typeof(pid) == "undefined"){
-
             pid = 0;
         }
         var articleMessageBoard = {

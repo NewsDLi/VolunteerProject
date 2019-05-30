@@ -1,9 +1,6 @@
 package com.volunteer.web.manager;
 
-import com.volunteer.model.ArticleMessageBoard;
-import com.volunteer.model.CommunityArticles;
-import com.volunteer.model.CommunityArticlesExample;
-import com.volunteer.model.ArticleMessageBoardCommand;
+import com.volunteer.model.*;
 import com.volunteer.web.dao.ArticleMessageBoardMapper;
 import com.volunteer.web.dao.CommunityArticlesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +51,14 @@ public class ForumManagerImpl implements ForumManager{
 	@Override
 	public int saveArticleList(ArticleMessageBoard communityArticlesId) {
 		int i = articleMessageBoardMapper.insertSelective(communityArticlesId);
+		if(communityArticlesId.getPid().equals(0)){
+			ArticleMessageBoardExample articleMessageBoardExample = new ArticleMessageBoardExample();
+			articleMessageBoardExample.createCriteria().andIdEqualTo(communityArticlesId.getId());
+			ArticleMessageBoard articleMessageBoard = new ArticleMessageBoard();
+			articleMessageBoard.setPid(communityArticlesId.getId().intValue());
+			int i1 = articleMessageBoardMapper.updateByExampleSelective(articleMessageBoard, articleMessageBoardExample);
+			return i1;
+		}
 		return  i ;
 	}
 

@@ -121,7 +121,7 @@
       #{version,jdbcType=TIMESTAMP}, #{userId,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, 
       #{sort,jdbcType=INTEGER}, #{pid,jdbcType=INTEGER})
   </insert>
-  <insert id="insertSelective" parameterType="com.volunteer.model.ArticleMessageBoard" >
+  <insert id="insertSelective" parameterType="com.volunteer.model.ArticleMessageBoard" keyProperty="id" keyColumn="ID" useGeneratedKeys="true">
     insert into article_message_board
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
