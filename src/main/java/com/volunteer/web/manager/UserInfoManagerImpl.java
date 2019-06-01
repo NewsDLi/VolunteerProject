@@ -136,4 +136,14 @@ public class UserInfoManagerImpl implements UserInfoManager {
         return false;
     }
 
+	@Override
+	public List<UserInfo> getUsers(Integer group) {
+		if(null != group){
+			UserInfoExample userInfoExample = new UserInfoExample();
+			userInfoExample.createCriteria().andGroupTeamEqualTo(group);
+			return userInfoMapper.selectByExample(userInfoExample);
+		}
+		return userInfoMapper.getAllUser();
+	}
+
 }

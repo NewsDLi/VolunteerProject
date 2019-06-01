@@ -87,4 +87,6 @@ public interface UserInfoManager {
 	 */
 	boolean updateUserInfoById(UserInfo userInfo);
 
+	List<UserInfo> getUsers(Integer group);
+
 }

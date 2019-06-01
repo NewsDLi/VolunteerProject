@@ -40,7 +40,14 @@ public class WheelPlantingController {
 	@RequestMapping("/queryAll")
 	public ApiResponse<Object> queryAll(HttpServletRequest request){
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (!userInfo.getRoleId().equals(3L)){
+		boolean isTrue = false;
+		if (userInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN)){
+			isTrue = true;
+		}
+		if (userInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)) {
+			isTrue = true;
+		}
+		if(!isTrue){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
 		List<WhellPlanting> list = wheelPlantingManager.queryAll();

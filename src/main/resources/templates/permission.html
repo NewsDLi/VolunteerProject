@@ -10,224 +10,249 @@
 <script src="js/zepto.min.js"></script>
 <script src="js/zepto.weui.js"></script>
 <script>
-	var groupTeam=[];
-	var pageSize = 1;
-	$(function() {
-		getData('', '', '', 1);
-		$("#job").select({
-		     title: "选择组别",
-		     items: groupTeam,
-		     onChange: function(d) {
-		         console.log(this, d);
-		     },
-		     onClose: function() {
-		         console.log("close");
-		     },
-		     onOpen: function() {
-		         console.log("open");
-		     },
-		 });
-		 $("#mobile").select({
-		     title: "义工权限",
-		     items: [
-		         {
-		             title: "义工",
-		             value: "001",
-		         },
-		         {
-		             title: "组长",
-		             value: "004",
-		         },
-		         {
-		             title: "教授",
-		             value: "002",
-		         },
-		         {
-		             title: "",
-		             value: "",
-		         }
-		     ]
-		 });
-		 /**
-		 * 搜索按钮点击
-		 */
-		 $('.weui-btn_mini').click(function(){
-			 var keywords = $('.search-input').val();
-			 var group = $('#job').val();
-			 var role = $('#mobile').attr('data-values');
-			 if ('undefined' == typeof role){
-					role = '';
-			 }
-			// 默认页数1
-			var pageNum = 1;
-			getData(keywords, group, role, pageNum);
-		 });
+var groupTeam = [];
+$(function() {
+	init();
+	getAllGroups();
+	$("#job").select({
+		title : "选择组别",
+		items : groupTeam,
+		onChange : function(d) {
+			//console.log(this, d);
+			$('.select_group').html($('#job').val()+'组');
+			init();
+		},
+		onClose : function() {
+			//console.log("close");
+		},
+		onOpen : function() {
+			//console.log("open");
+		},
 	});
-/**
- * 时间转换
- */
-function getDate(version){
-	var date = new Date(version);
-	return date.getFullYear() + "-" +getMonthPlusOne(date.getMonth()) + "-" + date.getDate();
-}
-function getMonthPlusOne(month){
-	return month*1+1;
-}
-/**
- * 初始化页数
- */
-function initPage(pageSize, initPage){
-	var htmlpage = '';
-	if(pageSize>0){
-		htmlpage += '<a onclick="gotoPre()" class="pager2-pre">&lt;</a>';
-	}
-	if(initPage>=3 && pageSize > 5 && initPage + 2 <= pageSize){
-		for(var j=initPage-2;j<=initPage+2;j++){
-			if(j == initPage){
-				htmlpage+='<a class="active" onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
-			}else{
-				htmlpage+='<a onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
-			}
-		}
-	}else if(initPage + 2 > pageSize && pageSize > 5){
-		for(var j=pageSize-4;j<=pageSize;j++){
-			if(j == initPage){
-				htmlpage+='<a class="active" onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
-			}else{
-				htmlpage+='<a onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
-			}
-		}
-	}else{
-		for(var j=1;j<=pageSize;j++){
-			if(j == initPage){
-				htmlpage+='<a class="active" onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
-			}else{
-				htmlpage+='<a onclick="gotoThisPage('+ j +',this)">'+j+'</a>'
-			}
-			
-		}
-	}
-	if(pageSize>0){
-		htmlpage+='<a onclick="gotoNext()" class="pager2-next">&gt;</a>';
-	}
-	$('.pager2').html(htmlpage);
-}
-/**
- * 跳转去pageNum页
- */
-function gotoThisPage(pageNum, event){
-	var keywords = $('.search-input').val();
+});
+function init() {
 	var group = $('#job').val();
-	var role = $('#mobile').attr('data-values');
-	if ('undefined' == typeof role){
-		role = '';
- 	}
-	getData(keywords, group, role, pageNum);
-}
-/**
- * 上一页
- */
-function gotoPre(){
-	if(($('.active').html()*1 - 1) <= 0){
-		return;
+	if ('所有义工' === group){
+		location.reload();
 	}
-	gotoThisPage($('.active').html()*1 - 1);
-}
-/**
- * 下一页
- */
-function gotoNext(){
-	if($('.active').html()*1+1 > pageSize){
-		return;
-	}
-	gotoThisPage($('.active').html()*1 + 1);
-}
-/**
- * 获取列表数据
- */
-function getData(kewWords, group, role, pageNum){
 	var html = '';
 	$.ajax({
-		type : "post",
-		url : "/powerManager",
-		async: false,
-		data : "kewWords=" + kewWords + "&group="+ group +"&role="+ role +"&pageNum=" + pageNum,
+		type : "get",
+		url : "/power/info",
+		data : "group=" + group,
 		success : function(data) {
 			if (data.message == 'success') {
-				for(var i=0;i<data.data.groups.length;i++){
-					groupTeam.push(data.data.groups[i]+'');
+				for (var i = 0; i < data.data.length; i++) {
+					html += '<label class="weui-cell weui-check__label" for="'+data.data[i].id+'"><div class="weui-cell__hd"><input type="radio" class="weui-check" name="radio" value="'+ data.data[i].name +'" id="'+data.data[i].id+'"><i class="weui-icon-checked"></i></div>';
+					html += '<div class="weui-cell__bd"><p class="desc">'+ data.data[i].name +'</p></div>';
+					html += '<div class="weui-cell__bd"><p class="desc">'+ data.data[i].age +'</p></div>';
+					html += '<div class="weui-cell__bd"><p class="desc">'+ data.data[i].loginPhone +'</p></div>';
+					html += '<div class="weui-cell__bd"><p class="desc">'+ data.data[i].count +'</p></div></label>';
 				}
-				groupTeam.push('');
-				pageNum = data.data.pageNum;
-				pageSize = data.data.pageCount;
-				for(var i=0; i<data.data.infos.length; i++){
-					html += ' <a class="weui-cell weui-cell_access" href=/getOtherUserInfo?id='+ data.data.infos[i].id +'>'
-						+ '<div class="weui-cell__hd">'
-						+ '<p>'
-						+ data.data.infos[i].name
-						+ '</p>'
-						+ '</div>'
-						+ '<div class="weui-cell__bd">'
-						+ '<p>&nbsp;&nbsp;'
-						+ data.data.infos[i].loginPhone
-						+ '</p>'
-						+ '</div>'
-						+ '<div class="weui-cell__ft">'
-						+ getDate(data.data.infos[i].version)
-						+ '</div>'
-						+ '</a>'
-				}
-				$("#list").html(html);
-			}
-			if (data.code == '1000200'){
-				$.toast('不好意思，您还没有组别','text');
+				$('.listinfo').html(html);
 			}
 		}
 	});
-	initPage(pageSize,pageNum);
+}
+function getAllGroups() {
+	$.ajax({
+		type : "get",
+		async : false,
+		url : "/getAllGroups",
+		success : function(data) {
+			if (data.message == 'success') {
+				groupTeam.push('所有义工');
+				for (var i = 0; i < data.data.length; i++) {
+					groupTeam.push(data.data[i] + '');
+				}
+			}
+		}
+	});
+}
+function showDirlog(value){
+	if("undefined" === typeof($("input[type='radio']:checked").val())){
+		$.toast("您没有选择人员",'text');
+		return;
+	}
+	$('.isshowgroup').css("display","none");
+	var selectedname =  $("input[type='radio']:checked").val();
+	if (value == 'groupleader'){
+		$('.groupleader').addClass('backgroung_color');
+		$('.weui-dialog__title').html('组长任命');
+		var asd = '是否任命'+selectedname+'为<input class="isshowgroup" type="number">组组长';
+		$('.weui-dialog__bd').html(asd);
+		$('.isshowgroup').css("display","inline-block !important");
+	}else if (value == 'professor'){
+		$('.professor').addClass('backgroung_color');
+		$('.weui-dialog__title').html('教授任命');
+		var asd = '是否任命'+selectedname+'为教授';
+		$('.weui-dialog__bd').html(asd);
+	} else if (value == 'manager'){
+		$('.manager').addClass('backgroung_color');
+		$('.weui-dialog__title').html('管理员任命');
+		var asd = '是否任命'+selectedname+'为管理员';
+		$('.weui-dialog__bd').html(asd);
+	}
+	$('.dirlog').css("display","block");
+}
+function cancle(){
+	$('.backgroung_color').removeClass('backgroung_color');
+	$('.dirlog').css("display","none");
+	$('.weui-dialog__title').html('');
+	$('.weui-dialog__bd').html('');
+}
+function submit(){
+	var id = $("input[type='radio']:checked").attr('id');
+	var selectedname =  $("input[type='radio']:checked").val();
+	var value = $('.backgroung_color').attr('val');
+	var group = $('.isshowgroup').val();
+	var actionUrl = '';
+	if ("undefined" === typeof(group) || ""==group){
+		actionUrl = "/update/permission?name="+selectedname +"&id="+id+"&value="+value;
+	} else {
+		actionUrl = "/update/permission?name="+selectedname +"&id="+id+"&value="+value+"&group="+group;
+	}
+	$.ajax({
+		type : "get",
+		url : actionUrl,
+		success : function(data) {
+			if (data.message == 'success') {
+				$.toast("操作成功");
+				setTimeout(function(){
+					location.reload();
+				},2000);
+			} else {
+				$.toast("操作失败");
+			}
+		}
+	});
 }
 </script>
 </head>
 
 <body ontouchstart>
 	<div class="weui-flex header">
-			<h2>权限管理</h2>
+		<h2>权限管理</h2>
 	</div>
-	
+
 	<div class="weui-cells weui-cells_form">
-	    <div class="weui-cell">
-	        <div class="weui-cell__hd"><label for="job" class="weui-label">组别</label></div>
-	        <div class="weui-cell__bd">
-	            <input class="weui-input" id="job" type="text" value="" readonly="">
-	        </div>
-	    </div>
-	    <div class="weui-cell">
-	        <div class="weui-cell__hd"><label for="mobile" class="weui-label">义工权限</label></div>
-	        <div class="weui-cell__bd">
-	            <input class="weui-input" id="mobile" type="text" value="" readonly="">
-	        </div>
-	    </div>
-	</div>
-	<!--搜索-->
-	<div class="weui-search-bar">
-		<input type="search" class="search-input" id="search"
-			placeholder="关键字">
-		<button class="weui-btn weui-btn_mini weui-btn_primary">
-			<i class="icon icon-4"></i>
-		</button>
+		<div class="weui-cell">
+			<div class="weui-cell__hd lable_width">
+				<label for="job" class="weui-label border_solid"> <span
+					class="icon icon-99"></span><span class="select_group"> 所有义工</span>
+				</label> <input class="weui-input" id="job" type="text" value="" readonly="">
+			</div>
+			<div class="weui-cell__bd">
+				<ul class="icon_lists clear">
+					<li onclick="showDirlog('groupleader')" class="border_solid groupleader" val="groupleader"><span class="icon icon-85"></span> 组长</li>
+					<li onclick="showDirlog('professor')" class="border_solid professor" val="professor"><span class="icon icon-67"></span> 教授</li>
+					<li onclick="showDirlog('manager')" class="border_solid manager" val="manager"><span class="icon icon-101"></span> 管理员</li>
+				</ul>
+			</div>
+		</div>
 	</div>
 	<!--列表-->
-	<div class="weui-cells" id="list">
+	<div class="weui-cells weui-cells_checkbox">
+		<label class="weui-cell weui-check__label">
+			<div class="weui-cell__hd" style="padding-right: 0;">
+				<i class="weui-icon-checked" style="opacity: 0; padding-right: 0;"></i>
+			</div>
+			<div class="weui-cell__bd">
+				<p class="desc">姓名</p>
+			</div>
+			<div class="weui-cell__bd">
+				<p class="desc">年龄</p>
+			</div>
+			<div class="weui-cell__bd">
+				<p class="desc">手机号</p>
+			</div>
+			<div class="weui-cell__bd">
+				<p class="desc">义工期数</p>
+			</div>
+		</label> 
+		<div class="listinfo">
+			<label class="weui-cell weui-check__label" for="s11">
+				<div class="weui-cell__hd">
+					<input type="checkbox" class="weui-check" name="checkbox1" id="s11"checked="checked"><i class="weui-icon-checked"></i>
+				</div>
+				<div class="weui-cell__bd"><p class="desc">张三</p></div>
+				<div class="weui-cell__bd"><p class="desc">23</p></div>
+				<div class="weui-cell__bd"><p class="desc">13509876543</p></div>
+				<div class="weui-cell__bd"><p class="desc">11</p></div>
+			</label>
+		</div>
 	</div>
-	<div class="pager2">
-        <!-- <a class="active">1</a>
-        <a>2</a>
-        <a>3</a>
-        <a>4</a>
-        <a>5</a> -->
-    </div>
+	<div class="dirlog" style="display:none">
+		<div class="weui-mask weui-mask--visible" style="opacity: 1;"></div>
+		<div class="weui-dialog weui-dialog--visible" style="opacity: 1;">
+		  <div class="weui-dialog__hd">
+		    <strong class="weui-dialog__title"></strong>
+		  </div>
+		  <div class="weui-dialog__bd"><input class="isshowgroup" type="number"></div>
+		  <div class="weui-dialog__ft">
+		    <a href="javascript:;" onclick="cancle()" class="weui-dialog__btn default">取消</a>
+		    <a href="javascript:;" onclick="submit()" class="weui-dialog__btn primary">确定</a>
+		  </div>
+		</div>
+	</div>
+	<br>
+	<br>
+	<br>
 	<br>
 	<br>
 	<div th:include="tabbar::pagination"></div>
 </body>
 </html>
+<style>
+@media {
+	.desc {
+		text-align: center;
+	}
+	.icon_lists {
+		display: flex;
+		justify-content: space-between;
+	}
+	.icon_lists li {
+		width: 32%;
+		height: 40px;
+		text-align: center;
+		list-style-type: none;
+		line-height: 40px;
+	}
+	.icon {
+		font-size: 24px;
+		line-height: 40px;
+		margin: 5px 0;
+		color: #10AEFF;
+		-webkit-transition: font-size 0.5s ease-out 0s;
+		-moz-transition: font-size 0.5s ease-out 0s;
+		transition: font-size 0.5s ease-out 0s;
+		margin-right: 2px;
+	}
+	.weui-input {
+		width: 105px;
+	}
+	#job {
+		display: none;
+	}
+	.border_solid {
+		border: 1px solid #F5F5F5;
+	}
+	.lable_width {
+		width: 31%;
+	}
+	.backgroung_color{
+	    background: #10AEFF;
+	}
+	.backgroung_color span{
+		color: #FFF;
+	}
+	.isshowgroup{
+		width: 27px;
+	    border: 0px;
+	    border-bottom: 1px solid;
+	    text-align: center;
+	    display:none;
+	}
+}
+</style>

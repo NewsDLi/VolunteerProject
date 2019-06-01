@@ -34,6 +34,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.volunteer.constant.CommonConstant;
 import com.volunteer.constant.CommonEnum;
+import com.volunteer.constant.UserConstant;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoTag;
 import com.volunteer.response.ApiResponse;
@@ -257,7 +258,7 @@ public class UserInfoImport {
             userInfo.setBirthplace(StringUtils.isBlank(birthplace)? "" : birthplace);
             userInfo.setLifecycle(1);
             userInfo.setVersion(date);
-            userInfo.setRoleId(role.equals("教授")? 2L : 1L);
+            userInfo.setRoleId(role.equals("教授")? UserConstant.JIAO_SHOU : UserConstant.YI_GONG);
             userInfo.setIsMessageBoard(false);
             param.put("userInfo", userInfo);
             

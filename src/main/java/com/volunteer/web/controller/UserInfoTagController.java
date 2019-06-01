@@ -32,7 +32,14 @@ public class UserInfoTagController {
 	public ApiResponse<Object> plusOne(HttpServletRequest request,
 			@RequestParam(value="id", required=true)Long id){
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (loginUserInfo.getRoleId() != 3L) {
+		boolean isTrue = false;
+		if (loginUserInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN)){
+			isTrue = true;
+		}
+		if (loginUserInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)) {
+			isTrue = true;
+		}
+		if(!isTrue){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
 		userInfoTagManager.tagCountPlusOne(id);

@@ -36,4 +36,6 @@ public interface UserInfoMapper {
 	List<UserInfo> searchInfos(PageNation pageNation);
 
 	List<Integer> getAllGroups();
+
+	List<UserInfo> getAllUser();
 }

@@ -1,11 +1,8 @@
 package com.volunteer.web.controller;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,12 +17,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.volunteer.constant.CommonConstant;
-import com.volunteer.constant.HonerlEnum;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.Honer;
 import com.volunteer.model.UserInfo;
-import com.volunteer.model.UserInfoTag;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
 import com.volunteer.utils.ImageUtils;
@@ -71,7 +65,14 @@ public class HonerController {
 	@RequestMapping("/managerhoner")
 	public String toManagerHoner(HttpServletRequest request, Model model){
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (!userInfo.getRoleId().equals(3L)){
+		boolean isTrue = false;
+		if (userInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN)){
+			isTrue = true;
+		}
+		if (userInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)) {
+			isTrue = true;
+		}
+		if(!isTrue){
 			return "redirect:/login.json";
 		}
 		List<Honer> allHoner = honerManager.getAllHoner();
@@ -182,7 +183,14 @@ public class HonerController {
 	public ApiResponse<Object> showPersonHoner(HttpServletRequest request,
 			@RequestParam(value="userId", required=true)Long userId){
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (loginUserInfo.getRoleId() != 3L) {
+		boolean isTrue = false;
+		if (loginUserInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN)){
+			isTrue = true;
+		}
+		if (loginUserInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)) {
+			isTrue = true;
+		}
+		if(!isTrue){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
 		List<Honer> list = honerManager.getHoner(userId);
@@ -206,8 +214,15 @@ public class HonerController {
 			@RequestParam(value="userId", required=true)Long userId,
 			@RequestParam(value="honerId", required=true)Long honerId){
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (loginUserInfo.getRoleId() != 3L) {
-			return ApiResponse.build(ResponseStatus.PERMISSION, null);
+		boolean isTrue = false;
+		if (loginUserInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN)){
+			isTrue = true;
+		}
+		if (loginUserInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)) {
+			isTrue = true;
+		}
+		if(!isTrue){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
 		Honer honer = honerManager.getHonerById(honerId);
 		if (!honer.getIsClickSend()){

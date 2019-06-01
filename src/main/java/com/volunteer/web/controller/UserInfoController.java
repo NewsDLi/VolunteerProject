@@ -116,7 +116,7 @@ public class UserInfoController {
 			@RequestParam(value="pageNum", required=false)String pageNum){
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
 		
-		if(userInfo.getRoleId().equals(1L) && null == userInfo.getGroupTeam()){
+		if(userInfo.getRoleId().equals(UserConstant.YI_GONG) && null == userInfo.getGroupTeam()){
 			return ApiResponse.build(ResponseStatus.PERMISSION, null);
 		}
 		
@@ -127,12 +127,12 @@ public class UserInfoController {
 		Integer pagenumber = 1;
 		
 		// 设置是否首次请求 或者页面是否刷新
-		if(header.indexOf("/admin")>0 && StringUtils.isBlank(group) && userInfo.getRoleId().equals(1L)){
+		if(header.indexOf("/admin")>0 && StringUtils.isBlank(group) && userInfo.getRoleId().equals(UserConstant.YI_GONG)){
 			groupteam = userInfo.getGroupTeam();
 		}
 		if(StringUtils.isNotBlank(group)){
 			// 权限是普通义工的话只能查看本组
-			if (userInfo.getRoleId().equals(1L)){
+			if (userInfo.getRoleId().equals(UserConstant.YI_GONG)){
 				groupteam = userInfo.getGroupTeam();
 			}else{
 				groupteam = Integer.parseInt(group);
@@ -152,7 +152,7 @@ public class UserInfoController {
 		
 		List<Integer> groupList = new ArrayList<>();
 		// 判断此用户是否具有查看别的组的权限
-		if(userInfo.getRoleId().equals(2L) || userInfo.getRoleId().equals(3L)){
+		if(userInfo.getRoleId().equals(UserConstant.JIAO_SHOU) || userInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN) || userInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)){
 			groupList = userInfoManager.getAllGroups();
 		} else {
 			groupList.add(userInfo.getGroupTeam());
@@ -188,7 +188,7 @@ public class UserInfoController {
 		UserInfo userInfo = userInfoManager.getUserInfoById(id);
 		
 		boolean isCanUpdate = false;
-		if ((loginUserInfo.getGroupTeam() != null && loginUserInfo.getGroupTeam().equals(userInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(3L)){
+		if ((loginUserInfo.getGroupTeam() != null && loginUserInfo.getGroupTeam().equals(userInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN) || loginUserInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)){
 			isCanUpdate = true;
 		}
 		
@@ -222,7 +222,7 @@ public class UserInfoController {
 			}
 		}
 		// 判断是否为管理员
-		if (loginUserInfo.getRoleId().equals(3L)){
+		if (loginUserInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN) || loginUserInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)){
 			model.addAttribute("showHoner", true);
 		}
 		model.addAttribute("havingClass", havingClass);
@@ -243,11 +243,18 @@ public class UserInfoController {
 	@RequestMapping("/updateUserInfo")
 	public ApiResponse<Boolean> updateUserInfo(HttpServletRequest request, UserInfo userInfo){
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (!loginUserInfo.getIsGroupLeader() && loginUserInfo.getRoleId() != 3L){
+		boolean isCanUpdate = false;
+		if (loginUserInfo.getIsGroupLeader()){
+			isCanUpdate = true;
+		}
+		if (loginUserInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN) || loginUserInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)){
+			isCanUpdate = true;
+		}
+		if (!isCanUpdate){
 			return ApiResponse.build(ResponseStatus.FAIL, false);
 		}
 		UserInfo beforeUpdatePersonInfo = userInfoManager.getUserInfoById(userInfo.getId());
-		if ((loginUserInfo.getGroupTeam().equals(beforeUpdatePersonInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(3L)){
+		if ((loginUserInfo.getGroupTeam().equals(beforeUpdatePersonInfo.getGroupTeam()) && loginUserInfo.getIsGroupLeader()) || loginUserInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN) || loginUserInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)){
 			userInfo.setVersion(new Date());
 			userInfo.setUpdateBy(loginUserInfo.getId());
 			boolean updateUserInfoById = userInfoManager.updateUserInfoById(userInfo);
@@ -289,10 +296,17 @@ public class UserInfoController {
 			@RequestParam(value="station", required=true)String station){
 		// 判断是否管理员
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (loginUserInfo.getRoleId() != 3L) {
+		
+		boolean isTrue = false;
+		if (loginUserInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN)){
+			isTrue = true;
+		}
+		if (loginUserInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)) {
+			isTrue = true;
+		}
+		if(!isTrue){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
-		
 		UserInfoTag userInfoTag = new UserInfoTag();
 		userInfoTag.setTagCount(1);
 		userInfoTag.setTagName(station);
@@ -315,8 +329,15 @@ public class UserInfoController {
 			@RequestParam(value="messageboard", required=true)String messageboard){
 		// 判断是否管理员
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		// 不是管理员的不能修改，不同修改自己一些的信息
-		if (loginUserInfo.getRoleId() != 3L || loginUserInfo.getId().equals(userId)) {
+		
+		boolean isTrue = false;
+		if (loginUserInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN)){
+			isTrue = true;
+		}
+		if (loginUserInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)) {
+			isTrue = true;
+		}
+		if(!isTrue){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
 		Boolean leader = null;
@@ -371,12 +392,26 @@ public class UserInfoController {
 			@RequestParam(value="userId", required=true)Long userId){
 		// 判断是否管理员,自己不能删除自己
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		if (loginUserInfo.getRoleId() != 3L || userId.equals(loginUserInfo.getId())) {
+		boolean isTrue = false;
+		if (loginUserInfo.getRoleId().equals(UserConstant.GUAN_LI_YUAN)){
+			isTrue = true;
+		}
+		if (loginUserInfo.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN)) {
+			isTrue = true;
+		}
+		//
+		if (userId.equals(loginUserInfo.getId())) {
+			isTrue = false;
+		}
+		if(!isTrue){
 			return ApiResponse.build(ResponseStatus.PERMISSION, null);
 		}
 		// 等级相同无法删除
 		UserInfo userInfoById = userInfoManager.getUserInfoById(userId);
 		if (userInfoById.getRoleId().equals(loginUserInfo.getRoleId())){
+			return ApiResponse.build(ResponseStatus.PERMISSION, null);
+		}
+		if (userInfoById.getRoleId().equals(UserConstant.SUPER_GUAN_LI_YUAN) ){
 			return ApiResponse.build(ResponseStatus.PERMISSION, null);
 		}
 		UserInfo updateUser = new UserInfo();

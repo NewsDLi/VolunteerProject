@@ -470,4 +470,7 @@
 	<select id="getAllGroups" resultType="int">
 		SELECT group_team FROM user_info WHERE group_team IS NOT NULL  GROUP BY group_team
 	</select>
+	<select id="getAllUser" resultMap="BaseResultMap">
+		SELECT * FROM user_info WHERE lifecycle = 1
+	</select>
 </mapper>
