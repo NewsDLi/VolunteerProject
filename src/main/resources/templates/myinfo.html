@@ -46,6 +46,8 @@ $(function(){
 		var imgBox = e.target;
         uploadImg($('#uploaderImage'), imgBox, '.img-gray');
 	});
+	// 添加底部样式
+	$(".mine").addClass("weui-bar__item_on");
 })
 function uploadImg(element, tag, cla) {
     var file = tag.files[0];

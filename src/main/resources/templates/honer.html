@@ -13,6 +13,10 @@
 <script src="js/zepto.min.js"></script>
 <script src="js/zepto.weui.js"></script>
 <script type="text/javascript">
+$(function(){
+	// 添加底部样式
+	$(".mine").addClass("weui-bar__item_on");
+});
 function showInfo1(a,b,c){
 	if(b == 'true'){
 		$.toast('此勋章需要管理员进行发放','text');
