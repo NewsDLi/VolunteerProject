@@ -138,15 +138,15 @@ function submit(){
 	<div class="weui-cells weui-cells_form">
 		<div class="weui-cell">
 			<div class="weui-cell__hd lable_width">
-				<label for="job" class="weui-label border_solid"> <span
-					class="icon icon-99"></span><span class="select_group"> 所有义工</span>
+				<label for="job" class="weui-label border_solid"> 
+				<span class="icon icon-99 logo"></span><span class="select_group"> 所有义工</span>
 				</label> <input class="weui-input" id="job" type="text" value="" readonly="">
 			</div>
 			<div class="weui-cell__bd">
 				<ul class="icon_lists clear">
-					<li onclick="showDirlog('groupleader')" class="border_solid groupleader" val="groupleader"><span class="icon icon-85"></span> 组长</li>
-					<li onclick="showDirlog('professor')" class="border_solid professor" val="professor"><span class="icon icon-67"></span> 教授</li>
-					<li onclick="showDirlog('manager')" class="border_solid manager" val="manager"><span class="icon icon-101"></span> 管理员</li>
+					<li onclick="showDirlog('groupleader')" class="border_solid groupleader" val="groupleader"><span class="logo icon icon-85"></span> 组长</li>
+					<li onclick="showDirlog('professor')" class="border_solid professor" val="professor"><span class="logo icon icon-67"></span> 教授</li>
+					<li onclick="showDirlog('manager')" class="border_solid manager" val="manager"><span class="logo icon icon-101"></span> 管理员</li>
 				</ul>
 			</div>
 		</div>
@@ -200,7 +200,25 @@ function submit(){
 	<br>
 	<br>
 	<br>
-	<div th:include="tabbar::pagination"></div>
+	<script src="js/common.js"></script>
+	<!-- 与下拉框特效存在冲突，暂时注释掉 -->
+	<!-- <script src="js/jquery.js"></script> -->
+	<div class="weui-tab tab-bottom " style="height:44px;position: fixed;">
+		<div class="weui-tabbar">
+			<a href="javascript:;" class="weui-tabbar__item mine weui-bar__item_on">
+				<i class="icon icon-30 f27 weui-tabbar__icon"></i>
+				<p class="weui-tabbar__label">我的</p>
+			</a>
+			<a href="javascript:;" class="weui-tabbar__item homepage">
+				<i class="icon icon-27 f27 weui-tabbar__icon"></i>
+				<p class="weui-tabbar__label">主页</p>
+			</a>
+			<a href="javascript:;" class="weui-tabbar__item community">
+				<i class="icon icon-5 f27 weui-tabbar__icon"></i>
+				<p class="weui-tabbar__label">社区</p>
+			</a>
+		</div>
+	</div>
 </body>
 </html>
 <style>
@@ -219,7 +237,7 @@ function submit(){
 		list-style-type: none;
 		line-height: 40px;
 	}
-	.icon {
+	.logo {
 		font-size: 24px;
 		line-height: 40px;
 		margin: 5px 0;
