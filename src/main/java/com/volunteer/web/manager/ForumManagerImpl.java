@@ -43,6 +43,7 @@ public class ForumManagerImpl implements ForumManager{
 			CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
 			communityArticlesExample.createCriteria().andTypeEqualTo(i);
 			communityArticlesExample.setOrderByClause("publication_time desc");
+			communityArticlesExample.setOrderByClause("sort desc");
 			communityArticlesExample.setPageIndex(1);
 			List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
 			communityArticlesList.add(communityArticles.get(0));
