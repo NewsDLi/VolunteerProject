@@ -40,5 +40,5 @@ public interface ForumManager {
 	/**
 	 * 更新论坛排序
 	 */
-	int updateArticleListbySort(Long communityArticlesId);
+	int updateArticleListbySort(Long communityArticlesId,Integer sort);
 }

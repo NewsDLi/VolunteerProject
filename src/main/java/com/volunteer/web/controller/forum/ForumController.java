@@ -119,11 +119,11 @@ public class ForumController {
     }
     //顶置
     @RequestMapping(value = "/forum/top", method = {RequestMethod.GET})
-    public ApiResponse<Object> getFormTop(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id) {
+    public ApiResponse<Object> getFormTop(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id, @RequestParam(value = "sort") String sort) {
         if (Validator.isNullOrEmpty(id)) {
             return ApiResponse.build(ResponseStatus.FAIL, "");
         }
-        int i = forumManager.updateArticleListbySort(Long.parseLong(id));
+        int i = forumManager.updateArticleListbySort(Long.parseLong(id),Integer.parseInt(sort));
         if(i>0){
             return ApiResponse.build(ResponseStatus.SUCCESS, i);
         }

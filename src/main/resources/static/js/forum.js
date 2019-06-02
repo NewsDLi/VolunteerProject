@@ -35,15 +35,15 @@ function saveForum(input,pid){
         var communityId = $("#hidden").val();
 
         var userid = $("#userId").val();
-//        if (typeof(userid) == "undefined"){
-//             $.toast("请微信登陆后留言", "forbidden");
-//             return;
-//        }
+       if (typeof(userid) == "undefined"){
+            $.toast("请微信登陆后留言", "forbidden");
+            return;
+       }
         var username = $("#userName").val();
-//        if (typeof(username) == "undefined"){
-//             $.toast("请微信登陆后留言", "forbidden");
-//             return;
-//        }
+       if (typeof(username) == "undefined"){
+            $.toast("请微信登陆后留言", "forbidden");
+            return;
+       }
         if (typeof(pid) == "undefined"){
             pid = 0;
         }
@@ -69,3 +69,27 @@ function saveForum(input,pid){
               }
                   });
 }
+  function fungetone(uid){
+    var  usort;
+      if($("icon-7").hasClass("top")){
+          usort = 0;
+      }else{
+          usort = 1;
+      }
+      $.ajax({
+          url: "/forum/top",
+          type: 'get',
+          contentType:'application/json;charset=utf-8',
+          data:{
+              id:uid,
+              sort:usort
+          },
+          success: function (data) {
+              if (data.code == '1000002') {
+                  window.location.reload();
+              }else{
+                  $.toast("请稍等", "forbidden");
+              }
+          }
+      });
+  }

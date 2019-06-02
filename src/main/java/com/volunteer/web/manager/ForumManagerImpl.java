@@ -63,11 +63,11 @@ public class ForumManagerImpl implements ForumManager{
 	}
 
 	@Override
-	public int updateArticleListbySort(Long communityArticlesId) {
+	public int updateArticleListbySort(Long communityArticlesId,Integer sort) {
 		CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
 		communityArticlesExample.createCriteria().andIdEqualTo(communityArticlesId);
 		CommunityArticles communityArticles = new CommunityArticles();
-		communityArticles.setSort(1);
+		communityArticles.setSort(sort);
 
 		int i = communityArticlesMapper.updateByExampleSelective(communityArticles, communityArticlesExample);
 		return i;

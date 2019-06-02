@@ -64,7 +64,3 @@ function urls(id){
 location.href = "/forum.htm?id="+id;
 		return false;
 }
-function fungetone(uid){
-    var s = uid;
-
-}

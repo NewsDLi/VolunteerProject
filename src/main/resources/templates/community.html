@@ -60,14 +60,6 @@
                         <div class="weui-news-infoitem"
                              th:text="${#dates.format(communityArticle.publicationTime, 'yyyy-MM-dd HH:mm')}"></div>
                         <input class="hidden" type="hidden" th:value="${communityArticle.id}">
-                        <div th:if="${session.login_phone.roleId} eq 3">
-                            <div th:if="${communityArticle.sort} eq 0">
-                            <span class="icon icon-7" ></span>
-                            </div>
-                            <div th:if="${communityArticle.sort} eq 1">
-                            <span class="icon icon-7 top"  th:onclick="'javascript:fungetone(\''+${communityArticle:.id}+'\')'"></span>
-                            </div>
-                        </div>
                     </div>
                 </div>
                 <div class="weui-news-media" th:if="${communityArticle.image}">
