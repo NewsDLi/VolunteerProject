@@ -1,7 +1,11 @@
 package com.volunteer.web.controller;
 
 import com.feilong.core.Validator;
+import com.volunteer.constant.UserConstant;
+import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.model.CommunityArticles;
+import com.volunteer.model.UserInfo;
+import com.volunteer.model.WechatInfo;
 import com.volunteer.web.manager.ForumManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -48,7 +52,12 @@ public class ForwardController {
      * @return
      */
     @RequestMapping("/mypage")
-    public String mypage() {
+    public String mypage(HttpServletRequest request) {
+        UserInfo userInfo = (UserInfo)request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+        WechatInfo wechatInfo = (WechatInfo)request.getSession().getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
+        if(Validator.isNullOrEmpty(userInfo)&&Validator.isNotNullOrEmpty(wechatInfo)){
+            return "redirect:/homepage.htm";
+        }
         return "mypage";
     }
 

@@ -39,13 +39,14 @@
                 <span class="weui-c-nickname"><a href="javascript:;" th:text="${communityArticle.author}">Yoby开发者</a></span>
                 <!--时间-->
                 <em class="weui-c-nickname"  th:text="${#dates.format(communityArticle.publicationTime,'yyyy-MM-dd')}">2018-10-10 10:10</em>
-                <span th:if="${session.login_phone.roleId} eq 3">
+                <span th:if="${session.login_phone}">
+                <span  th:if=" ${session.login_phone.roleId} eq 3">
                 <span th:if="${communityArticle.sort} eq 0">
                     <span class="icon icon-8" th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
                 </span>
                 <span th:if="${communityArticle.sort} eq 1">
                     <span class="icon icon-6 top"  th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
-                </span>
+                </span></span>
             </span>
             </div>
 
