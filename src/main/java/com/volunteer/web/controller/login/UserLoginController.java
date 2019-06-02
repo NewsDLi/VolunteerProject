@@ -82,7 +82,6 @@ public class UserLoginController {
             List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
             if(Validator.isNotNullOrEmpty(userInfoBinds)){
                 UserInfo userInfo1 = userInfoManager.selectByPrimaryKey(userInfoBinds.get(0).getUserId());
-                request.getSession().setAttribute(UserConstant.LOGIN_PHONE,userInfo1);
                 return "mypage";
             }
             }
