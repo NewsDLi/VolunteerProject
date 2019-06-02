@@ -52,7 +52,7 @@
             <div class="weui-news-inner">
                 <div class="weui-news-inners">
                     <!--标题-->
-                    <div class="weui-news-title" th:text="${communityArticle.title}"></div>
+                    <div class="weui-news-title" ><span th:text="${communityArticle.title}"></span><label class="label f-red b-red" th:if="${communityArticle.sort} eq 1">顶置</label></div>
                     <!--副标题-->
                     <p class="weui-news-p" th:text="${communityArticle.subheading}"></p>
                     <div class="weui-news-info">
@@ -73,7 +73,7 @@
     <p class="weui-footer__links">
         <a href="/editor" class="weui-footer__link">
             <ul class="icon_lists clear">
-                <li><span class="icon icon-115"
+                <li><span class="icon icon-116"
                           style="font-size: 35px;line-height: 40px;margin: 5px 0;color: #10AEFF;-webkit-transition: font-size 0.5s ease-out 0s;-moz-transition: font-size 0.5s ease-out 0s;transition: font-size 0.5s ease-out 0s;"></span>
                 </li>
             </ul>

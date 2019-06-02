@@ -119,6 +119,7 @@ public class ForumController {
     }
     //顶置
     @RequestMapping(value = "/forum/top", method = {RequestMethod.GET})
+    @ResponseBody
     public ApiResponse<Object> getFormTop(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id, @RequestParam(value = "sort") String sort) {
         if (Validator.isNullOrEmpty(id)) {
             return ApiResponse.build(ResponseStatus.FAIL, "");

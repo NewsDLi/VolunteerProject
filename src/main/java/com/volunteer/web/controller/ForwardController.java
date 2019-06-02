@@ -102,10 +102,11 @@ public class ForwardController {
      * 主页
      */
     @RequestMapping("/homepage.htm")
-    public String home() {
-
-
-
+    public String home(HttpServletRequest request) {
+        List<CommunityArticles> communityArticlesList = forumManager.selectHomePageForum();
+        if(Validator.isNotNullOrEmpty(communityArticlesList)){
+            request.setAttribute("communityArticles",communityArticlesList);
+        }
         return "homepage";
     }
 

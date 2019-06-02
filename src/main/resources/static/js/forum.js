@@ -71,7 +71,7 @@ function saveForum(input,pid){
 }
   function fungetone(uid){
     var  usort;
-      if($("icon-7").hasClass("top")){
+      if($(".icon").hasClass("top")){
           usort = 0;
       }else{
           usort = 1;
@@ -86,9 +86,11 @@ function saveForum(input,pid){
           },
           success: function (data) {
               if (data.code == '1000002') {
-                  window.location.reload();
+              $(".icon").addClass("top");
+                  $.toast("置顶成功", "text");
+                  window.location.href=document.referrer;
               }else{
-                  $.toast("请稍等", "forbidden");
+                  $.toast("置顶失败", "forbidden");
               }
           }
       });

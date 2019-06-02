@@ -11,6 +11,26 @@ public class CommunityArticlesExample {
 
     protected List<Criteria> oredCriteria;
 
+    private Integer pageIndex;
+
+    private Integer pageSize;
+
+    public Integer getPageIndex() {
+        return pageIndex;
+    }
+
+    public void setPageIndex(Integer pageIndex) {
+        this.pageIndex = pageIndex;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
+    }
+
     public CommunityArticlesExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
@@ -38,6 +58,7 @@ public class CommunityArticlesExample {
     public void or(Criteria criteria) {
         oredCriteria.add(criteria);
     }
+
 
     public Criteria or() {
         Criteria criteria = createCriteriaInternal();

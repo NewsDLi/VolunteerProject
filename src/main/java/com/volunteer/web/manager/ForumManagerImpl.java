@@ -31,13 +31,23 @@ public class ForumManagerImpl implements ForumManager{
 		communityArticlesExample.createCriteria().andTypeEqualTo(type);
 		communityArticlesExample.setOrderByClause("publication_time desc");
 		communityArticlesExample.setOrderByClause("sort desc");
+		communityArticlesExample.setPageIndex(100);
 		List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
 		return communityArticles;
 	}
 
 	@Override
 	public List<CommunityArticles> selectHomePageForum() {
-		return null;
+		List<CommunityArticles> communityArticlesList = new ArrayList<>();
+		for (int i = 1;i<=4;i++){
+			CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
+			communityArticlesExample.createCriteria().andTypeEqualTo(i);
+			communityArticlesExample.setOrderByClause("publication_time desc");
+			communityArticlesExample.setPageIndex(1);
+			List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
+			communityArticlesList.add(communityArticles.get(0));
+		}
+		return communityArticlesList;
 	}
 
 	@Override
