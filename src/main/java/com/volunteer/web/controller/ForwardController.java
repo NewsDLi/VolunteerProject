@@ -103,6 +103,9 @@ public class ForwardController {
      */
     @RequestMapping("/homepage.htm")
     public String home() {
+
+
+
         return "homepage";
     }
 

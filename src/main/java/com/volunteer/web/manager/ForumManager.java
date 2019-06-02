@@ -24,6 +24,11 @@ public interface ForumManager {
 	List<CommunityArticles> selectForum(Integer type);
 
 	/**
+	 * 查询主页列表
+	 */
+	List<CommunityArticles> selectHomePageForum();
+
+	/**
 	 * 查询论坛内容
 	 */
 	List<CommunityArticles> selectForumText(Long id);

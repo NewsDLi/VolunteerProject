@@ -337,4 +337,12 @@
       image = #{image,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByType" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+     c.id, c.title, c.publication_time, c.subheading, c.author, c.type, c.lifecycle, c.sort, c.image, c.content
+    from community_articles c
+    LEFT join article_message_board a on c.id = a.community_articles_id
+    where type = #{type}
+  </select>
 </mapper>

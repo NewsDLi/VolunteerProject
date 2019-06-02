@@ -6,6 +6,7 @@ import com.volunteer.web.dao.CommunityArticlesMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,6 +33,11 @@ public class ForumManagerImpl implements ForumManager{
 		communityArticlesExample.setOrderByClause("sort desc");
 		List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
 		return communityArticles;
+	}
+
+	@Override
+	public List<CommunityArticles> selectHomePageForum() {
+		return null;
 	}
 
 	@Override
