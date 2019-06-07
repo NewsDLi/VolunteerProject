@@ -20,6 +20,7 @@ import com.volunteer.model.UserInfoCommand;
 import com.volunteer.model.UserInfoTag;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
+import com.volunteer.utils.AESUtil;
 import com.volunteer.web.manager.UserInfoManager;
 import com.volunteer.web.manager.UserInfoTagManager;
 
@@ -45,7 +46,7 @@ public class PowerController {
 			UserInfoCommand command = new UserInfoCommand();
 			command.setId(userList.get(i).getId());
 			// age
-			if(userList.get(i).getIdCard().length() == 18){
+			if(AESUtil.AESDncode(AESUtil.KEY, userList.get(i).getIdCard()).length() == 18){
 				String bronYear = userList.get(i).getIdCard().substring(6, 10);
 				SimpleDateFormat df = new SimpleDateFormat("yyyy");
 	            String year=df.format(new Date());

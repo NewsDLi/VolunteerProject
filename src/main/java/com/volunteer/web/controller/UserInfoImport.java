@@ -39,6 +39,7 @@ import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoTag;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
+import com.volunteer.utils.AESUtil;
 import com.volunteer.web.manager.UserInfoManager;
 import com.volunteer.web.manager.UserInfoTagManager;
 
@@ -132,7 +133,7 @@ public class UserInfoImport {
     		// 用户信息
     		UserInfo user = (UserInfo) info.get("userInfo");
     		// 查询导入的用户是否已经存在
-    		Integer checkUserIsExist = userInfoManager.checkUserIsExist(user.getIdCard());
+    		Integer checkUserIsExist = userInfoManager.checkUserIsExist(AESUtil.AESEncode(AESUtil.KEY, user.getIdCard()));
     		if(null != checkUserIsExist){
     			continue;
     		}
@@ -249,7 +250,7 @@ public class UserInfoImport {
             UserInfo userInfo = new UserInfo();
             userInfo.setName(name);
             userInfo.setSex(getSex(sex));
-            userInfo.setIdCard(idCard);
+            userInfo.setIdCard(AESUtil.AESEncode(AESUtil.KEY, idCard));
             userInfo.setWorker(workUnit);
             userInfo.setLoginPhone(phoneNumber);
             userInfo.setGroupTeam(StringUtils.isBlank(group) ? null : Integer.valueOf(group));

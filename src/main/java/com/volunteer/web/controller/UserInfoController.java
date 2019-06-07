@@ -26,6 +26,7 @@ import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoTag;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
+import com.volunteer.utils.AESUtil;
 import com.volunteer.utils.ImageUtils;
 import com.volunteer.web.manager.UserInfoManager;
 import com.volunteer.web.manager.UserInfoTagManager;
@@ -56,7 +57,7 @@ public class UserInfoController {
 	public String getUserInfo(HttpServletRequest request, Model model){
 		// 用户信息
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		String idCard = userInfo.getIdCard();
+		String idCard = AESUtil.AESDncode(AESUtil.KEY, userInfo.getIdCard());
 		if(idCard.length() == 18){
 			String bronYear = idCard.substring(6, 10);
 			SimpleDateFormat df = new SimpleDateFormat("yyyy");
@@ -192,7 +193,7 @@ public class UserInfoController {
 			isCanUpdate = true;
 		}
 		
-		String idCard = userInfo.getIdCard();
+		String idCard = AESUtil.AESDncode(AESUtil.KEY, userInfo.getIdCard());
 		if(idCard.length() == 18){
 			String bronYear = idCard.substring(6, 10);
 			SimpleDateFormat df = new SimpleDateFormat("yyyy");
