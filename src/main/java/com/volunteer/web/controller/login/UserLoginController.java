@@ -30,6 +30,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author yuan
@@ -174,7 +176,15 @@ public class UserLoginController {
     }
 
     private Boolean validPassword(UserInfo userInfo,String password){
-        String idCard = AESUtil.AESDncode(AESUtil.KEY,userInfo.getIdCard()).substring(6);
+        String idCard = AESUtil.AESDncode(AESUtil.KEY,userInfo.getIdCard());
+        Pattern p = Pattern.compile("[0-9]+[X|x]{1}");
+        Matcher m = p.matcher(idCard);
+        boolean b = m.matches();
+        if(b){
+            idCard = idCard.substring(idCard.length()-7,idCard.length()-1);
+        }else{
+            idCard = idCard.substring(idCard.length()-6);
+        }
         if(idCard.equals(password)){
             return true;
         }
