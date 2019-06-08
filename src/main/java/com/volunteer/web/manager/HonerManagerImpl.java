@@ -86,7 +86,7 @@ public class HonerManagerImpl implements HonerManager{
 			List<Honer> allHoner = getAllHoner();
 			Integer count = 0;
 			for (UserInfoTag userInfoTag : list) {
-				if(userInfoTag.getType().equals(CommonConstant.TYPE_CLASS)){
+				if(CommonConstant.TYPE_CLASS.equals(userInfoTag.getType())){
 					count += userInfoTag.getTagCount();
 					continue;
 				}
@@ -97,6 +97,9 @@ public class HonerManagerImpl implements HonerManager{
 			}
 			for (Honer honer : allHoner) {
 				Integer range = honer.getRange();
+				if (null == range){
+					continue;
+				}
 				// 义工总期数大于或等于
 				if(count >= range && (honerId.indexOf(String.valueOf(honer.getId())) == -1)){
 					honerId = "," + String.valueOf(honer.getId());

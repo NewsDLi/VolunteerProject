@@ -188,6 +188,7 @@ public class UserInfoImport {
             Cell cell1 = row.getCell(1);
             Cell cell2 = row.getCell(2);
             Cell cell3 = row.getCell(3);
+            row.getCell(4).setCellType(CellType.STRING);
             Cell cell4 = row.getCell(4);
             Cell cell5 = row.getCell(5);
             row.getCell(6).setCellType(CellType.STRING);
