@@ -67,6 +67,7 @@ public class UserInfoController {
 		if (StringUtils.isBlank(userInfo.getWorker())){
 			userInfo.setWorker("暂无");
 		}
+		userInfo.setIdCard(idCard);
 		model.addAttribute("userInfo", userInfo);
 		return "myinfo";
 	}
