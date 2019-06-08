@@ -31,7 +31,7 @@ $(function(){
 			type : "get",
 			url : "/updateBaseUserInfo",
 			async: false,
-			data : "name=" + $("#name").val() +"&sex="+ sex +"&nation="+ $('#nation').val() +"&birthplace=" + $('#birthplace').val()+"&loginPhone="+$('#loginPhone').val()+"&worker="+$('#worker').val() + "&idCard="+$('#idCard').val()+"&hobby="+$('#hobby').val()+"&descption="+$('#descption').val(),
+			data : "name=" + $("#name").val() +"&sex="+ sex +"&nation="+ $('#nation').val() +"&birthplace=" + $('#birthplace').val()+"&loginPhone="+$('#loginPhone').val()+"&worker="+$('#worker').val() +"&hobby="+$('#hobby').val()+"&descption="+$('#descption').val(),
 			success : function(data) {
 				if(data.data){
 					$("#uploadUserImg").submit();
