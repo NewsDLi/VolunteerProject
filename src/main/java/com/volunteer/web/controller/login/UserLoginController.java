@@ -9,6 +9,7 @@ import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoBind;
 import com.volunteer.model.WechatInfo;
+import com.volunteer.utils.AESUtil;
 import com.volunteer.utils.HttpsUtils;
 import com.volunteer.utils.PropBean;
 import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
@@ -142,12 +143,15 @@ public class UserLoginController {
                           @RequestParam(value = "password") String password) {
 
         List<UserInfo> userInfoByMobile = userInfoManager.getUserInfoByMobile(username);
-        if (null == userInfoByMobile || userInfoByMobile.size() == 0) {
+        if (null == userInfoByMobile || userInfoByMobile.size() == 0 || Validator.isNullOrEmpty(password)) {
             return "index";
         }
         //通过code换取用户信息--先从缓存中获取，没有就从第三方获取
         //微信绑定
         UserInfo userInfo = userInfoByMobile.get(0);
+        if (!validPassword(userInfo,password)){
+            return "index";
+        }
         HttpSession session = request.getSession();
         WechatInfo wechatInfo = (WechatInfo) session.getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
         if (Validator.isNullOrEmpty(wechatInfo)){
@@ -167,6 +171,14 @@ public class UserLoginController {
         session.setAttribute(UserConstant.LOGIN_PHONE, userInfo);
         honerManager.updateUserHonerInfo(userInfo.getId());
         return "mypage";
+    }
+
+    private Boolean validPassword(UserInfo userInfo,String password){
+        String idCard = AESUtil.AESDncode(AESUtil.KEY,userInfo.getIdCard()).substring(6);
+        if(idCard.equals(password)){
+            return true;
+        }
+        return false;
     }
 
 
