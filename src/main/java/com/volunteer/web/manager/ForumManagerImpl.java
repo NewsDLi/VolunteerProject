@@ -28,7 +28,7 @@ public class ForumManagerImpl implements ForumManager{
 	@Override
 	public List<CommunityArticles> selectForum(Integer type) {
 		CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
-		communityArticlesExample.createCriteria().andTypeEqualTo(type);
+		communityArticlesExample.createCriteria().andTypeEqualTo(type).andLifecycleEqualTo(1);
 		communityArticlesExample.setOrderByClause("publication_time desc");
 		communityArticlesExample.setOrderByClause("sort desc");
 		communityArticlesExample.setPageIndex(100);
@@ -41,7 +41,7 @@ public class ForumManagerImpl implements ForumManager{
 		List<CommunityArticles> communityArticlesList = new ArrayList<>();
 		for (int i = 1;i<=4;i++){
 			CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
-			communityArticlesExample.createCriteria().andTypeEqualTo(i);
+			communityArticlesExample.createCriteria().andTypeEqualTo(i).andLifecycleEqualTo(1);
 			communityArticlesExample.setOrderByClause("publication_time desc");
 			communityArticlesExample.setOrderByClause("sort desc");
 			communityArticlesExample.setPageIndex(1);

@@ -22,6 +22,8 @@ public interface ArticleMessageBoardMapper {
 
     List<ArticleMessageBoardCommand> selectArticleMessageBoardCommand(Long communityArticlesId);
 
+    ArticleMessageBoard selectArticleMessageBoardTop(Integer type);
+
     ArticleMessageBoard selectByPrimaryKey(Long id);
 
     int updateByExampleSelective(@Param("record") ArticleMessageBoard record, @Param("example") ArticleMessageBoardExample example);

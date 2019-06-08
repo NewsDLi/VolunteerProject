@@ -274,5 +274,12 @@
     where a.community_articles_id = #{communityArticlesId}
     order by version asc
   </select>
-
+  <select id="selectArticleMessageBoardTop" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+  SELECT
+  <include refid="Base_Column_List" />
+  FROM
+  article_message_board
+  WHERE
+  id = ( SELECT pid FROM article_message_board WHERE type = #{type,jdbcType=INTEGER} GROUP BY pid ORDER BY count( pid ) DESC LIMIT 1 )
+  </select>
 </mapper>

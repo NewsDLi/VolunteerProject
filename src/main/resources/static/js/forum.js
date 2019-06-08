@@ -74,7 +74,7 @@ function saveForum(input,pid){
       if($(".icon").hasClass("top")){
           usort = 0;
       }else{
-          usort = 1;
+          usort = 2;
       }
       $.ajax({
           url: "/forum/top",
