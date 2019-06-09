@@ -33,40 +33,21 @@ $(function(){
 <body ontouchstart="" class="page-bg">
 <div class="slide" id="slide1">
 	<ul style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(0px, 0px, 0px);">
-		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(-411px, 0px, 0px);">
-			<a href="javascript:;">
-				<img src="/images/3.jpg" alt="">
+		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(-411px, 0px, 0px);" th:each="communityArticle,communityArticleStart : ${communityArticles}" >
+			<a href="javascript:;" >
+				<img th:if="${communityArticle.image}" th:src="@{${communityArticle.image}}" alt="">
+				<div th:else>
+				<img  th:if="${communityArticle.type} eq 1" src="/images/ygxd.jpg" alt="">
+				<img  th:if="${communityArticle.type} eq 2" src="/images/gxjd.jpg" alt="">
+				<img  th:if="${communityArticle.type} eq 3" src="/images/zpfx.jpg" alt="">
+				<img  th:if="${communityArticle.type} eq 4" src="/images/hzpt.jpg" alt="">
+				</div>
 			</a>
-			<div class="slide-desc">1</div>
-		</li>
-		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(0px, 0px, 0px);">
-			<a href="javascript:;">
-				<img src="/images/11.jpg" alt="">
-			</a>
-			<div class="slide-desc">2</div>
-		</li>
-		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(411px, 0px, 0px);">
-			<a href="javascript:;">
-				<img src="/images/22.jpg" alt="">
-			</a>
-			<div class="slide-desc">3</div>
-		</li>
-		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(822px, 0px, 0px);">
-			<a href="www.baidu.com">
-				<img src="/images/11.jpg" alt="">
-			</a>
-			<div class="slide-desc">4</div>
-		</li>
-		<li style="transition: all 0s cubic-bezier(0.22, 0.69, 0.72, 0.88) 0s; transform: translate3d(1233px, 0px, 0px);">
-			<a href="www.baidu.com">
-				<img src="/images/22.jpg" alt="">
-			</a>
-			<div class="slide-desc">5</div>
+			<div class="slide-desc"  th:text="${communityArticle.title}">1</div>
 		</li>
 	</ul>
 	<div class="dot">
 		<span class="cur"></span>
-		<span class=""></span>
 		<span class=""></span>
 		<span class=""></span>
 		<span class=""></span>

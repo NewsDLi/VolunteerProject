@@ -15,19 +15,26 @@
     <style>
 	.icon-7{
                 position: absolute;
-    left: 50%;
-    top: -5%;
-    font-size: 26px;
-    color: grey;
+                left: 50%;
+                top: -5%;
+                font-size: 26px;
+                color: grey;
 		}
-
+    .links{
+                 width: 100%;
+    }
+    .top{
+               position: fixed;
+               top: 0;
+               z-index: 1;
+    }
     </style>
     <script src="js/zepto.min.js"></script>
     <script src="js/common.js"></script>
     <script type="text/javascript"
-            src="https://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+            src="https://res.wx.qq.com/open/js/jweixin-1  .js"></script>
     <script src="js/swipe.js"></script>
-    <script src="https://res.wx.qq.com/open/libs/weuijs/1.0.0/weui.min.js"></script>
+    <script src="https://res.wx.qq.com/open/libs/weuijs/1  /weui.min.js"></script>
     <script src="js/zepto.min.js"></script>
     <script src="js/zepto.weui.js"></script>
     <script src="js/iscroll-lite.js"></script>
@@ -44,9 +51,15 @@
 <!--	</div>-->
 <!--</div>-->
 
-
-<div class="weui-news" style="height: 94%;">
+<div class="top">
+        <img class="links" src="/images/ygxd.jpg" th:if="${type} eq 1"/><!--义工心得--></a>
+        <img class="links" src="/images/gxjd.jpg" th:if="${type} eq 2"/><!--国学经典-->
+        <img class="links" src="/images/zpfx.jpg" th:if="${type} eq 3"/><!--作品分享-->
+        <img class="links" src="/images/hzpt.jpg" th:if="${type} eq 4"/><!--互助平台-->
+</div>
+<div class="weui-news" style="height: 68%;top: 25%;width: 100%;position: absolute;">
     <ul class="weui-news-list lists" id="lists">
+
 
         <li class="weui-news-item link" th:each="communityArticle,communityArticleStart : ${communityArticles}">
             <div class="weui-news-inner">

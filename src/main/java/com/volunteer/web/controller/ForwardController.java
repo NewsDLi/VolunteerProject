@@ -133,6 +133,7 @@ public class ForwardController {
     public String community(HttpServletRequest request,@RequestParam Integer type) {
         List<CommunityArticles> communityArticles = forumManager.selectForum(type);
         request.setAttribute("communityArticles",communityArticles);
+        request.setAttribute("type",communityArticles.get(0).getType());
         return "community";
     }
 
