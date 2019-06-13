@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,7 +58,8 @@ public class UserInfoController {
 	public String getUserInfo(HttpServletRequest request, Model model){
 		// 用户信息
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		String idCard = AESUtil.AESDncode(AESUtil.KEY, userInfo.getIdCard());
+		String encryptionIdCard = userInfo.getIdCard();
+		String idCard = AESUtil.AESDncode(AESUtil.KEY, encryptionIdCard);
 		if(idCard.length() == 18){
 			String bronYear = idCard.substring(6, 10);
 			SimpleDateFormat df = new SimpleDateFormat("yyyy");
@@ -67,8 +69,10 @@ public class UserInfoController {
 		if (StringUtils.isBlank(userInfo.getWorker())){
 			userInfo.setWorker("暂无");
 		}
-		userInfo.setIdCard(idCard);
-		model.addAttribute("userInfo", userInfo);
+		UserInfo userInfo1 = new UserInfo();
+		BeanUtils.copyProperties(userInfo, userInfo1);
+		userInfo1.setIdCard(idCard);
+		model.addAttribute("userInfo", userInfo1);
 		return "myinfo";
 	}
 	
