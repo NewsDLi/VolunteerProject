@@ -369,7 +369,7 @@ display: none;
 					<li th:each="info,infoStat : ${havingClass}">
 					<span th:text="${info.tagName}"></span>:
 					<span th:text="${info.tagCount}"></span>
-					<span class="plusOne" th:onclick="'javascript:plusOne(\''+${info.id}+'\')'">+1</span>
+					<span th:if="${showHoner}" class="plusOne" th:onclick="'javascript:plusOne(\''+${info.id}+'\')'">+1</span>
 					</li>
 				</ul>
 				<!-- <p class="person_first_career">

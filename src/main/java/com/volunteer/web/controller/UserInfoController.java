@@ -444,9 +444,11 @@ public class UserInfoController {
 	@RequestMapping(value="/uploadUserImg", method = {RequestMethod.POST, RequestMethod.GET})
 	public String uploadUserImg(HttpServletRequest request, MultipartFile userImg){
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-		
-		String url = savePic(userImg, request);
-		loginUserInfo.setUserPic(url);
+		String originalFilename = userImg.getOriginalFilename();
+		if(StringUtils.isNotBlank(originalFilename)){
+			String url = savePic(userImg, request);
+			loginUserInfo.setUserPic(url);
+		}
 		boolean result = userInfoManager.updateUserInfoById(loginUserInfo);
 		if(result) {
 			request.getSession().setAttribute(UserConstant.LOGIN_PHONE, loginUserInfo);
