@@ -24,7 +24,8 @@
 	<div class="page grid js_show" style="padding: 0px 	0px;width:100%;">
 		<div class="page__hd">
 			<div style="text-align: center;" class="contentDiv">
-				<img style="width: 120px;"  src="images/head/testhead.jpg" />
+				<img style="width: 120px;" th:if="${session.WechatUserInfoSession}" th:src="@{${session.WechatUserInfoSession.image}}"/>
+				<img style="width: 120px;" th:if="${session.WechatUserInfoSession == null}"  src="images/head/testhead.jpg" />
 				<!--资源自己添加-->
 			</div>
 			<h1 class="page__title" th:text="${session.login_phone.name}"></h1>
