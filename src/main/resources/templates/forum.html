@@ -34,7 +34,7 @@
                 <input type="hidden" id="hidden" th:value="${communityArticle.id}">
                 <div th:if="${not #lists.isEmpty(session.WechatUserInfoSession)}">
                 <input type="hidden" id="userId" th:value="${session.WechatUserInfoSession.id}">
-                <input type="hidden" id="userName" th:value="${session.WechatUserInfoSession.name}">
+                <input type="hidden" id="userName" th:value="${session.WechatUserInfoSession.nickName}">
                 </div>
                 <span class="weui-c-nickname"><a href="javascript:;" th:text="${communityArticle.author}">Yoby开发者</a></span>
                 <!--时间-->
