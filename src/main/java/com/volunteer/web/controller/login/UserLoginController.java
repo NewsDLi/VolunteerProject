@@ -82,6 +82,13 @@ public class UserLoginController {
             //通过code换取用户信息--先从缓存中获取，没有就从第三方获取
             WechatInfo wechatInfo = (WechatInfo)request.getSession().getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
             if(Validator.isNotNullOrEmpty(wechatInfo)){
+                if(Validator.isNullOrEmpty(wechatInfo.getId())){
+                    UserInfo userInfos = weChatLoginHandler.wechatOAuthSuccess(request, wechatInfo);
+                    //通过openId查询是否有用户信息，，判断为第一次登陆
+                    if (Validator.isNullOrEmpty(userInfos)) {
+                        return "index";
+                    }
+                }
             List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
             if(Validator.isNotNullOrEmpty(userInfoBinds)){
                 UserInfo userInfo1 = userInfoManager.selectByPrimaryKey(userInfoBinds.get(0).getUserId());
