@@ -53,6 +53,9 @@ public class MessageBoardController {
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
 		// 是否有权限查看留言板
 		List<MessageBoardCommand> allMessageBoard = null;
+		if (null == userInfo.getIsMessageBoard()){
+			return ApiResponse.build(ResponseStatus.PERMISSION, null);
+		}
 		if(userInfo.getIsMessageBoard()){
 			allMessageBoard = getAllMessageBoard();
 		}
