@@ -1,5 +1,6 @@
 package com.volunteer.intecepter;
 
+import com.alibaba.fastjson.JSON;
 import com.feilong.core.Validator;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.constant.WxLoginConstant;
@@ -7,8 +8,12 @@ import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoBind;
 import com.volunteer.model.WechatInfo;
 import com.volunteer.web.dao.UserInfoMapper;
+import com.volunteer.web.manager.HonerManagerImpl;
 import com.volunteer.web.manager.UserInfoBindManager;
 import com.volunteer.web.manager.UserInfoManager;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -26,7 +31,8 @@ import java.util.List;
  */
 public class LoginIntecepter implements HandlerInterceptor {
 
-
+	private final static Logger logger = LoggerFactory.getLogger(LoginIntecepter.class);
+	
 	@Autowired
 	private UserInfoBindManager userInfoBindManager;
 	@Autowired
@@ -46,8 +52,13 @@ public class LoginIntecepter implements HandlerInterceptor {
 			return true;
 		}
 		WechatInfo wechatInfo = (WechatInfo) request.getSession().getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
+		logger.info("用户微信相关信息：{}", JSON.toJSONString(wechatInfo));
 		if(Validator.isNullOrEmpty(wechatInfo)){
 			response.sendRedirect("/index");  //未登录自动跳转界面
+			return false;
+		}
+		if (null == wechatInfo.getId()){
+			logger.error("微信信息id为空");
 			return false;
 		}
 		List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());

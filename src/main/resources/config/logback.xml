@@ -23,7 +23,7 @@
 		</encoder>     
     </appender>
     
-    <appender name="syslog" class="ch.qos.logback.core.rolling.RollingFileAppender">      
+    <appender name="import" class="ch.qos.logback.core.rolling.RollingFileAppender">      
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">      
             <fileNamePattern>log/%d.%i{yyyyMMdd}InfoImport.log</fileNamePattern>
             <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
@@ -36,16 +36,48 @@
 		<encoder charset="UTF-8" class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<pattern>[%d{yyyy-MM-dd HH:mm:ss:SSS z}]  %-5p %t %logger{1000}.%method\(%file:%line\) : %m%n</pattern>
 		</encoder>     
+    </appender>   
+       
+    <appender name="login" class="ch.qos.logback.core.rolling.RollingFileAppender">      
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">      
+            <fileNamePattern>log/%d.%i{yyyyMMdd}userLogin.log</fileNamePattern>
+            <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
+            <maxHistory>30</maxHistory>     
+            <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">      
+                <maxFileSize>1KB</maxFileSize>      
+            </timeBasedFileNamingAndTriggeringPolicy>      
+        </rollingPolicy>      
+             <!-- 注意 logback 的括号需要转义 MMdd -->
+		<encoder charset="UTF-8" class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss:SSS z}]  %-5p %t %logger{1000}.%method\(%file:%line\) : %m%n</pattern>
+		</encoder>     
     </appender>      
+    
     <!-- 控制台输出日志级别 -->  
     <root level="info">      
         <appender-ref ref="STDOUT" />      
     </root>      
-    <logger name="com.volunteer.web.controller.UserController" level="DEBUG">      
+    <logger name="com.volunteer.web.controller.UserInfoController" level="DEBUG">      
+        <appender-ref ref="syslog" />      
+    </logger> 
+    
+    <logger name="com.volunteer.intecepter.LoginIntecepter" level="DEBUG">      
         <appender-ref ref="syslog" />      
     </logger> 
     
     <logger name="com.volunteer.web.controller.UserInfoImport" level="DEBUG">      
-        <appender-ref ref="syslog" />      
+        <appender-ref ref="import" />      
     </logger> 
+    
+    <!-- 用户登录 -->
+    <logger name="com.volunteer.web.controller.login.handler.WeChatLoginHandler" level="DEBUG">      
+        <appender-ref ref="login" />      
+    </logger> 
+    <logger name="com.volunteer.web.manager.UserInfoManagerImpl" level="DEBUG">      
+        <appender-ref ref="login" />      
+    </logger> 
+    <logger name="com.volunteer.web.controller.login.UserLoginController" level="DEBUG">      
+        <appender-ref ref="login" />      
+    </logger> 
+    
 </configuration>    

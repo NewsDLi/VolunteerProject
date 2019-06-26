@@ -6,12 +6,15 @@ import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.model.*;
 import com.volunteer.web.dao.WechatInfoMapper;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.feilong.core.Validator;
 import com.volunteer.common.WechatMessage;
+import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
 import com.volunteer.web.dao.UserInfoMapper;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +23,8 @@ import javax.servlet.http.HttpServletRequest;
 @Transactional
 public class UserInfoManagerImpl implements UserInfoManager {
 
+	private Logger LOGGER = LoggerFactory.getLogger(UserInfoManagerImpl.class);
+	
     @Autowired
     private UserInfoMapper userInfoMapper;
 

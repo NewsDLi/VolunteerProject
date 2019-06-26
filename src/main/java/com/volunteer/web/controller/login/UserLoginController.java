@@ -18,8 +18,12 @@ import com.volunteer.web.dao.WechatInfoMapper;
 import com.volunteer.web.manager.HonerManager;
 import com.volunteer.web.manager.UserInfoBindManager;
 import com.volunteer.web.manager.UserInfoManager;
+import com.volunteer.web.manager.UserInfoManagerImpl;
+
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +45,8 @@ import java.util.regex.Pattern;
 @Controller
 public class UserLoginController {
 
+	private Logger LOGGER = LoggerFactory.getLogger(UserLoginController.class);
+	
     @Autowired
     private CacheManager cacheManager;
 
@@ -73,15 +79,18 @@ public class UserLoginController {
      */
     @RequestMapping(value = "/weChatLogin")
     public String mobileWechatLogin(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "code", required = true) String code) {
+    	LOGGER.info("开始微信登录...");
         try {
             //判断是否登录
             UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
             if(Validator.isNotNullOrEmpty(userInfo)){
+            	LOGGER.warn("用户已经登录");
                 return "mypage";
             }
             //通过code换取用户信息--先从缓存中获取，没有就从第三方获取
             WechatInfo wechatInfo = (WechatInfo)request.getSession().getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
             if(Validator.isNotNullOrEmpty(wechatInfo)){
+            	LOGGER.info("缓存中的微信信息为：{}", JSON.toJSONString(wechatInfo));
                 if(Validator.isNullOrEmpty(wechatInfo.getId())){
                     UserInfo userInfos = weChatLoginHandler.wechatOAuthSuccess(request, wechatInfo);
                     //通过openId查询是否有用户信息，，判断为第一次登陆
@@ -89,15 +98,18 @@ public class UserLoginController {
                         return "index";
                     }
                 }
-            List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
-            if(Validator.isNotNullOrEmpty(userInfoBinds)){
-                UserInfo userInfo1 = userInfoManager.selectByPrimaryKey(userInfoBinds.get(0).getUserId());
-                return "mypage";
-            }
+	            List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
+	            if(Validator.isNotNullOrEmpty(userInfoBinds)){
+	                UserInfo userInfo1 = userInfoManager.selectByPrimaryKey(userInfoBinds.get(0).getUserId());
+	                LOGGER.info("查询的相关用户信息：{}", JSON.toJSONString(userInfo1));
+	                return "mypage";
+	            }
             }
             String httpResponse = null;
             if (Validator.isNullOrEmpty(wechatInfo)) {
+            	LOGGER.info("微信信息为空重新获取微信信息...");
                 httpResponse = getWechatMemberInfo(code);
+                LOGGER.info("微信用户信息:{}", httpResponse);
             }
 
             if (StringUtils.isBlank(httpResponse)) {
@@ -113,12 +125,14 @@ public class UserLoginController {
                 return "index";
             }
 
+            LOGGER.info("开始根据微信信息获取相关用户信息...");
             //登录用户的处理方法
             UserInfo userInfos = weChatLoginHandler.wechatOAuthSuccess(request, wechatInfo2);
             //通过openId查询是否有用户信息，，判断为第一次登陆
             if (Validator.isNullOrEmpty(userInfos)) {
                 return "index";
             }
+            LOGGER.info("根据微信信息获取会员信息成功，微信信息:{},会员信息:{}",JSON.toJSONString(wechatInfo2), JSON.toJSONString(userInfos));
             return "mypage";
         } catch (Exception e) {
             e.printStackTrace();
