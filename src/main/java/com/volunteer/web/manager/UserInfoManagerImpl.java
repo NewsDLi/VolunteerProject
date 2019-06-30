@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.alibaba.fastjson.JSON;
 import com.feilong.core.Validator;
 import com.volunteer.common.WechatMessage;
 import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
@@ -39,11 +40,18 @@ public class UserInfoManagerImpl implements UserInfoManager {
 
     @Override
     public UserInfo getUserInfoByOpenId(WechatInfo wechatInfo, HttpServletRequest request) {
+    	LOGGER.info("通过用户传递的微信信息：{}，查询数据库微信信息。", JSON.toJSONString(wechatInfo));
         List<WechatInfo> wechatInfo1 = wechatInfoManager.findWechatInfo(wechatInfo);
+        LOGGER.info("查询的微信信息结果为：{}", JSON.toJSONString(wechatInfo1));
         if (Validator.isNotNullOrEmpty(wechatInfo1)) {
-            return returnUserInfo(wechatInfo1.get(0), request);
+        	LOGGER.info("开始查询用户信息");
+        	UserInfo returnUserInfo = returnUserInfo(wechatInfo1.get(0), request);
+        	LOGGER.info("查询的用户信息为：{}", JSON.toJSONString(returnUserInfo));
+            return returnUserInfo;
         }
+        LOGGER.info("保存用户信息");
         WechatInfo wechatInfo2 = wechatInfoManager.saveWechatInfo(wechatInfo);
+        LOGGER.info("保存用户信息结果：{}", JSON.toJSONString(wechatInfo2));
         return returnUserInfo(wechatInfo, request);
 
     }

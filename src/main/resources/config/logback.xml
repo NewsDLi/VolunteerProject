@@ -14,7 +14,7 @@
             <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
             <maxHistory>30</maxHistory>     
             <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">      
-                <maxFileSize>1KB</maxFileSize>      
+                <maxFileSize>10KB</maxFileSize>      
             </timeBasedFileNamingAndTriggeringPolicy>      
         </rollingPolicy>      
              <!-- 注意 logback 的括号需要转义 MMdd -->
@@ -29,7 +29,7 @@
             <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
             <maxHistory>30</maxHistory>     
             <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">      
-                <maxFileSize>1KB</maxFileSize>      
+                <maxFileSize>10KB</maxFileSize>      
             </timeBasedFileNamingAndTriggeringPolicy>      
         </rollingPolicy>      
              <!-- 注意 logback 的括号需要转义 MMdd -->
@@ -44,7 +44,7 @@
             <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
             <maxHistory>30</maxHistory>     
             <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">      
-                <maxFileSize>1KB</maxFileSize>      
+                <maxFileSize>10KB</maxFileSize>      
             </timeBasedFileNamingAndTriggeringPolicy>      
         </rollingPolicy>      
              <!-- 注意 logback 的括号需要转义 MMdd -->
@@ -53,10 +53,6 @@
 		</encoder>     
     </appender>      
     
-    <!-- 控制台输出日志级别 -->  
-    <root level="info">      
-        <appender-ref ref="STDOUT" />      
-    </root>      
     <logger name="com.volunteer.web.controller.UserInfoController" level="DEBUG">      
         <appender-ref ref="syslog" />      
     </logger> 
@@ -79,5 +75,12 @@
     <logger name="com.volunteer.web.controller.login.UserLoginController" level="DEBUG">      
         <appender-ref ref="login" />      
     </logger> 
+    <logger name="com.volunteer.web.manager.UserInfoManagerImpl" level="DEBUG">      
+        <appender-ref ref="login" />      
+    </logger> 
+     <!-- 控制台输出日志级别 -->  
+    <root level="info">      
+        <appender-ref ref="STDOUT" />      
+    </root>  
     
 </configuration>    

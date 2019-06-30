@@ -99,6 +99,7 @@ public class UserLoginController {
                     }
                 }
 	            List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
+	            LOGGER.info("查询用户绑定信息：{}", JSON.toJSONString(userInfoBinds));
 	            if(Validator.isNotNullOrEmpty(userInfoBinds)){
 	                UserInfo userInfo1 = userInfoManager.selectByPrimaryKey(userInfoBinds.get(0).getUserId());
 	                LOGGER.info("查询的相关用户信息：{}", JSON.toJSONString(userInfo1));
@@ -113,15 +114,18 @@ public class UserLoginController {
             }
 
             if (StringUtils.isBlank(httpResponse)) {
+            	LOGGER.info("httpResponse为空，返回首页");
                 return "index";
             }
             WechatMessage wechatMessage = JSON.parseObject(httpResponse, WechatMessage.class);
             //查询信息失败
             if (Validator.isNullOrEmpty(wechatMessage.getOpenId())) {
+            	LOGGER.info("wechatMessage中openid为空，返回首页！，wechatMessage：{}", JSON.toJSONString(wechatMessage));
                 return "index";
             }
             WechatInfo wechatInfo2 = bulidWechatInfo(wechatMessage);
             if (Validator.isNullOrEmpty(wechatInfo2)){
+            	LOGGER.info("wechatInfo2为空，返回首页！，wechatInfo2：{}", JSON.toJSONString(wechatInfo2));
                 return "index";
             }
 
@@ -130,6 +134,7 @@ public class UserLoginController {
             UserInfo userInfos = weChatLoginHandler.wechatOAuthSuccess(request, wechatInfo2);
             //通过openId查询是否有用户信息，，判断为第一次登陆
             if (Validator.isNullOrEmpty(userInfos)) {
+            	LOGGER.info("用户信息为空，返回首页！");
                 return "index";
             }
             LOGGER.info("根据微信信息获取会员信息成功，微信信息:{},会员信息:{}",JSON.toJSONString(wechatInfo2), JSON.toJSONString(userInfos));
