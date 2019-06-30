@@ -14,7 +14,7 @@
             <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
             <maxHistory>30</maxHistory>     
             <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">      
-                <maxFileSize>10KB</maxFileSize>      
+                <maxFileSize>10240KB</maxFileSize>      
             </timeBasedFileNamingAndTriggeringPolicy>      
         </rollingPolicy>      
              <!-- 注意 logback 的括号需要转义 MMdd -->
@@ -29,7 +29,7 @@
             <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
             <maxHistory>30</maxHistory>     
             <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">      
-                <maxFileSize>10KB</maxFileSize>      
+                <maxFileSize>10240KB</maxFileSize>      
             </timeBasedFileNamingAndTriggeringPolicy>      
         </rollingPolicy>      
              <!-- 注意 logback 的括号需要转义 MMdd -->
@@ -44,7 +44,7 @@
             <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
             <maxHistory>30</maxHistory>     
             <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">      
-                <maxFileSize>10KB</maxFileSize>      
+                <maxFileSize>10240KB</maxFileSize>      
             </timeBasedFileNamingAndTriggeringPolicy>      
         </rollingPolicy>      
              <!-- 注意 logback 的括号需要转义 MMdd -->

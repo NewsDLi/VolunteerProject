@@ -212,18 +212,24 @@ public class UserLoginController {
     }
 
     private Boolean validPassword(UserInfo userInfo,String password){
+    	LOGGER.info("开始校验密码是否正确！");
         String idCard = AESUtil.AESDncode(AESUtil.KEY,userInfo.getIdCard());
+        LOGGER.info("解密密码");
         Pattern p = Pattern.compile("[0-9]+[X|x]{1}");
         Matcher m = p.matcher(idCard);
         boolean b = m.matches();
+        LOGGER.info("密码规则校验通过");
         if(b){
             idCard = idCard.substring(idCard.length()-7,idCard.length()-1);
         }else{
             idCard = idCard.substring(idCard.length()-6);
         }
+        LOGGER.info("开始判断密码是否正确！");
         if(idCard.equals(password)){
+        	LOGGER.info("密码正确！");
             return true;
         }
+        LOGGER.info("密码错误！");
         return false;
     }
 
