@@ -1,7 +1,14 @@
 package com.volunteer.model;
 
-public class UserInfoTag {
-    private Long id;
+import java.io.Serializable;
+
+public class UserInfoTag  implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8021247168706098003L;
+
+	private Long id;
 
     private Long userId;
 

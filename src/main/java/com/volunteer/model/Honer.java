@@ -1,13 +1,19 @@
 package com.volunteer.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * @author RichLi
  *
  */
-public class Honer {
-    private Long id;
+public class Honer  implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3875028847531812242L;
+
+	private Long id;
 
     private String gray;
 

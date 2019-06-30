@@ -1,7 +1,13 @@
 package com.volunteer.model;
 
-public class UserInfoCommand {
+import java.io.Serializable;
 
+public class UserInfoCommand  implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6099961281220782237L;
 	private Long id;
 	private String name;
 	private String idCard;

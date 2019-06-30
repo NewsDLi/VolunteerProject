@@ -1,9 +1,15 @@
 package com.volunteer.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserPower {
-    private Long id;
+public class UserPower  implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -5373621353378716330L;
+
+	private Long id;
 
     private String powerName;
 

@@ -1,9 +1,15 @@
 package com.volunteer.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class UserRole {
-    private Long id;
+public class UserRole  implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 8028802537878960514L;
+
+	private Long id;
 
     private String roleName;
 

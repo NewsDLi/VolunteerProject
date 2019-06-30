@@ -1,9 +1,15 @@
 package com.volunteer.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class MessageBoard {
-    private Long id;
+public class MessageBoard  implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -2075049140331048321L;
+
+	private Long id;
 
     private Long userId;
 

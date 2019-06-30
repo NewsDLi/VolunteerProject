@@ -1,6 +1,13 @@
 package com.volunteer.model;
 
-public class PageNation {
+import java.io.Serializable;
+
+public class PageNation  implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5353966907543464894L;
 
 	private String kewWords;
 	

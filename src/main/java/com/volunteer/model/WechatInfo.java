@@ -1,7 +1,14 @@
 package com.volunteer.model;
 
-public class WechatInfo {
-    private Long id;
+import java.io.Serializable;
+
+public class WechatInfo implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -3099630126419962305L;
+
+	private Long id;
 
     private String openId;
 

@@ -1,7 +1,14 @@
 package com.volunteer.model;
 
-public class UserInfoBind {
-    private Long id;
+import java.io.Serializable;
+
+public class UserInfoBind  implements Serializable{
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -4296053434749983628L;
+
+	private Long id;
 
     private Long userId;
 
