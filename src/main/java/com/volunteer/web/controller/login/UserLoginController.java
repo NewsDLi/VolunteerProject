@@ -170,32 +170,42 @@ public class UserLoginController {
                           @RequestParam(value = "username") String username,
                           @RequestParam(value = "password") String password) {
 
+    	LOGGER.info("开始用户登录...");
         List<UserInfo> userInfoByMobile = userInfoManager.getUserInfoByMobile(username);
+        LOGGER.info("查询用户信息为：{}", JSON.toJSONString(userInfoByMobile));
         if (null == userInfoByMobile || userInfoByMobile.size() == 0 || Validator.isNullOrEmpty(password)) {
+        	LOGGER.info("用户信息为空，返回首页");
             return "index";
         }
         //通过code换取用户信息--先从缓存中获取，没有就从第三方获取
         //微信绑定
         UserInfo userInfo = userInfoByMobile.get(0);
         if (!validPassword(userInfo,password)){
+        	LOGGER.info("校验密码出错返回首页");
             return "index";
         }
         HttpSession session = request.getSession();
         WechatInfo wechatInfo = (WechatInfo) session.getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
+        LOGGER.info("获取用户微信信息：{}", JSON.toJSONString(wechatInfo));
         if (Validator.isNullOrEmpty(wechatInfo)){
+        	LOGGER.info("session中用户微信信息为空");
             return returnLogin(session,userInfo);
         }
         List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
+        LOGGER.info("查询用户微信绑定信息：{}", JSON.toJSONString(userInfoBinds));
         if(Validator.isNullOrEmpty(userInfoBinds)){
+        	LOGGER.info("用户绑定信息为空，进行信息绑定");
             UserInfoBind userInfoBind = new UserInfoBind();
             userInfoBind.setUserId(userInfo.getId());
             userInfoBind.setWechatId(wechatInfo.getId());
             userInfoBindManager.saveUserInfoBind(userInfoBind);
         }
+        LOGGER.info("进行用户信息登录");
         return returnLogin(session,userInfo);
     }
 
     private String returnLogin(HttpSession session,UserInfo userInfo){
+    	LOGGER.info("设置用户登录信息：{}",JSON.toJSONString(userInfo));
         session.setAttribute(UserConstant.LOGIN_PHONE, userInfo);
         honerManager.updateUserHonerInfo(userInfo.getId());
         return "mypage";
