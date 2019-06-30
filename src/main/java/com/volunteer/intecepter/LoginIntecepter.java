@@ -61,6 +61,7 @@ public class LoginIntecepter implements HandlerInterceptor {
 			logger.error("微信信息id为空");
 			return false;
 		}
+		logger.info("微信信息id为:{}", wechatInfo.getId());
 		List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
 		if(Validator.isNullOrEmpty(userInfoBinds)){
 			response.sendRedirect("/index");  //未登录自动跳转界面
