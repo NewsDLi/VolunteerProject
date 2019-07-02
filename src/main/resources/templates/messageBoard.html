@@ -65,8 +65,8 @@
 		$('.show_message_board').removeClass('none');
 		var content = '';
 		for (var i = 0; i < data.data.length; i++) {
-			content += '<p><span>' + data.data[i].userName + '</span>：<span>'
-					+ data.data[i].content + '</span></p>';
+			content += 	'<tr><td title="姓名">'+data.data[i].userName+'</td><td title="留言内容">'+ data.data[i].content + '</td></tr>';
+
 		}
 		$('.show_message_board').html(content);
 		$(".container").css("height", $('.page__hd').height()+ $('.button-sp-area').height() + $('.show_message_board').height()+200)
@@ -80,7 +80,7 @@
 			</div>
 			<div class="button-sp-area">
 				<div class="weui-cells weui-cells_form">
-					<div class="weui-cell" style="height: 400px;">
+					<div class="weui-cell" style="height: 200px;">
 						<div class="weui-cell__bd" style="height: 100%">
 							<textarea class="weui-textarea" style="height: 90%"
 								placeholder="请输入留言" rows="3"></textarea>
@@ -92,7 +92,15 @@
 				</div>
 				<button class="addButton add_btn_primary">发表</button>
 			</div>
-			<div class="none show_message_board button-sp-area"></div>
+		<br>
+		<br>
+			<div ><table>
+				<thead>
+				<tr><th>姓名</th><th>留言内容</th></tr>
+				</thead>
+				<tbody class="none show_message_board button-sp-area">
+				</tbody>
+			</table></div>
 		<br>
 	<br>
 		<div th:include="tabbar::pagination"></div>
