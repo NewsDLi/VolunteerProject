@@ -51,6 +51,21 @@
 		<encoder charset="UTF-8" class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
 			<pattern>[%d{yyyy-MM-dd HH:mm:ss:SSS z}]  %-5p %t %logger{1000}.%method\(%file:%line\) : %m%n</pattern>
 		</encoder>     
+    </appender>  
+        
+    <appender name="honer" class="ch.qos.logback.core.rolling.RollingFileAppender">      
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">      
+            <fileNamePattern>log/%d.%i{yyyyMMdd}honer.log</fileNamePattern>
+            <!-- 每产生一个日志文件，该日志文件的保存期限为30天 -->   
+            <maxHistory>30</maxHistory>     
+            <timeBasedFileNamingAndTriggeringPolicy  class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">      
+                <maxFileSize>10240KB</maxFileSize>      
+            </timeBasedFileNamingAndTriggeringPolicy>      
+        </rollingPolicy>      
+             <!-- 注意 logback 的括号需要转义 MMdd -->
+		<encoder charset="UTF-8" class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>[%d{yyyy-MM-dd HH:mm:ss:SSS z}]  %-5p %t %logger{1000}.%method\(%file:%line\) : %m%n</pattern>
+		</encoder>     
     </appender>      
     
     <logger name="com.volunteer.web.controller.UserInfoController" level="DEBUG">      
@@ -77,6 +92,10 @@
     </logger> 
     <logger name="com.volunteer.web.manager.UserInfoManagerImpl" level="DEBUG">      
         <appender-ref ref="login" />      
+    </logger> 
+    
+    <logger name="com.volunteer.web.controller.HonerController" level="DEBUG">      
+        <appender-ref ref="honer" />      
     </logger> 
      <!-- 控制台输出日志级别 -->  
     <root level="info">      

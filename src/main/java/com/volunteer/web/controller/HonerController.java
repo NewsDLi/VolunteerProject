@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,6 +31,8 @@ import com.volunteer.web.manager.UserInfoTagManager;
 
 @Controller
 public class HonerController {
+	
+	private Logger LOGGER = LoggerFactory.getLogger(HonerController.class);
 
 	@Autowired
 	private HonerManager honerManager;
@@ -131,6 +135,7 @@ public class HonerController {
 			Honer honer,
 			MultipartFile lightImg,
 			MultipartFile grayImg){
+		LOGGER.info("开始更新勋章墙功能。。。");
 		// 不为空表示更新 为空表示新增
 		honer.setVersion(new Date());
 		if(null == honer.getId()){
@@ -164,9 +169,11 @@ public class HonerController {
 		String originalFilename = lightImg.getOriginalFilename();
 		//上传图片
 		String realPath = request.getSession().getServletContext().getRealPath("/");
+		LOGGER.info("文件上传的绝对路径：{}", realPath);
 		if(lightImg!=null && originalFilename!=null && originalFilename.length()>0){
 			String url = ImageUtils.saveImage(request, lightImg, realPath+"/images/honer/");
 			url = "/images/honer/"+url;
+			LOGGER.info("文件保存的真是路径：{}", url);
 			return url;
 		}
 		return null;
