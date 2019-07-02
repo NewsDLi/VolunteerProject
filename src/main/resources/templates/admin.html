@@ -165,7 +165,7 @@ function getData(kewWords, group, role, pageNum){
 				pageSize = data.data.pageCount;
 				for(var i=0; i<data.data.infos.length; i++){
 					html += ' <a class="weui-cell weui-cell_access" href=/getOtherUserInfo?id='+ data.data.infos[i].id +'>'
-						+ '<div class="weui-cell__hd">'
+						+ '<div class="weui-cell__hd" style="width:27%">'
 						+ '<p>'
 						+ data.data.infos[i].name
 						+ '</p>'
@@ -194,7 +194,7 @@ function getData(kewWords, group, role, pageNum){
 
 <body ontouchstart>
 	<div class="weui-flex header">
-			<h2>权限管理</h2>
+			<h2>义工管理</h2>
 	</div>
 	
 	<div class="weui-cells weui-cells_form">
