@@ -42,7 +42,7 @@ public class MessageBoardController {
 			allMessageBoard = getAllMessageBoard();
 		}
 		if(null == allMessageBoard || allMessageBoard.size() == 0){
-			return ApiResponse.build(ResponseStatus.PERMISSION, null);
+			return ApiResponse.build(ResponseStatus.SUCCESS, null);
 		}
 		return ApiResponse.build(ResponseStatus.SUCCESS, allMessageBoard);
 	}
