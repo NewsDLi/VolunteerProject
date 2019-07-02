@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.volunteer.model.WheelPlanting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -63,5 +64,17 @@ public class WheelPlantingController {
 		WhellPlanting whellPlanting = wheelPlantingManager.queryById(id);
 		model.addAttribute("whellPlanting", whellPlanting);
 		return "UpdateWhellPlanting";
+	}
+
+
+	@RequestMapping("/updateWhellPlanting")
+	@ResponseBody
+	public ApiResponse<Object> updateWhellPlanting(HttpServletRequest request, Model model, WheelPlanting wheelPlanting){
+		Integer updateWheelPlanting = wheelPlantingManager.updateWheelPlanting(wheelPlanting);
+		model.addAttribute("whellPlanting", updateWheelPlanting);
+		if(updateWheelPlanting.equals(0)){
+			return ApiResponse.build(ResponseStatus.FAIL, updateWheelPlanting);
+		}
+		return ApiResponse.build(ResponseStatus.SUCCESS, updateWheelPlanting);
 	}
 }

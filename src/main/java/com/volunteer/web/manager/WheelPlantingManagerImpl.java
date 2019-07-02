@@ -2,6 +2,8 @@ package com.volunteer.web.manager;
 
 import java.util.List;
 
+import com.volunteer.model.WheelPlanting;
+import com.volunteer.model.WheelPlantingExample;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +26,14 @@ public class WheelPlantingManagerImpl implements WheelPlantingManager{
 	@Override
 	public WhellPlanting queryById(Long id) {
 		return wheelPlantingMapper.queryById(id);
+	}
+
+	@Override
+	public Integer updateWheelPlanting(WheelPlanting wheelPlanting) {
+		WheelPlantingExample wheelPlantingExample = new WheelPlantingExample();
+		wheelPlantingExample.createCriteria().andIdEqualTo(wheelPlanting.getId());
+		int i = wheelPlantingMapper.updateByExample(wheelPlanting, wheelPlantingExample);
+		return i;
 	}
 
 }
