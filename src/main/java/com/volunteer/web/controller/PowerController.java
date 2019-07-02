@@ -46,8 +46,9 @@ public class PowerController {
 			UserInfoCommand command = new UserInfoCommand();
 			command.setId(userList.get(i).getId());
 			// age
-			if(AESUtil.AESDncode(AESUtil.KEY, userList.get(i).getIdCard()).length() == 18){
-				String bronYear = userList.get(i).getIdCard().substring(6, 10);
+			String idcard = AESUtil.AESDncode(AESUtil.KEY, userList.get(i).getIdCard());
+			if(idcard.length() == 18){
+				String bronYear = idcard.substring(6, 10);
 				SimpleDateFormat df = new SimpleDateFormat("yyyy");
 	            String year=df.format(new Date());
 	            command.setAge(Integer.parseInt(year)-Integer.parseInt(bronYear));
