@@ -461,10 +461,9 @@ public class UserInfoController {
 	private String savePic(MultipartFile lightImg, HttpServletRequest request){
 		String originalFilename = lightImg.getOriginalFilename();
 		//上传图片
-		String realPath = request.getSession().getServletContext().getRealPath("/");
+		String realPath = CommonConstant.UPLOAD_PIC_URL+"/images/userpic/";
 		if(lightImg!=null && originalFilename!=null && originalFilename.length()>0){
-			String url = ImageUtils.saveImage(request, lightImg, realPath+"/images/userpic/");
-			url = "/images/userpic/"+url;
+			String url = ImageUtils.saveImage(request, lightImg, realPath);
 			return url;
 		}
 		return null;

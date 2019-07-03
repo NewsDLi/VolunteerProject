@@ -42,6 +42,9 @@
 					if (data.message == 'success') {
 						Toast("操作成功",2000);
 						$('.weui-textarea').val('');
+						if (null == data.data){
+							return;
+						}
 						showMessage(data);
 					}
 				}
@@ -55,16 +58,15 @@
 			type : "get",
 			url : "/getAllMessageBoard",
 			success : function(data) {
+				alert(data.message);
 				if (data.message == 'success') {
+					alert(data.data);
 					showMessage(data);
 				}
 			}
 		});
 	}
 	function showMessage(data) {
-	    if (null == data.data){
-			return;
-		}
 		$('.show_message_board').removeClass('none');
 		var content = '';
 		for (var i = 0; i < data.data.length; i++) {

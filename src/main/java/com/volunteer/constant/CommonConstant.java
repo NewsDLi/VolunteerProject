@@ -39,4 +39,7 @@ public class CommonConstant {
 	 * 慈爱亲子
 	 */
 	public static final String CAQZ = "caqz";
+	
+	/** 上传图片的路径 */
+	public static final String UPLOAD_PIC_URL = "/upload";
 }

@@ -2,6 +2,7 @@ package com.volunteer.web.controller.forum;
 
 import com.feilong.core.Validator;
 import com.feilong.core.util.CollectionsUtil;
+import com.volunteer.constant.CommonConstant;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.ArticleMessageBoard;
 import com.volunteer.model.CommunityArticles;
@@ -45,7 +46,7 @@ public class ForumController {
         Iterator<String> iterator = mr.getFileNames();
         while (iterator.hasNext()) {
             MultipartFile multipartFile = mr.getFile(iterator.next());
-            String url = ImageUtils.saveImage(request, multipartFile, "/upload");
+            String url = ImageUtils.saveImage(request, multipartFile, CommonConstant.UPLOAD_PIC_URL);
            if(Validator.isNullOrEmpty(request.getSession().getAttribute("image"))){
                request.getSession().setAttribute("image",url);
            }

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.volunteer.constant.CommonConstant;
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.Honer;
 import com.volunteer.model.UserInfo;
@@ -168,11 +169,10 @@ public class HonerController {
 	private String savePic(MultipartFile lightImg, HttpServletRequest request){
 		String originalFilename = lightImg.getOriginalFilename();
 		//上传图片
-		String realPath = request.getSession().getServletContext().getRealPath("/");
+		String realPath = CommonConstant.UPLOAD_PIC_URL+"/images/honer/";
 		LOGGER.info("文件上传的绝对路径：{}", realPath);
 		if(lightImg!=null && originalFilename!=null && originalFilename.length()>0){
-			String url = ImageUtils.saveImage(request, lightImg, realPath+"/images/honer/");
-			url = "/images/honer/"+url;
+			String url = ImageUtils.saveImage(request, lightImg, realPath);
 			LOGGER.info("文件保存的真是路径：{}", url);
 			return url;
 		}
