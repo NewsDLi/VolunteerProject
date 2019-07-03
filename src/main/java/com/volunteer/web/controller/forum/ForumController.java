@@ -46,7 +46,7 @@ public class ForumController {
         Iterator<String> iterator = mr.getFileNames();
         while (iterator.hasNext()) {
             MultipartFile multipartFile = mr.getFile(iterator.next());
-            String url = ImageUtils.saveImage(request, multipartFile, CommonConstant.UPLOAD_PIC_URL);
+            String url = ImageUtils.saveImage(request, multipartFile, CommonConstant.UPLOAD_PIC_URL+"/fruom");
            if(Validator.isNullOrEmpty(request.getSession().getAttribute("image"))){
                request.getSession().setAttribute("image",url);
            }
