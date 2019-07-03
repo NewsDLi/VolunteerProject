@@ -45,8 +45,7 @@ public class ForumController {
         Iterator<String> iterator = mr.getFileNames();
         while (iterator.hasNext()) {
             MultipartFile multipartFile = mr.getFile(iterator.next());
-            String realPath = request.getSession().getServletContext().getRealPath("/");
-            String url = ImageUtils.saveImage(request, multipartFile, realPath+"/images/shequ/");
+            String url = ImageUtils.saveImage(request, multipartFile, "/upload");
            if(Validator.isNullOrEmpty(request.getSession().getAttribute("image"))){
                request.getSession().setAttribute("image",url);
            }
