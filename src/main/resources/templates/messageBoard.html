@@ -58,9 +58,7 @@
 			type : "get",
 			url : "/getAllMessageBoard",
 			success : function(data) {
-				alert(data.message);
 				if (data.message == 'success') {
-					alert(data.data);
 					showMessage(data);
 				}
 			}
@@ -70,9 +68,7 @@
 		$('.show_message_board').removeClass('none');
 		var content = '';
 		for (var i = 0; i < data.data.length; i++) {
-
 			content += 	'<tr><td title="姓名">'+data.data[i].userName+'</td><td title="留言内容">'+ data.data[i].content + '</td></tr>';
-$.toast(content, "text");
 		}
 		$('.show_message_board').html(content);
 		$(".container").css("height", $('.page__hd').height()+ $('.button-sp-area').height() + $('.show_message_board').height()+200)
