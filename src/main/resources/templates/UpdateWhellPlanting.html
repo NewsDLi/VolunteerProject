@@ -23,13 +23,38 @@ $(function(){
 			  title: '添加',
 			  text: '确认添加？',
 			  onOK: function () {
-				  $('.form').attr("action", "/updateWhellPlanting");
-				  $('.form').submit();
+                  var ids = $("#id").val;
+                  var pics = $("#uploaderInput").val;
+                  var descs = $("#desc").val;
+                  var linkAddresss = $("#linkAddress").val;
+                  var wheel = {
+                      id:ids,
+                      pic:pics,
+                      desc:descs,
+                      linkAddress:linkAddresss
+                  }
+				  $.ajax({
+                      type : "post",
+                      url : "/updateWhellPlanting",
+                      data:JSON.stringify(wheel),
+                      success : function(data) {
+                          if (data.message == 'success') {
+                              $.toast("操作成功");
+                              setTimeout(function(){
+                                  location.href="/mypage";
+                              },2000);
+                          }else {
+                              $.toast("操作失败");
+                          }
+                      }
+                  });
 			  },
 			  onCancel: function () {
 				  return;
 			  }
 			});
+
+
 	});
 });
 function uploadImg(element, tag) {
@@ -81,13 +106,13 @@ function gotoThisPage(id){
 	 <div class="weui-cell">
 	 	<div class="weui-cell__hd"><label class="weui-label">标题</label></div>
 	    <div class="weui-cell__bd">
-	      <input class="weui-input" th:value="${whellPlanting.desc}" type="text" placeholder="请输入">
+	      <input id="desc" class="weui-input" th:value="${whellPlanting.desc}" type="text" placeholder="请输入">
 	    </div>
 	 </div>
 	 <div class="weui-cell">
 	 	<div class="weui-cell__hd"><label class="weui-label">跳转链接</label></div>
 	    <div class="weui-cell__bd">
-	      <input class="weui-input" th:value="${whellPlanting.linkAddress}" type="text" placeholder="请输入">
+	      <input id="linkAddress" class="weui-input" th:value="${whellPlanting.linkAddress}" type="text" placeholder="请输入">
 	    </div>
 	 </div>
 	 <div class="weui-cell">

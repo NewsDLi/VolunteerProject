@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.feilong.core.Validator;
 import com.volunteer.model.WheelPlanting;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -70,6 +71,10 @@ public class WheelPlantingController {
 	@RequestMapping("/updateWhellPlanting")
 	@ResponseBody
 	public ApiResponse<Object> updateWhellPlanting(HttpServletRequest request, Model model, WheelPlanting wheelPlanting){
+		if(Validator.isNullOrEmpty(wheelPlanting)){
+			return ApiResponse.build(ResponseStatus.FAIL, null);
+		}
+		wheelPlanting.setVersion(new Date());
 		Integer updateWheelPlanting = wheelPlantingManager.updateWheelPlanting(wheelPlanting);
 		model.addAttribute("whellPlanting", updateWheelPlanting);
 		if(updateWheelPlanting.equals(0)){
