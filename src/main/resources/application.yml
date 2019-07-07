@@ -37,7 +37,7 @@ spring:
   mvc:
     stastatic-path-pattern: /**
   resources:
-    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/upload/,file:/upload,file:/upload/fruom,file:/upload/images/userpic,file:/upload/images/honer
+    static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/upload/,file:/upload,file:/upload/fruom,file:/upload/images/userpic,file:/upload/images/honer,file:/upload/images/homepage
   servlet:
     multipart:
       max-file-size: -1
