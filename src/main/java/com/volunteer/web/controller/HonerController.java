@@ -159,7 +159,7 @@ public class HonerController {
 			honer.setGray(gray);
 		}
 		if (null != honer.getRange() && 0 <= honer.getRange()){
-			honer.setRange(null);
+			honer.setRange(honer.getRange());
 		}
 		Long id = honerManager.save(honer);
 		request.getSession().setAttribute("showMessage", "修改成功！");
