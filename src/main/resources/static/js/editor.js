@@ -89,16 +89,16 @@
               if(data == 1){
 
                     if(type == 1){
-                        window.location.replace("/images/ygxd.jpg");
+                        window.location.replace("/community.htm?type=1");
                         return;
                     }else if (type == 2) {
-                        window.location.replace("/images/gxjd.jpg");
+                        window.location.replace("/community.htm?type=2");
                         return;
                     }else if (type == 3) {
-                        window.location.replace("/images/zpfx.jpg");
+                        window.location.replace("/community.htm?type=3");
                         return;
                     }else if (type == 4) {
-                        window.location.replace("/images/hzpt.jpg");
+                        window.location.replace("/community.htm?type=4");
                         return;
                     }
 

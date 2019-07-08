@@ -40,7 +40,7 @@
                 <!--时间-->
                 <em class="weui-c-nickname"  th:text="${#dates.format(communityArticle.publicationTime,'yyyy-MM-dd')}">2018-10-10 10:10</em>
                 <span th:if="${session.login_phone}">
-                <span  th:if=" ${session.login_phone.roleId} eq 3">
+                <span  th:if=" ${ session.login_phone.roleId == 3 || session.login_phone.roleId == 4}">
                 <span th:if="${communityArticle.sort} eq 0">
                     <span class="icon icons icon-8" th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
                 </span>
@@ -83,7 +83,7 @@
             <div id="fand" th:if="${map.key} eq ${aclist.pid}">
             <div class="weui-comment-li">
                 <span th:if="${session.login_phone}">
-                <span  th:if=" ${session.login_phone.roleId} eq 3">
+                <span  th:if=" ${session.login_phone.roleId == 3 || session.login_phone.roleId == 4}">
                     <span th:if="${aclist.sort} eq 0">
                     <span class="icon iconc icon-8" th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\')'"></span>
                 </span>
