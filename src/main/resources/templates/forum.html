@@ -42,13 +42,13 @@
                 <span th:if="${session.login_phone}">
                 <span  th:if=" ${session.login_phone.roleId} eq 3">
                 <span th:if="${communityArticle.sort} eq 0">
-                    <span class="icon icon-8" th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
+                    <span class="icon icons icon-8" th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
                 </span>
                 <span th:if="${communityArticle.sort} eq 1">
-                    <span class="icon icon-8" th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
+                    <span class="icon icons icon-8" th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
                 </span>
                 <span th:if="${communityArticle.sort} eq 2">
-                    <span class="icon icon-6 top"  th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
+                    <span class="icon icons icon-6 top"  th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
                 </span>
                     <span class="icon icon-95"  th:onclick="'javascript:fungetDelete(\''+${communityArticle.id}+'\')'"></span>
                 </span>
@@ -82,8 +82,17 @@
             <!--主留言-->
             <div id="fand" th:if="${map.key} eq ${aclist.pid}">
             <div class="weui-comment-li">
-                <span class="check checked"> <i class="weui-comment-icon"></i> <!--<span
-                    class="weui-comment-num">11</span>--> </span></div>
+                <span th:if="${session.login_phone}">
+                <span  th:if=" ${session.login_phone.roleId} eq 3">
+                    <span th:if="${aclist.sort} eq 0">
+                    <span class="icon iconc icon-8" th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\')'"></span>
+                </span>
+                <span th:if="${aclist.sort} eq 1">
+                    <span class="icon iconc icon-6 top" th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\')'"></span>
+                </span>
+                </span>
+                </span>
+            </div>
             <div class="userinfo">
                 <!--pid-->
                 <input type="hidden" class="pid" th:value="${aclist.pid}">

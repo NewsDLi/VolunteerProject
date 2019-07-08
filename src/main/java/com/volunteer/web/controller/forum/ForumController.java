@@ -158,4 +158,18 @@ public class ForumController {
         }
         return ApiResponse.build(ResponseStatus.FAIL, "");
     }
+
+    //评论顶置
+    @RequestMapping(value = "/forum/checktop", method = {RequestMethod.GET})
+    @ResponseBody
+    public ApiResponse<Object> checkArticleMwssageBoard(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id,@RequestParam(value = "sort") String sort){
+        if (Validator.isNullOrEmpty(id)) {
+            return ApiResponse.build(ResponseStatus.FAIL, "");
+        }
+        int i = forumManager.updateForumbySort(Long.parseLong(id),Integer.parseInt(sort));
+        if(i>0){
+            return ApiResponse.build(ResponseStatus.SUCCESS, i);
+        }
+        return ApiResponse.build(ResponseStatus.FAIL, "");
+    }
 }

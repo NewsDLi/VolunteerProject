@@ -46,6 +46,10 @@ public interface ForumManager {
 	 * 更新论坛排序
 	 */
 	int updateArticleListbySort(Long communityArticlesId,Integer sort);
+	/**
+	 * 更新评论排序
+	 */
+	int updateForumbySort(Long communityArticlesId,Integer sort);
 
 	/**
 	 * 删除帖子

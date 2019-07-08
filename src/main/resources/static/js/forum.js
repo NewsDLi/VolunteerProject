@@ -71,7 +71,7 @@ function saveForum(input,pid){
 }
   function fungetone(uid){
     var  usort;
-      if($(".icon").hasClass("top")){
+      if($(".icons").hasClass("top")){
           usort = 0;
       }else{
           usort = 2;
@@ -86,7 +86,7 @@ function saveForum(input,pid){
           },
           success: function (data) {
               if (data.code == '1000002') {
-              $(".icon").addClass("top");
+              $(".icons").addClass("top");
                   $.toast("置顶成功", "text");
                   window.location.href=document.referrer;
               }else{
@@ -101,7 +101,7 @@ function saveForum(input,pid){
           type: 'get',
           contentType:'application/json;charset=utf-8',
           data:{
-              id:uid,
+              id:uid
           },
           success: function (data) {
               if (data.code == '1000002') {
@@ -110,6 +110,32 @@ function saveForum(input,pid){
                   window.location.href=document.referrer;
               }else{
                   $.toast("删除失败", "forbidden");
+              }
+          }
+      });
+  }
+  function forumCheck(uid){
+      var  usort;
+      if($(".iconc").hasClass("top")){
+          usort = 0;
+      }else{
+          usort = 1;
+      }
+      $.ajax({
+          url: "/forum/checktop",
+          type: 'get',
+          contentType:'application/json;charset=utf-8',
+          data:{
+              id:uid,
+              sort:usort
+          },
+          success: function (data) {
+              if (data.code == '1000002') {
+                  $(".iconc").addClass("top");
+                  $.toast("置顶成功", "text");
+                  window.location.reload()
+              }else{
+                  $.toast("置顶失败", "forbidden");
               }
           }
       });

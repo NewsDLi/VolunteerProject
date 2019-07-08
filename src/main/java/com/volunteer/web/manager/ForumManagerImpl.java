@@ -81,12 +81,28 @@ public class ForumManagerImpl implements ForumManager{
 
 	@Override
 	public int updateArticleListbySort(Long communityArticlesId,Integer sort) {
-		CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
-		communityArticlesExample.createCriteria().andIdEqualTo(communityArticlesId);
-		CommunityArticles communityArticles = new CommunityArticles();
-		communityArticles.setSort(sort);
+		int i = 0;
+		try {
 
-		int i = communityArticlesMapper.updateByExampleSelective(communityArticles, communityArticlesExample);
+			CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
+			communityArticlesExample.createCriteria().andIdEqualTo(communityArticlesId);
+			CommunityArticles communityArticles = new CommunityArticles();
+			communityArticles.setSort(sort);
+
+			i = communityArticlesMapper.updateByExampleSelective(communityArticles, communityArticlesExample);
+		}catch (Exception e){
+			System.out.println(e);
+		}
+		return i;
+	}
+
+	@Override
+	public int updateForumbySort(Long communityArticlesId, Integer sort) {
+		ArticleMessageBoardExample articleMessageBoardExample = new ArticleMessageBoardExample();
+		articleMessageBoardExample.createCriteria().andIdEqualTo(communityArticlesId);
+		ArticleMessageBoard articleMessageBoard = new ArticleMessageBoard();
+		articleMessageBoard.setSort(sort);
+		int i = articleMessageBoardMapper.updateByExampleSelective(articleMessageBoard, articleMessageBoardExample);
 		return i;
 	}
 
