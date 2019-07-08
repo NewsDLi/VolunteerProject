@@ -1,5 +1,6 @@
 package com.volunteer.web.manager;
 
+import com.feilong.core.util.SortUtil;
 import com.volunteer.model.*;
 import com.volunteer.web.dao.ArticleMessageBoardMapper;
 import com.volunteer.web.dao.CommunityArticlesMapper;
@@ -29,10 +30,9 @@ public class ForumManagerImpl implements ForumManager{
 	public List<CommunityArticles> selectForum(Integer type) {
 		CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
 		communityArticlesExample.createCriteria().andTypeEqualTo(type).andLifecycleEqualTo(1);
-		communityArticlesExample.setOrderByClause("publication_time desc");
-		communityArticlesExample.setOrderByClause("sort desc");
 		communityArticlesExample.setPageIndex(100);
 		List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
+		SortUtil.sortListByPropertyNamesValue(communityArticles, "sort desc", "publicationTime desc");
 		return communityArticles;
 	}
 
@@ -42,10 +42,9 @@ public class ForumManagerImpl implements ForumManager{
 		for (int i = 1;i<=4;i++){
 			CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
 			communityArticlesExample.createCriteria().andTypeEqualTo(i).andLifecycleEqualTo(1);
-			communityArticlesExample.setOrderByClause("publication_time desc");
-			communityArticlesExample.setOrderByClause("sort desc");
 			communityArticlesExample.setPageIndex(1);
 			List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
+			SortUtil.sortListByPropertyNamesValue(communityArticles, "sort desc", "publicationTime desc");
 			communityArticlesList.add(communityArticles.get(0));
 		}
 		return communityArticlesList;
