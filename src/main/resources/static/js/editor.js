@@ -87,7 +87,22 @@
               type: 'POST',
               success: function (data) {
               if(data == 1){
-                history.back(-1);
+
+                    if(type == 1){
+                        window.location.replace("/images/ygxd.jpg");
+                        return;
+                    }else if (type == 2) {
+                        window.location.replace("/images/gxjd.jpg");
+                        return;
+                    }else if (type == 3) {
+                        window.location.replace("/images/zpfx.jpg");
+                        return;
+                    }else if (type == 4) {
+                        window.location.replace("/images/hzpt.jpg");
+                        return;
+                    }
+
+                  history.back(-1);
               }else{
                 $.toast("禁止操作", "forbidden");
               }

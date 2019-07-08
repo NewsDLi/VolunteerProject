@@ -95,3 +95,22 @@ function saveForum(input,pid){
           }
       });
   }
+  function fungetDelete(uid){
+      $.ajax({
+          url: "/forum/delete",
+          type: 'get',
+          contentType:'application/json;charset=utf-8',
+          data:{
+              id:uid,
+          },
+          success: function (data) {
+              if (data.code == '1000002') {
+              $(".icon").addClass("top");
+                  $.toast("删除成功", "text");
+                  window.location.href=document.referrer;
+              }else{
+                  $.toast("删除失败", "forbidden");
+              }
+          }
+      });
+  }

@@ -89,4 +89,14 @@ public class ForumManagerImpl implements ForumManager{
 		int i = communityArticlesMapper.updateByExampleSelective(communityArticles, communityArticlesExample);
 		return i;
 	}
+
+	@Override
+	public int deleteArticleListbySort(Long communityArticlesId) {
+		CommunityArticlesExample communityArticlesExample = new CommunityArticlesExample();
+		communityArticlesExample.createCriteria().andIdEqualTo(communityArticlesId);
+		CommunityArticles communityArticles = new CommunityArticles();
+		communityArticles.setLifecycle(2);
+		int i = communityArticlesMapper.updateByExampleSelective(communityArticles, communityArticlesExample);
+		return i;
+	}
 }

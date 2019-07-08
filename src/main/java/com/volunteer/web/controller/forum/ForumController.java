@@ -147,4 +147,15 @@ public class ForumController {
         }
         return ApiResponse.build(ResponseStatus.FAIL, "");
     }
+
+    //删帖
+    @RequestMapping(value = "/forum/delete", method = {RequestMethod.GET})
+    @ResponseBody
+    public ApiResponse<Object> delArticleMwssageBoard(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id){
+        int i = forumManager.deleteArticleListbySort(Long.parseLong(id));
+        if(i>0){
+            return ApiResponse.build(ResponseStatus.SUCCESS, i);
+        }
+        return ApiResponse.build(ResponseStatus.FAIL, "");
+    }
 }

@@ -1,97 +1,108 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta name="viewport"
-	content="width=device-width,initial-scale=1,user-scalable=0">
-<meta charset="UTF-8">
+	<meta name="viewport"
+		  content="width=device-width,initial-scale=1,user-scalable=0">
+	<meta charset="UTF-8">
 	<title>聚寿山义工之家</title>
-<!-- 引入样式 -->
- <link rel="stylesheet" href="css/weui.css" />
-<link rel="stylesheet" href="css/weuix.css" />
-<link rel="stylesheet" href="css/common.css" />
-<script src="js/zepto.min.js"></script>
-<script src="js/common.js"></script>
-<script src="js/swipe.js"></script>
- <script>
-$(function(){
-	$('#uploaderInput').change(function(e){
-		var imgBox = e.target;
-        uploadImg($('#uploaderInput'), imgBox);
-	});
-	$('.updateWhellPlanting').click(function(){
-		$.confirm({
-			  title: '添加',
-			  text: '确认添加？',
-			  onOK: function () {
-                  var ids = $("#id").val;
-                  var pics = $("#uploaderInput").val;
-                  var descs = $("#desc").val;
-                  var linkAddresss = $("#linkAddress").val;
-                  var wheel = {
-                      id:ids,
-                      pic:pics,
-                      desc:descs,
-                      linkAddress:linkAddresss
-                  }
-				  $.ajax({
-                      type : "post",
-                      url : "/updateWhellPlanting",
-                      data:JSON.stringify(wheel),
-                      success : function(data) {
-                          if (data.message == 'success') {
-                              $.toast("操作成功");
-                              setTimeout(function(){
-                                  location.href="/mypage";
-                              },2000);
-                          }else {
-                              $.toast("操作失败");
-                          }
-                      }
-                  });
-			  },
-			  onCancel: function () {
-				  return;
-			  }
-			});
+	<!-- 引入样式 -->
+	<link rel="stylesheet" href="css/weui.css" />
+	<link rel="stylesheet" href="css/weuix.css" />
+	<link rel="stylesheet" href="css/common.css" />
+	<script src="js/zepto.min.js"></script>
+	<script src="js/common.js"></script>
+	<script src="js/swipe.js"></script>
+	<script  type="text/javascript">
+        $(function(){
+            $('#uploaderInput').change(function(e){
+                var imgBox = e.target;
+                uploadImg($('#uploaderInput'), imgBox);
+            });
+            $('.updateWhellPl').click(function(){
+                $.confirm({
+                    title: '添加',
+                    text: '确认添加？',
+                    onOK: function () {
+                        var ids = $("#id").val;
+                        var pics = $("#uploaderInput").val;
+                        var descs = $("#desc").val;
+                        var linkAddresss = $("#linkAddress").val;
+                        var wheel = {
+                            id:ids,
+                            pic:pics,
+                            desc:descs,
+                            linkAddress:linkAddresss
+                        }
+                        $.ajax({
+                            type : "post",
+                            url : "/updateWhellPlanting",
+                            data:JSON.stringify(wheel),
+                            success : function(data) {
+                                if (data.message == 'success') {
+                                    $.toast("操作成功");
+                                    setTimeout(function(){
+                                        location.href="/mypage";
+                                    },2000);
+                                }else {
+                                    $.toast("操作失败");
+                                }
+                            }
+                        });
+                    },
+                    onCancel: function () {
+                        $.toast("操作失败");
+                        return;
+                    }
+                });
 
 
-	});
-});
-function uploadImg(element, tag) {
-    var file = tag.files[0];
-    var imgSrc;
-    if (!/image\/\w+/.test(file.type)) {
-        alert("看清楚，这个需要图片！");
-        return false;
-    }
-    var reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = function() {
-        console.log(this.result);
-        imgSrc = this.result;
-        $('.img').attr("src", imgSrc);
-    };
-}
+            });
+        });
+        function uploadImg(element, tag) {
+            var file = tag.files[0];
+            var imgSrc;
+            if (!/image\/\w+/.test(file.type)) {
+                alert("看清楚，这个需要图片！");
+                return false;
+            }
+            var reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function() {
+                console.log(this.result);
+                imgSrc = this.result;
+                $('.img').attr("src", imgSrc);
+            };
+        }
 
-function init(){
-	$.ajax({
-		type : "get",
-		url : "/queryAll",
-		success : function(data) {
-			if (data.message == 'success') {
-				var html = '';
-				for(var i=0; i<data.data.length; i++){
-					html = html+'<li class="weui-news-item" onclick="gotoThisPage('+ data.data[i].id +')"><div class="weui-news-inners"><div class="weui-news-text"><div class="weui-news-title">'+data.data[i].desc +'</div></div><div class="weui-news-info"><div class="weui-news-infoitem">'+data.data[i].time+'</div></div></div></li>';
-				}
-				$('.weui-news-list').html(html);
-			}
+        // function init(){
+        // 	$.ajax({
+        // 		type : "get",
+        // 		url : "/queryAll",
+        // 		success : function(data) {
+        // 			if (data.message == 'success') {
+        // 				var html = '';
+        // 				for(var i=0; i<data.data.length; i++){
+        // 					html = html+'<li class="weui-news-item" onclick="gotoThisPage('+ data.data[i].id +')"><div class="weui-news-inners"><div class="weui-news-text"><div class="weui-news-title">'+data.data[i].desc +'</div></div><div class="weui-news-info"><div class="weui-news-infoitem">'+data.data[i].time+'</div></div></div></li>';
+        // 				}
+        // 				$('.weui-news-list').html(html);
+        // 			}
+        // 		}
+        // 	});
+        // }
+        // function gotoThisPage(id){
+        // 	location.href="/getWhellPlantingById?id="+id;
+        // }
+	</script>
+	<style>
+		.addButton {
+			width: 100%;
+			border-radius: 10px;
+			border: 1px solid rgba(0, 0, 0, 0.2);
+			color: #FFFFFF;
+			background-color: #1AAD19;
+			height: 22px;
 		}
-	});
-}
-function gotoThisPage(id){
-	location.href="/getWhellPlantingById?id="+id;
-}
-</script>
+	</style>
 </head>
 <body ontouchstart="" class="page-bg">
 
@@ -126,21 +137,12 @@ function gotoThisPage(id){
 	    	<img class="img" width="100%" alt="" th:src="${whellPlanting.pic}">
 	    </div>
 	 </div>
-	 <button class="addButton updateWhellPlanting">确认添加</button>
+	 <button class="addButton updateWhellPl">确认添加</button>
 	 </form>
 </div>
 <br>
 <br>
 <div th:include="tabbar::pagination"></div>
 </body>
-<style>
-.addButton {
-    width: 100%;
-    border-radius: 10px;
-    border: 1px solid rgba(0, 0, 0, 0.2);
-    color: #FFFFFF;
-    background-color: #1AAD19;
-    height: 22px;
-}
-</style>
+
 </html>

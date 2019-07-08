@@ -45,8 +45,13 @@
                     <span class="icon icon-8" th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
                 </span>
                 <span th:if="${communityArticle.sort} eq 1">
+                    <span class="icon icon-8" th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
+                </span>
+                <span th:if="${communityArticle.sort} eq 2">
                     <span class="icon icon-6 top"  th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
-                </span></span>
+                </span>
+                    <span class="icon icon-95"  th:onclick="'javascript:fungetDelete(\''+${communityArticle.id}+'\')'"></span>
+                </span>
             </span>
             </div>
 
