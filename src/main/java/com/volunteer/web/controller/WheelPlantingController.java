@@ -1,27 +1,22 @@
 package com.volunteer.web.controller;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-
 import com.feilong.core.Validator;
-import com.volunteer.model.WheelPlanting;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-
 import com.volunteer.constant.UserConstant;
 import com.volunteer.model.UserInfo;
+import com.volunteer.model.WheelPlanting;
 import com.volunteer.model.WhellPlanting;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
 import com.volunteer.utils.TimeUtil;
 import com.volunteer.web.manager.WheelPlantingManager;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
+import java.util.List;
 
 /**
  * @author NewsDLee
@@ -52,25 +47,22 @@ public class WheelPlantingController {
 		if(!isTrue){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
-		List<WhellPlanting> list = wheelPlantingManager.queryAll();
-		for (WhellPlanting whellPlanting : list) {
-			whellPlanting.setTime(TimeUtil.formatDate(whellPlanting.getVersion(), "yyyy-MM-dd HH:mm:ss"));
-		}
+		List<WheelPlanting> list = wheelPlantingManager.queryAll();
 		return ApiResponse.build(ResponseStatus.SUCCESS, list);
 	}
 	
 	@RequestMapping("/getWhellPlantingById")
 	public String getWhellPlantingById(HttpServletRequest request, Model model,
 			@RequestParam(value="id", required=true)Long id){
-		WhellPlanting whellPlanting = wheelPlantingManager.queryById(id);
+		WheelPlanting whellPlanting = wheelPlantingManager.queryById(id);
 		model.addAttribute("whellPlanting", whellPlanting);
 		return "UpdateWhellPlanting";
 	}
 
 
-	@RequestMapping("/updateWhellPlanting")
+	@PostMapping("/updateWhellPlanting")
 	@ResponseBody
-	public ApiResponse<Object> updateWhellPlanting(HttpServletRequest request, Model model, WheelPlanting wheelPlanting){
+	public ApiResponse<Object> updateWhellPlanting(HttpServletRequest request, Model model,@RequestBody WheelPlanting wheelPlanting){
 		if(Validator.isNullOrEmpty(wheelPlanting)){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}

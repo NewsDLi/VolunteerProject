@@ -76,7 +76,9 @@
             <div class="weui-news-inner">
                 <div class="weui-news-inners">
                     <!--标题-->
-                    <div class="weui-news-title" ><span th:text="${communityArticle.title}"></span><label class="label f-red b-red" th:if="${communityArticle.sort} eq 2">顶置</label></div>
+                    <div class="weui-news-title" >
+                        <span th:text="${communityArticle.title}"></span><label class="label f-red b-red" th:if="${communityArticle.sort} eq 2">顶置</label>
+                        </span><label class="label f-red b-red" th:if="${communityArticle.sort} eq 1">HOT</label></div>
                     <!--副标题-->
                     <p class="weui-news-p" th:text="${communityArticle.subheading}"></p>
                     <div class="weui-news-info">

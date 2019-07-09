@@ -10,6 +10,7 @@
 <link rel="stylesheet" href="css/weuix.css" />
 <link rel="stylesheet" href="css/common.css" />
 <script src="js/zepto.min.js"></script>
+<script src="js/zepto.weui.js"></script>
 <script src="js/common.js"></script>
 <script src="js/swipe.js"></script>
  <script>
@@ -24,12 +25,31 @@ function init(){
 			if (data.message == 'success') {
 				var html = '';
 				for(var i=0; i<data.data.length; i++){
-					html = html+'<li class="weui-news-item" onclick="gotoThisPage('+ data.data[i].id +')"><div class="weui-news-inners"><div class="weui-news-text"><div class="weui-news-title">'+data.data[i].desc +'</div></div><div class="weui-news-info"><div class="weui-news-infoitem">'+data.data[i].time+'</div></div></div></li>';
+					html = html+'<li class="weui-news-item" onclick="gotoThisPage('+ data.data[i].id +')"><div class="weui-news-inners"><div class="weui-news-text"><div class="weui-news-title">'+data.data[i].description +'</div></div><div class="weui-news-info"><div class="weui-news-infoitem">'+dateParser(data.data[i].version).isoDate+'</div></div></div></li>';
 				}
 				$('.weui-news-list').html(html);
 			}
 		}
 	});
+}
+function ISODateString(d) { function pad(n){ return n<10 ? '0'+n : n }
+    return d.getUTCFullYear()+'-'
+    + pad(d.getUTCMonth()+1)+'-'
+    + pad(d.getUTCDate())+'T'
+    + pad(d.getUTCHours())+':'
+    + pad(d.getUTCMinutes());
+}
+
+function dateParser(someDate) {
+  if(typeof someDate == 'string') {
+    var timeStamp = Date.parse(someDate) / 1000;
+    var isoDate = ISODateString(new Date( timeStamp*1000 ));
+  }
+  if(typeof someDate == 'number') {
+    var timeStamp = someDate;
+    var isoDate = ISODateString(new Date( someDate*1000 ));
+  }
+  return {"timeStamp": timeStamp, "isoDate": isoDate };
 }
 function getDate(version){
 	var date = new Date(version);

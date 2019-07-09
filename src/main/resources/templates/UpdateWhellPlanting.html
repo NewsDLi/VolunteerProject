@@ -10,89 +10,10 @@
 	<link rel="stylesheet" href="css/weuix.css" />
 	<link rel="stylesheet" href="css/common.css" />
 	<script src="js/zepto.min.js"></script>
+	<script src="js/zepto.weui.js"></script>
 	<script src="js/common.js"></script>
 	<script src="js/swipe.js"></script>
-	<script  type="text/javascript">
-        $(function(){
-            $('#uploaderInput').change(function(e){
-                var imgBox = e.target;
-                uploadImg($('#uploaderInput'), imgBox);
-            });
-            $('.updateWhellPl').click(function(){
-                $.confirm({
-                    title: '添加',
-                    text: '确认添加？',
-                    onOK: function () {
-                        var ids = $("#id").val;
-                        var pics = $("#uploaderInput").val;
-                        var descs = $("#desc").val;
-                        var linkAddresss = $("#linkAddress").val;
-                        var wheel = {
-                            id:ids,
-                            pic:pics,
-                            desc:descs,
-                            linkAddress:linkAddresss
-                        }
-                        $.ajax({
-                            type : "post",
-                            url : "/updateWhellPlanting",
-                            data:JSON.stringify(wheel),
-                            success : function(data) {
-                                if (data.message == 'success') {
-                                    $.toast("操作成功");
-                                    setTimeout(function(){
-                                        location.href="/mypage";
-                                    },2000);
-                                }else {
-                                    $.toast("操作失败");
-                                }
-                            }
-                        });
-                    },
-                    onCancel: function () {
-                        $.toast("操作失败");
-                        return;
-                    }
-                });
-
-
-            });
-        });
-        function uploadImg(element, tag) {
-            var file = tag.files[0];
-            var imgSrc;
-            if (!/image\/\w+/.test(file.type)) {
-                alert("看清楚，这个需要图片！");
-                return false;
-            }
-            var reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = function() {
-                console.log(this.result);
-                imgSrc = this.result;
-                $('.img').attr("src", imgSrc);
-            };
-        }
-
-        // function init(){
-        // 	$.ajax({
-        // 		type : "get",
-        // 		url : "/queryAll",
-        // 		success : function(data) {
-        // 			if (data.message == 'success') {
-        // 				var html = '';
-        // 				for(var i=0; i<data.data.length; i++){
-        // 					html = html+'<li class="weui-news-item" onclick="gotoThisPage('+ data.data[i].id +')"><div class="weui-news-inners"><div class="weui-news-text"><div class="weui-news-title">'+data.data[i].desc +'</div></div><div class="weui-news-info"><div class="weui-news-infoitem">'+data.data[i].time+'</div></div></div></li>';
-        // 				}
-        // 				$('.weui-news-list').html(html);
-        // 			}
-        // 		}
-        // 	});
-        // }
-        // function gotoThisPage(id){
-        // 	location.href="/getWhellPlantingById?id="+id;
-        // }
-	</script>
+	<script src="js/updateWhellPlanting.js"></script>
 	<style>
 		.addButton {
 			width: 100%;
@@ -112,12 +33,12 @@
 	</div>
 </div>
 <div class="weui-cells weui-cells_form">
-	<form class="form" enctype="multipart/form-data">
+<!--	<form class="form" enctype="multipart/form-data">-->
 	<input id="id" name="id" th:value="${whellPlanting.id}" type="text">
 	 <div class="weui-cell">
 	 	<div class="weui-cell__hd"><label class="weui-label">标题</label></div>
 	    <div class="weui-cell__bd">
-	      <input id="desc" class="weui-input" th:value="${whellPlanting.desc}" type="text" placeholder="请输入">
+	      <input id="desc" class="weui-input" th:value="${whellPlanting.description}" type="text" placeholder="请输入">
 	    </div>
 	 </div>
 	 <div class="weui-cell">
@@ -137,8 +58,8 @@
 	    	<img class="img" width="100%" alt="" th:src="${whellPlanting.pic}">
 	    </div>
 	 </div>
-	 <button class="addButton updateWhellPl">确认添加</button>
-	 </form>
+	 <button class="addButton updateWhellPl">确认</button>
+<!--	 </form>-->
 </div>
 <br>
 <br>

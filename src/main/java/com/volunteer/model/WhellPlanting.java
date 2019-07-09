@@ -14,7 +14,7 @@ public class WhellPlanting  implements Serializable{
 	
 	private String pic;
 	
-	private String desc;
+	private String description;
 	
 	private String linkAddress;
 	
@@ -39,11 +39,11 @@ public class WhellPlanting  implements Serializable{
 	}
 
 	public String getDesc() {
-		return desc;
+		return description;
 	}
 
 	public void setDesc(String desc) {
-		this.desc = desc;
+		this.description = desc;
 	}
 
 	public String getLinkAddress() {

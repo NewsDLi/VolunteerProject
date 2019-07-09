@@ -1,15 +1,14 @@
 package com.volunteer.web.manager;
 
-import java.util.List;
-
 import com.volunteer.model.WheelPlanting;
-import com.volunteer.model.WhellPlanting;
+
+import java.util.List;
 
 public interface WheelPlantingManager {
 
-	List<WhellPlanting> queryAll();
+	List<WheelPlanting> queryAll();
 
-	WhellPlanting queryById(Long id);
+	WheelPlanting queryById(Long id);
 
 	Integer updateWheelPlanting(WheelPlanting wheelPlanting);
 
