@@ -34,6 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         loginRegistry.excludePathPatterns("/weChatLogin");
         // 排除资源请求
         loginRegistry.excludePathPatterns("/css/**");
+        loginRegistry.excludePathPatterns("/mp/**");
         loginRegistry.excludePathPatterns("/js/**/**");
         loginRegistry.excludePathPatterns("/images/**");
         loginRegistry.excludePathPatterns("/fonts/**");
