@@ -23,15 +23,18 @@ import org.springframework.web.multipart.MultipartFile;
 import com.alibaba.fastjson.JSON;
 import com.volunteer.constant.CommonConstant;
 import com.volunteer.constant.UserConstant;
+import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.model.PageInfoCommand;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoTag;
+import com.volunteer.model.WechatInfo;
 import com.volunteer.response.ApiResponse;
 import com.volunteer.response.ResponseStatus;
 import com.volunteer.utils.AESUtil;
 import com.volunteer.utils.ImageUtils;
 import com.volunteer.web.manager.UserInfoManager;
 import com.volunteer.web.manager.UserInfoTagManager;
+import com.volunteer.web.manager.WechatInfoManager;
 
 /**
  * @author NewsDLee
@@ -49,6 +52,9 @@ public class UserInfoController {
 	@Autowired
 	private UserInfoTagManager userInfoTagManager;
 	
+	@Autowired
+	private WechatInfoManager wechatInfoManager;
+	
 	/**
 	 * 获取用户信息
 	 * @param request
@@ -59,6 +65,7 @@ public class UserInfoController {
 	public String getUserInfo(HttpServletRequest request, Model model){
 		// 用户信息
 		UserInfo userInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+		WechatInfo wechatInfo = (WechatInfo)request.getSession().getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
 		LOGGER.info("session中用户信息为：{}", JSON.toJSONString(userInfo));
 		String encryptionIdCard = userInfo.getIdCard();
 		String idCard = AESUtil.AESDncode(AESUtil.KEY, encryptionIdCard);
@@ -75,6 +82,7 @@ public class UserInfoController {
 		BeanUtils.copyProperties(userInfo, userInfo1);
 		userInfo1.setIdCard(idCard);
 		model.addAttribute("userInfo", userInfo1);
+		model.addAttribute("nickName", wechatInfo.getNickName());
 		return "myinfo";
 	}
 	
@@ -282,7 +290,7 @@ public class UserInfoController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/updateBaseUserInfo")
-	public ApiResponse<Object> updateBaseUserInfo(HttpServletRequest request, UserInfo userInfo){
+	public ApiResponse<Object> updateBaseUserInfo(HttpServletRequest request, UserInfo userInfo, String nickName){
 		UserInfo loginUserInfo = (UserInfo) request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
 		userInfo.setId(loginUserInfo.getId());
 		userInfo.setVersion(new Date());
@@ -294,6 +302,10 @@ public class UserInfoController {
 		// 更新session中的userinfo信息
 		UserInfo userInfoById = userInfoManager.getUserInfoById(loginUserInfo.getId());
 		request.getSession().setAttribute(UserConstant.LOGIN_PHONE, userInfoById);
+		// 更新session中微信的用户信息
+		WechatInfo wechatInfo = (WechatInfo) request.getSession().getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
+		wechatInfo.setNickName(nickName);
+		wechatInfoManager.updateWechatInfo(wechatInfo);
 		return ApiResponse.build(ResponseStatus.SUCCESS, true);
 	}
 	

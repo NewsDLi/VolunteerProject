@@ -102,7 +102,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.volunteer.model.WechatInfo" >
+  <insert id="insert" parameterType="com.volunteer.model.WechatInfo" useGeneratedKeys="true" keyProperty="id">
     insert into wechat_info (id, open_id, nick_name, 
       sex, province, city, 
       country, image)
@@ -255,4 +255,18 @@
       image = #{image,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+  
+  <select id="getWechartInfoByUserId" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  	SELECT wi.*
+	FROM 
+		wechat_info wi,
+		user_info_bind uib, 
+		user_info ui 
+	WHERE
+		wi.id = uib.wechat_id
+		AND
+		ui.id = uib.user_id
+		AND
+		ui.id=#{value}
+  </select>
 </mapper>

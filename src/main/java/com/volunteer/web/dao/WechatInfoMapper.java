@@ -27,4 +27,6 @@ public interface WechatInfoMapper {
     int updateByPrimaryKeySelective(WechatInfo record);
 
     int updateByPrimaryKey(WechatInfo record);
+
+	WechatInfo getWechartInfoByUserId(Long id);
 }

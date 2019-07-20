@@ -28,11 +28,15 @@ $(function(){
 		if($('#sex').val() == "女"){
 			sex = 1
 		}
+		if($('#nickName').val().trim().length <= 0){
+			$.toast('别名不能为空！','text');
+			return;
+		}
 		$.ajax({
 			type : "get",
 			url : "/updateBaseUserInfo",
 			async: false,
-			data : "name=" + $("#name").val() +"&sex="+ sex +"&nation="+ $('#nation').val() +"&birthplace=" + $('#birthplace').val()+"&loginPhone="+$('#loginPhone').val()+"&worker="+$('#worker').val() +"&hobby="+$('#hobby').val()+"&descption="+$('#descption').val(),
+			data : "name=" + $("#name").val() + "&nickName=" + $("#nickName").val() +"&sex="+ sex +"&nation="+ $('#nation').val() +"&birthplace=" + $('#birthplace').val()+"&loginPhone="+$('#loginPhone').val()+"&worker="+$('#worker').val() +"&hobby="+$('#hobby').val()+"&descption="+$('#descption').val(),
 			success : function(data) {
 				if(data.data){
 					$("#uploadUserImg").submit();
@@ -113,6 +117,12 @@ function uploadImg(element, tag, cla) {
 				 	<div class="weui-cell__hd"><label class="weui-label">姓名：</label></div>
 				    <div class="weui-cell__bd">
 				      <input id="name" th:value="${userInfo.name}"/>
+				    </div>
+				 </div>
+				 <div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">别名：</label></div>
+				    <div class="weui-cell__bd">
+				      <input id="nickName" th:value="${nickName}"/>
 				    </div>
 				 </div>
 				<div class="weui-cell">

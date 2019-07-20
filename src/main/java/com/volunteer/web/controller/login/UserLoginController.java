@@ -1,5 +1,20 @@
 package com.volunteer.web.controller.login;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.alibaba.fastjson.JSON;
 import com.feilong.core.Validator;
 import com.volunteer.cache.manager.CacheManager;
@@ -14,32 +29,12 @@ import com.volunteer.utils.CookieUtil;
 import com.volunteer.utils.HttpsUtils;
 import com.volunteer.utils.PropBean;
 import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
-import com.volunteer.web.dao.HonerMapper;
-import com.volunteer.web.dao.WechatInfoMapper;
 import com.volunteer.web.manager.HonerManager;
 import com.volunteer.web.manager.UserInfoBindManager;
 import com.volunteer.web.manager.UserInfoManager;
-import com.volunteer.web.manager.UserInfoManagerImpl;
+import com.volunteer.web.manager.WechatInfoManager;
 
 import net.sf.json.JSONObject;
-import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author yuan
@@ -61,7 +56,7 @@ public class UserLoginController {
     private UserInfoManager userInfoManager;
 
     @Autowired
-    private WechatInfoMapper wechatInfoMapper;
+    private WechatInfoManager wechatInfoManager;
 
 
     @Autowired
@@ -195,7 +190,9 @@ public class UserLoginController {
         WechatInfo wechatInfo = (WechatInfo) session.getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
         LOGGER.info("获取用户微信信息：{}", JSON.toJSONString(wechatInfo));
         if (Validator.isNullOrEmpty(wechatInfo)){
-        	LOGGER.info("session中用户微信信息为空");
+        	// 这里添加“微信”信息到session中
+        	wechatInfo = wechatInfoManager.getWechartInfoById(userInfo);
+        	session.setAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION, wechatInfo);;
             return returnLogin(session,userInfo);
         }
         List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
