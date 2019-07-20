@@ -1,0 +1,147 @@
+@charset "utf-8";
+	   .icon-checked i,i.icon-checked {
+        background-size: 250px;
+        background-position: 0 -182px;
+        width: 17px;
+        height: 17px;
+    }
+	.icon-checked i,i.icon-checked {
+    background: url("/images/common/icon-common.png") 0 -408px no-repeat scroll transparent;
+    display: block;
+    width: 20px;
+    height: 20px
+}
+
+.dialog-checked i.icon-checked {
+    background: transparent url("/images/common/popup_check.png") no-repeat scroll center center;
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px
+}
+
+    .icon-checked i,i.icon-checked {
+        background-size: 250px;
+        background-position: 0 -182px;
+        width: 17px;
+        height: 17px
+    }
+
+    .icon-checked.is-active i,i.icon-checked.is-active,.is-active .icon-checked {
+        background-position: -22px -182px;
+    }
+
+	
+	.iam-input-container {
+		display: block;
+		position: relative;
+		z-index: 1;
+		margin: 20px 0;
+	}
+	.iam-input-container > label {
+		position: absolute;
+		top: -3px;
+		left: auto;
+		max-width: 100%;
+		height: 46px;
+		line-height:46px;
+		color: #767676;
+		font-size: 18px;
+		cursor: text;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		-webkit-transition: all .2s;
+		transition: all .2s;
+		/* z-index: -1; */
+		pointer-events: none;
+		-webkit-font-smoothing: antialiased;
+		-webkit-transform: translate3d(0, 3px, 0) scale(1);
+		transform: translate3d(0, 3px, 0) scale(1);
+		-webkit-transform-origin: left top;
+		transform-origin: left top;
+	}
+
+	.iam-input-container.focus > label {
+		color: #1428a0;
+		font-size: 14px;
+	}
+	.iam-input-container.active > label {
+		color: #1428a0;
+		font-size: 14px;
+	}
+	.iam-input-container.focus > label {
+		top: -28px;
+		left: auto;
+		font-size: 14px;
+	}
+	.iam-input-container.active > label {
+		top: -28px;
+		left: auto;
+		font-size: 14px;
+	}
+
+	.iam-input-container > input{
+		height: 46px;
+		line-height:46px;
+		font-size: 18px;
+	}
+
+	.iam-input-container > input {
+		display: block;
+		width: 100%;
+		color: #000;
+		border: none;
+		border-bottom: 1px solid #DDD;
+		background-color: transparent;
+		box-sizing: border-box;
+	}
+
+
+	.iam-input-container > input:focus {
+		outline: 0;
+		border-color: #1428a0;
+		border-width: 2px;
+		color: #1428a0;
+	}
+	.iam-input-container .error-msg {
+		font-size:14px;
+		color: #d0021b;
+		display: block;
+		margin-top: 12px;
+	}
+
+	.iam-input-container .check-box{
+		margin-right: 20px;
+		text-align: left;
+		overflow: hidden;
+		margin-top: -2px;
+		height: 40px;
+		line-height:40px;
+		font-size: 16px;
+		color: #373737;
+		position: relative;
+		padding-left: 30px;
+	}
+	.iam-input-container .check-box i{
+		display: inline-block;
+		position: absolute;
+		left: 0px;
+		top: 10px;
+		cursor: pointer;
+	}
+	.iam-input-container .get-code{
+		position: absolute;
+		display: inline-block;
+		width:165px;
+		height: 40px;
+		line-height: 40px;
+		text-align: center;
+		background:#3248c5;
+		border-radius: 8px;
+		color:#fff;
+		top: 0;
+		right: 0;
+		cursor: pointer;
+	}
+	

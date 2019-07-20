@@ -10,6 +10,7 @@ import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoBind;
 import com.volunteer.model.WechatInfo;
 import com.volunteer.utils.AESUtil;
+import com.volunteer.utils.CookieUtil;
 import com.volunteer.utils.HttpsUtils;
 import com.volunteer.utils.PropBean;
 import com.volunteer.web.controller.login.handler.WeChatLoginHandler;
@@ -33,7 +34,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -168,7 +172,8 @@ public class UserLoginController {
                           HttpServletResponse response,
                           @RequestParam(value = "wechatInfoId", required = false) Long wechatId,
                           @RequestParam(value = "username") String username,
-                          @RequestParam(value = "password") String password) {
+                          @RequestParam(value = "password") String password,
+                          @RequestParam(value = "isRemember") boolean isRemember) {
 
     	LOGGER.info("开始用户登录...");
         List<UserInfo> userInfoByMobile = userInfoManager.getUserInfoByMobile(username);
@@ -184,6 +189,8 @@ public class UserLoginController {
         	LOGGER.info("校验密码出错返回首页");
             return "index";
         }
+        // 保存用户信息到cookie中
+        saveUserToCookie(username, password, isRemember, request, response);
         HttpSession session = request.getSession();
         WechatInfo wechatInfo = (WechatInfo) session.getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
         LOGGER.info("获取用户微信信息：{}", JSON.toJSONString(wechatInfo));
@@ -204,7 +211,27 @@ public class UserLoginController {
         return returnLogin(session,userInfo);
     }
 
-    private String returnLogin(HttpSession session,UserInfo userInfo){
+    private void saveUserToCookie(String username, 
+    		String password, 
+    		boolean isRemember, 
+    		HttpServletRequest request,
+            HttpServletResponse response) {
+		try{
+			if (isRemember){
+				// cookie过期时间为1年
+				LOGGER.info("保存用户信息到cookie中");
+				CookieUtil.setCookieValue("p_w", password, request, response, 365*24*60*60, false, false);
+				CookieUtil.setCookieValue("u_n", username, request, response, 365*24*60*60, false, false);
+			} else {
+				LOGGER.info("删除用户cookie中的信息");
+				CookieUtil.deleteCookie(request, response, "p_w");
+				CookieUtil.deleteCookie(request, response, "u_n");
+			}
+		}catch(Exception e) {
+			LOGGER.error("保存用户信息到cookie报错：", e);
+		}
+	}
+	private String returnLogin(HttpSession session,UserInfo userInfo){
     	LOGGER.info("设置用户登录信息：{}",JSON.toJSONString(userInfo));
         session.setAttribute(UserConstant.LOGIN_PHONE, userInfo);
         honerManager.updateUserHonerInfo(userInfo.getId());
