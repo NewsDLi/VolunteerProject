@@ -1,9 +1,12 @@
 package com.volunteer.web.controller;
 
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,6 +38,8 @@ import com.volunteer.utils.ImageUtils;
 import com.volunteer.web.manager.UserInfoManager;
 import com.volunteer.web.manager.UserInfoTagManager;
 import com.volunteer.web.manager.WechatInfoManager;
+
+import sun.misc.BASE64Decoder;
 
 /**
  * @author NewsDLee
@@ -480,5 +485,61 @@ public class UserInfoController {
 		}
 		return null;
 	}
+	
+	
+	@ResponseBody
+	@RequestMapping(value="/uploadUserHeaderImg", method = {RequestMethod.POST, RequestMethod.GET})
+	public ApiResponse<Object> uploadUserHeaderImg(HttpServletRequest request, String headerImg){
+		String picName = UUID.randomUUID().toString()+".png";
+		String imagePath= CommonConstant.UPLOAD_PIC_URL+"/images/userpic/" + picName;
+		boolean generateImage = GenerateImage(headerImg, imagePath);
+		if (generateImage){
+			WechatInfo wechatInfo = (WechatInfo)request.getSession().getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
+			wechatInfo.setImage(picName);
+			wechatInfoManager.updateWechatInfo(wechatInfo);
+			return ApiResponse.build(ResponseStatus.SUCCESS, null);
+		}
+		return ApiResponse.build(ResponseStatus.FAIL, null);
+	}
+	
+	
+	 /**
+     * @Description： base64字符串转化成图片
+     * @param:     imgStr
+     * @Return:
+     */
+    public boolean GenerateImage(String imgStr,String imagePath)
+    {
+        //对字节数组字符串进行Base64解码并生成图片
+        //图像数据为空
+        if (imgStr == null){
+        	return false;
+        }
+        BASE64Decoder decoder = new BASE64Decoder();
+        try
+        {
+            //Base64解码
+            byte[] b = decoder.decodeBuffer(imgStr);
+            for(int i=0;i<b.length;++i)
+            {
+                if(b[i]<0)
+                {
+                    //调整异常数据
+                    b[i]+=256;
+                }
+            }
+            //新生成的图片
+            OutputStream out = new FileOutputStream(imagePath);
+            out.write(b);
+            out.flush();
+            out.close();
+            return true;
+        }
+        catch (Exception e)
+        {
+        	LOGGER.error("message", e);
+            return false;
+        }
+    }
 	
 }

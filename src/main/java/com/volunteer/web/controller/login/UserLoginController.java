@@ -76,7 +76,7 @@ public class UserLoginController {
      * @param code
      * @return
      */
-    @RequestMapping(value = "/weChatLogin")
+//    @RequestMapping(value = "/weChatLogin")
     public String mobileWechatLogin(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "code", required = true) String code) {
     	LOGGER.info("开始微信登录...");
         try {

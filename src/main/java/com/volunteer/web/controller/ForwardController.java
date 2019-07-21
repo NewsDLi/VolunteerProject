@@ -181,5 +181,13 @@ public class ForwardController {
             return "falie";
         }
     }
+    
+    /**
+     * 上传头像页面
+     */
+    @RequestMapping("/uploadHeadImg")
+    public String uploadHeadImg() {
+        return "uploadImg";
+    }
 
 }
