@@ -87,7 +87,7 @@ function saveForum(input,pid){
           success: function (data) {
               if (data.code == '1000002') {
               $(".icons").addClass("top");
-                  $.toast("置顶成功", "text");
+                  $.toast("操作成功", "text");
                   window.location.href=document.referrer;
               }else{
                   $.toast("置顶失败", "forbidden");
@@ -132,7 +132,7 @@ function saveForum(input,pid){
           success: function (data) {
               if (data.code == '1000002') {
                   $(".iconc").addClass("top");
-                  $.toast("置顶成功", "text");
+                  $.toast("操作成功", "text");
                   window.location.reload()
               }else{
                   $.toast("置顶失败", "forbidden");

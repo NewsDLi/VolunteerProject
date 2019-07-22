@@ -80,8 +80,7 @@
         <li class="weui-comment-item" th:each="map:${articleMessageBoardMap}">
             <div th:each="aclist : ${map.value}">
             <!--主留言-->
-            <div id="fand" th:if="${map.key} eq ${aclist.pid}">
-            <div class="weui-comment-li">
+                <div class="weui-comment-li">
                 <span th:if="${session.login_phone}">
                 <span  th:if=" ${session.login_phone.roleId == 3 || session.login_phone.roleId == 4}">
                     <span th:if="${aclist.sort} eq 0">
@@ -92,7 +91,8 @@
                 </span>
                 </span>
                 </span>
-            </div>
+                </div>
+                <div id="fand" th:if="${map.key} eq ${aclist.pid}">
             <div class="userinfo">
                 <!--pid-->
                 <input type="hidden" class="pid" th:value="${aclist.pid}">

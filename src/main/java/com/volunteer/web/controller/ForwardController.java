@@ -6,7 +6,9 @@ import com.volunteer.constant.WxLoginConstant;
 import com.volunteer.model.CommunityArticles;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.WechatInfo;
+import com.volunteer.model.WheelPlanting;
 import com.volunteer.web.manager.ForumManager;
+import com.volunteer.web.manager.WheelPlantingManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +26,9 @@ public class ForwardController {
 
     @Autowired
     private ForumManager forumManager;
+
+    @Autowired
+    private WheelPlantingManager wheelPlantingManager;
 
 
     /**
@@ -115,6 +120,10 @@ public class ForwardController {
         List<CommunityArticles> communityArticlesList = forumManager.selectHomePageForum();
         if(Validator.isNotNullOrEmpty(communityArticlesList)){
             request.setAttribute("communityArticles",communityArticlesList);
+        }
+        List<WheelPlanting> wheelPlantings = wheelPlantingManager.queryAll();
+        if(Validator.isNotNullOrEmpty(wheelPlantings)){
+            request.setAttribute("wheelPlantings",wheelPlantings);
         }
         return "homepage";
     }
