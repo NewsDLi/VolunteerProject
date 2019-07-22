@@ -119,12 +119,6 @@ function uploadImg(element, tag, cla) {
 				      <input id="name" th:value="${userInfo.name}"/>
 				    </div>
 				 </div>
-				 <div class="weui-cell">
-				 	<div class="weui-cell__hd"><label class="weui-label">别名：</label></div>
-				    <div class="weui-cell__bd">
-				      <input id="nickName" th:value="${nickName}"/>
-				    </div>
-				 </div>
 				<div class="weui-cell">
 				 	<div class="weui-cell__hd"><label class="weui-label">性别：</label></div>
 				    <div class="weui-cell__bd">
@@ -147,6 +141,12 @@ function uploadImg(element, tag, cla) {
 				 	<div class="weui-cell__hd"><label class="weui-label">电话：</label></div>
 				    <div class="weui-cell__bd">
 				    	<input id="loginPhone" type="phone" th:value="${userInfo.loginPhone}"/>
+				    </div>
+				 </div>
+				 <div class="weui-cell">
+				 	<div class="weui-cell__hd"><label class="weui-label">社区昵称：</label></div>
+				    <div class="weui-cell__bd">
+				      <input id="nickName" th:value="${nickName}"/>
 				    </div>
 				 </div>
 				<div class="weui-cell">

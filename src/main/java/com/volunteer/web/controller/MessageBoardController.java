@@ -50,7 +50,7 @@ public class MessageBoardController {
 		LOGGER.info("插入留言板信息成功...");
 		// 是否有权限查看留言板
 		List<MessageBoardCommand> allMessageBoard = null;
-		if(userInfo.getIsMessageBoard()){
+		if(null != userInfo.getIsMessageBoard() && userInfo.getIsMessageBoard()){
 			LOGGER.info("具有留言板查看权限，获取所有留言板信息...");
 			allMessageBoard = getAllMessageBoard();
 		}
