@@ -21,6 +21,13 @@
             })
         });
     </script>
+    <style>
+        .icons{
+            font-size: 30px;
+            margin-left: 40px;
+        }
+
+    </style>
 </head>
 
 <body ontouchstart="">
@@ -50,7 +57,7 @@
                 <span th:if="${communityArticle.sort} eq 2">
                     <span class="icon icons icon-6 top"  th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
                 </span>
-                    <span class="icon icon-95"  th:onclick="'javascript:fungetDelete(\''+${communityArticle.id}+'\')'"></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="icon icons icon-95"  th:onclick="'javascript:fungetDelete(\''+${communityArticle.id}+'\')'"></span>
                 </span>
             </span>
             </div>
