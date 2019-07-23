@@ -8,7 +8,7 @@ $(function(){
                     title: '添加',
                     text: '确认添加？',
                     onOK: function () {
-                        var ids = $("#id").val();
+                        var ids = $("#id").attr('value');
                         var pics = $('.img').attr("src");
                         var descs = $("#desc").val();
                         var linkAddresss = $("#linkAddress").val();
