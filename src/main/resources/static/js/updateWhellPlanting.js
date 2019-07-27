@@ -9,12 +9,20 @@ $(function(){
                     text: '确认添加？',
                     onOK: function () {
                         var ids = $("#id").attr('value');
-                        var pics = $('.img').attr("src");
+                        var imgBase64 = $('.img').attr("src");
+                        		if ( undefined == imgBase64){
+                        			return;
+                        		}
+                        		var head = imgBase64.indexOf("4")+2;
+                        		imgBase64 = imgBase64.substring(head, imgBase64.length-head);
+                        		var reg = new RegExp("\\+","g");
+                                		imgBase64 = imgBase64.replace(reg, "%2B");
+
                         var descs = $("#desc").val();
                         var linkAddresss = $("#linkAddress").val();
                         var wheel = {
                             id:ids,
-                            pic:pics,
+                            pic:imgBase64,
                             description:descs,
                             linkAddress:linkAddresss
                         }

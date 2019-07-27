@@ -40,7 +40,7 @@ public class WheelPlantingManagerImpl implements WheelPlantingManager{
 	public Integer updateWheelPlanting(WheelPlanting wheelPlanting) {
 		WheelPlantingExample wheelPlantingExample = new WheelPlantingExample();
 		wheelPlantingExample.createCriteria().andIdEqualTo(wheelPlanting.getId());
-		int i = wheelPlantingMapper.updateByExample(wheelPlanting, wheelPlantingExample);
+		int i = wheelPlantingMapper.updateByExampleSelective(wheelPlanting, wheelPlantingExample);
 		return i;
 	}
 
