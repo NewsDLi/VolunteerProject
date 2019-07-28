@@ -11,6 +11,9 @@ $(function(){
                         var formData = new FormData();
                         var ids = $("#id").attr('value');
                         var file = $('#uploaderInput').get(0).files[0];
+                        if(file == 'undefined' || file == null){
+                        file = null;
+                        }
                         var descs = $("#desc").val();
                         var linkAddresss = $("#linkAddress").val();
                         formData.append("pics", file);
@@ -31,7 +34,7 @@ $(function(){
                                         location.href="/mypage";
                                     },2000);
                                 }else {
-                                    $.toast("操作失败");
+                                    $.toast("数据有误，请稍后再试！");
                                 }
                             }
                         });

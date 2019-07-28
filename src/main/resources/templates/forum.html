@@ -98,10 +98,10 @@
                 <span th:if="${session.login_phone}">
                 <span  th:if=" ${session.login_phone.roleId == 3 || session.login_phone.roleId == 4}">
                     <span th:if="${aclist.sort} eq 0">
-                    <span class="icon iconc icon-8" th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\')'"></span>
+                    <span class="icon iconc icon-8" th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\',1)'"></span>
                 </span>
                 <span th:if="${aclist.sort} eq 1">
-                    <span class="icon iconc icon-6 top" th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\')'"></span>
+                    <span class="icon iconc icon-6 top" th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\',0)'"></span>
                 </span>
                 </span>
                 </span>

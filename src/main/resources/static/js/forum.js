@@ -114,13 +114,12 @@ function saveForum(input,pid){
           }
       });
   }
-  function forumCheck(uid){
-      var  usort;
-      if($(".iconc").hasClass("top")){
-          usort = 0;
-      }else{
-          usort = 1;
-      }
+  function forumCheck(uid,usort){
+//      if($(".iconc").hasClass("top")){
+//          usort = 0;
+//      }else{
+//          usort = 1;
+//      }
       $.ajax({
           url: "/forum/checktop",
           type: 'get',

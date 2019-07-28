@@ -161,11 +161,11 @@ public class ForumController {
     //评论顶置
     @RequestMapping(value = "/forum/checktop", method = {RequestMethod.GET})
     @ResponseBody
-    public ApiResponse<Object> checkArticleMwssageBoard(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id,@RequestParam(value = "sort") String sort){
+    public ApiResponse<Object> checkArticleMwssageBoard(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id,@RequestParam(value = "sort") Integer sort){
         if (Validator.isNullOrEmpty(id)) {
             return ApiResponse.build(ResponseStatus.FAIL, "");
         }
-        int i = forumManager.updateForumbySort(Long.parseLong(id),Integer.parseInt(sort));
+        int i = forumManager.updateForumbySort(Long.parseLong(id),sort);
         if(i>0){
             return ApiResponse.build(ResponseStatus.SUCCESS, i);
         }

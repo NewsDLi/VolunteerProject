@@ -72,25 +72,22 @@ public class WheelPlantingController {
 	@RequestMapping(value = "/updateWhellPlanting",method = {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
 	public ApiResponse<Object> updateWhellPlanting(HttpServletRequest request, Model model
-			,@RequestParam MultipartFile pics
+			,@RequestParam(required = false) MultipartFile pics
 			,@RequestParam Long id
 			,@RequestParam String description
 			,@RequestParam String linkAddress){
 
-		if(Validator.isNullOrEmpty(pics)||
+		if(
 				Validator.isNullOrEmpty(id)||
 				Validator.isNullOrEmpty(description)||
 				Validator.isNullOrEmpty(linkAddress)){
 			return ApiResponse.build(ResponseStatus.FAIL, null);
 		}
 		WheelPlanting wheelPlanting = new WheelPlanting();
-
-		String savePic = savePic(pics, request);
-
-		if(Validator.isNullOrEmpty(savePic)){
-			return ApiResponse.build(ResponseStatus.FAIL, null);
+		if(Validator.isNotNullOrEmpty(pics)){
+			String savePic = savePic(pics, request);
+			wheelPlanting.setPic(savePic);
 		}
-		wheelPlanting.setPic(savePic);
 		wheelPlanting.setDescription(description);
 		wheelPlanting.setId(id);
 		wheelPlanting.setLinkAddress(linkAddress);
