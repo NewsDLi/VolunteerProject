@@ -272,7 +272,7 @@
     from article_message_board a
     left join wechat_info w on a.user_id = w.id
     where a.community_articles_id = #{communityArticlesId}
-    order by version desc,sort desc
+    order by sort desc,version asc
   </select>
   <select id="selectArticleMessageBoardTop" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
   SELECT

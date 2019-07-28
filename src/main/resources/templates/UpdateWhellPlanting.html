@@ -33,24 +33,24 @@
 	</div>
 </div>
 <div class="weui-cells weui-cells_form">
-<!--	<form class="form" enctype="multipart/form-data">-->
+<!--	<form class="form" method="POST" enctype="multipart/form-data">-->
 	<label class="weui-cell" style="font-weight: 600;">第<span id="id" name="id" th:value="${whellPlanting.id}" th:text="${whellPlanting.id}" ></span>页轮播</label>
 	 <div class="weui-cell">
 	 	<div class="weui-cell__hd"><label class="weui-label">标题</label></div>
 	    <div class="weui-cell__bd">
-	      <input id="desc" class="weui-input" th:value="${whellPlanting.description}" type="text" placeholder="请输入">
+	      <input id="desc" name="description" class="weui-input" th:value="${whellPlanting.description}" type="text" placeholder="请输入">
 	    </div>
 	 </div>
 	 <div class="weui-cell">
 	 	<div class="weui-cell__hd"><label class="weui-label">跳转链接</label></div>
 	    <div class="weui-cell__bd">
-	      <input id="linkAddress" class="weui-input" th:value="${whellPlanting.linkAddress}" type="text" placeholder="请输入">
+	      <input id="linkAddress" name="linkAddress" class="weui-input" th:value="${whellPlanting.linkAddress}" type="text" placeholder="请输入">
 	    </div>
 	 </div>
 	 <div class="weui-cell">
 	 	<div class="weui-cell__hd"><label class="weui-label">图片</label></div>
 	    <div class="weui-cell__bd">点我选择图片
-	      <input id="uploaderInput" class="weui-uploader__input" type="file" accept="image/*">
+	      <input id="uploaderInput" name="pics" class="weui-uploader__input" type="file" accept="image/*">
 	    </div>
 	 </div>
 	 <div class="weui-cell">

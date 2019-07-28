@@ -1,5 +1,6 @@
 package com.volunteer.web.manager;
 
+import com.feilong.core.Validator;
 import com.feilong.core.util.SortUtil;
 import com.volunteer.model.*;
 import com.volunteer.web.dao.ArticleMessageBoardMapper;
@@ -45,6 +46,9 @@ public class ForumManagerImpl implements ForumManager{
 			communityArticlesExample.setPageIndex(1);
 			List<CommunityArticles> communityArticles = communityArticlesMapper.selectByExample(communityArticlesExample);
 			SortUtil.sortListByPropertyNamesValue(communityArticles, "sort desc", "publicationTime desc");
+			if(Validator.isNullOrEmpty(communityArticles)){
+				continue;
+			}
 			communityArticlesList.add(communityArticles.get(0));
 		}
 		return communityArticlesList;

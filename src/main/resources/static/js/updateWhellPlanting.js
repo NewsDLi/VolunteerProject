@@ -8,30 +8,22 @@ $(function(){
                     title: '添加',
                     text: '确认添加？',
                     onOK: function () {
+                        var formData = new FormData();
                         var ids = $("#id").attr('value');
-                        var imgBase64 = $('.img').attr("src");
-                        		if ( undefined == imgBase64){
-                        			return;
-                        		}
-                        		var head = imgBase64.indexOf("4")+2;
-                        		imgBase64 = imgBase64.substring(head, imgBase64.length-head);
-                        		var reg = new RegExp("\\+","g");
-                                		imgBase64 = imgBase64.replace(reg, "%2B");
-
+                        var file = $('#uploaderInput').get(0).files[0];
                         var descs = $("#desc").val();
                         var linkAddresss = $("#linkAddress").val();
-                        var wheel = {
-                            id:ids,
-                            pic:imgBase64,
-                            description:descs,
-                            linkAddress:linkAddresss
-                        }
+                        formData.append("pics", file);
+                        formData.append("id", ids);
+                        formData.append("description", descs);
+                        formData.append("linkAddress", linkAddresss);
                         $.ajax({
-                            type : "post",
                             url : "/updateWhellPlanting",
-                            contentType : 'application/json',
-                            data:JSON.stringify(wheel),
-                            dataType:'json',
+                             data: formData,
+                            cache: false,
+                            contentType: false,
+                            processData: false,
+                            type: 'POST',
                             success : function(data) {
                                 if (data.message == 'success') {
                                     $.toast("操作成功");
