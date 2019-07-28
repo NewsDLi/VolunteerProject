@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.mysql.cj.x.protobuf.MysqlxDatatypes.Array;
 import com.volunteer.constant.CommonConstant;
 import com.volunteer.model.Honer;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoTag;
-import com.volunteer.utils.ImageUtils;
 import com.volunteer.web.dao.HonerMapper;
 import com.volunteer.web.dao.UserInfoMapper;
 
@@ -106,7 +104,7 @@ public class HonerManagerImpl implements HonerManager{
 					continue;
 				}
 				// 义工总期数大于或等于
-				if(count >= range && (honerId.indexOf(String.valueOf(honer.getId())) == -1)){
+				if(count >= range){
 					honerId += "," + String.valueOf(honer.getId());
 				}
 			}

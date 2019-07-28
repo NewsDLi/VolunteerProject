@@ -1,5 +1,6 @@
 package com.volunteer.web.controller.login;
 
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -171,6 +172,11 @@ public class UserLoginController {
                           @RequestParam(value = "isRemember") boolean isRemember) {
 
     	LOGGER.info("开始用户登录...");
+    	HttpSession session = request.getSession();
+    	Enumeration em = session.getAttributeNames();
+		while(em.hasMoreElements()){
+		   session.removeAttribute(em.nextElement().toString());
+		}
         List<UserInfo> userInfoByMobile = userInfoManager.getUserInfoByMobile(username);
         LOGGER.info("查询用户信息为：{}", JSON.toJSONString(userInfoByMobile));
         if (null == userInfoByMobile || userInfoByMobile.size() == 0 || Validator.isNullOrEmpty(password)) {
@@ -186,25 +192,11 @@ public class UserLoginController {
         }
         // 保存用户信息到cookie中
         saveUserToCookie(username, password, isRemember, request, response);
-        HttpSession session = request.getSession();
-        WechatInfo wechatInfo = (WechatInfo) session.getAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION);
-        LOGGER.info("获取用户微信信息：{}", JSON.toJSONString(wechatInfo));
-        if (Validator.isNullOrEmpty(wechatInfo)){
-        	// 这里添加“微信”信息到session中
-        	wechatInfo = wechatInfoManager.getWechartInfoById(userInfo);
-        	session.setAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION, wechatInfo);;
-            return returnLogin(session,userInfo);
-        }
-        List<UserInfoBind> userInfoBinds = userInfoBindManager.selectUserInfoBind(wechatInfo.getId());
-        LOGGER.info("查询用户微信绑定信息：{}", JSON.toJSONString(userInfoBinds));
-        if(Validator.isNullOrEmpty(userInfoBinds)){
-        	LOGGER.info("用户绑定信息为空，进行信息绑定");
-            UserInfoBind userInfoBind = new UserInfoBind();
-            userInfoBind.setUserId(userInfo.getId());
-            userInfoBind.setWechatId(wechatInfo.getId());
-            userInfoBindManager.saveUserInfoBind(userInfoBind);
-        }
-        LOGGER.info("进行用户信息登录");
+    	// 这里添加“微信”信息到session中
+    	// getWechartInfoById查找微信的信息，若信息不存在，则自动创建一个微信信息，与当前用户进行绑定
+    	WechatInfo wechatInfo = wechatInfoManager.getWechartInfoById(userInfo);
+    	session.setAttribute(WxLoginConstant.WECHAT_USERINFO_SESSION, wechatInfo);;
+    	LOGGER.info("进行用户信息登录");
         return returnLogin(session,userInfo);
     }
 
