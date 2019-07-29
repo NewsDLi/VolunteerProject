@@ -1,5 +1,6 @@
 package com.volunteer.web.manager;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -13,7 +14,6 @@ import com.volunteer.constant.CommonConstant;
 import com.volunteer.model.Honer;
 import com.volunteer.model.UserInfo;
 import com.volunteer.model.UserInfoTag;
-import com.volunteer.utils.ImageUtils;
 import com.volunteer.web.dao.HonerMapper;
 import com.volunteer.web.dao.UserInfoMapper;
 
@@ -92,21 +92,24 @@ public class HonerManagerImpl implements HonerManager{
 				}
 			}
 			String honerId = userInfoById.getHonerId();
-			if(StringUtils.isBlank(honerId)){
+			List<String> asList = null;
+			if(StringUtils.isNotBlank(honerId)){
+				asList = Arrays.asList(honerId.split(","));
+			} else {
 				honerId = "";
 			}
 			for (Honer honer : allHoner) {
 				Integer range = honer.getRange();
-				if (null == range){
+				if (null == range || honer.getIsClickSend() || (null !=asList && asList.contains(honer.getId().toString()))){
 					continue;
 				}
 				// 义工总期数大于或等于
-				if(count >= range && (honerId.indexOf(String.valueOf(honer.getId())) == -1)){
-					honerId = "," + String.valueOf(honer.getId());
+				if(count >= range){
+					honerId += "," + String.valueOf(honer.getId());
 				}
 			}
 			if(honerId.startsWith(",")){
-				honerId.substring(1, honerId.length());
+				honerId = honerId.substring(1, honerId.length());
 			}
 			userInfoById.setHonerId(honerId);
 			boolean result = userInfoManager.updateUserInfoById(userInfoById);

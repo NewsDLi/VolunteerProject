@@ -68,6 +68,10 @@ function init(){
 	if($('#showMessage').val() != ''){
 		var aaa = $('#showMessage').val();
 		$.toast(aaa,'text');
+		setTimeout(function(){
+			location.href="/mypage";
+		},2000);
+		
 	}
 }
 </script>
