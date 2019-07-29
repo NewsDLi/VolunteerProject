@@ -139,7 +139,12 @@ public class ForumController {
                 return ApiResponse.build(ResponseStatus.FAIL, "");
         }
         articleMessageBoard.setVersion(new Date());
-        articleMessageBoard.setSort(0);
+        UserInfo userInfo = (UserInfo)request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
+        if(userInfo.getRoleId().equals(2)){
+            articleMessageBoard.setSort(1);
+        }else {
+            articleMessageBoard.setSort(0);
+        }
         int i = forumManager.saveArticleList(articleMessageBoard);
         if(i>0){
             return ApiResponse.build(ResponseStatus.SUCCESS, i);
@@ -161,11 +166,14 @@ public class ForumController {
     //评论顶置
     @RequestMapping(value = "/forum/checktop", method = {RequestMethod.GET})
     @ResponseBody
-    public ApiResponse<Object> checkArticleMwssageBoard(HttpServletRequest request, HttpServletResponse response, @RequestParam(value = "id") String id,@RequestParam(value = "sort") Integer sort){
+    public ApiResponse<Object> checkArticleMwssageBoard(
+            @RequestParam(value = "id") String id,
+            @RequestParam(value = "communityArticleId") Long communityArticleId,
+            @RequestParam(value = "sort") Integer sort){
         if (Validator.isNullOrEmpty(id)) {
             return ApiResponse.build(ResponseStatus.FAIL, "");
         }
-        int i = forumManager.updateForumbySort(Long.parseLong(id),sort);
+        int i = forumManager.updateForumbySort(Long.parseLong(id),communityArticleId,sort);
         if(i>0){
             return ApiResponse.build(ResponseStatus.SUCCESS, i);
         }

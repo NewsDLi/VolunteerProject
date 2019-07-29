@@ -29,15 +29,14 @@ public class CommunityScheduleTask {
 
     //3.添加定时任务
     @Scheduled(cron = "0 0 0/2 * * ?")
-//    @Scheduled(cron = "0/1 * * * * ?")
-    //或直接指定时间间隔，例如：5秒
-    //@Scheduled(fixedRate=5000)
     private void configureTasks() {
         for (int i = 1;i<5;i++){
+            //查询最新热帖
             ArticleMessageBoard articleMessageBoard = articleMessageBoardMapper.selectArticleMessageBoardTop(i);
             if(Validator.isNullOrEmpty(articleMessageBoard)){
                 continue;
             }
+            //查询当前热帖
             CommunityArticlesExample communityArticlesExample1 = new CommunityArticlesExample();
             communityArticlesExample1.createCriteria().andTypeEqualTo(i).andSortEqualTo(1);
             List<CommunityArticles> communityArticlesList = communityArticlesMapper.selectByExample(communityArticlesExample1);

@@ -20,12 +20,18 @@
                 }
             })
         });
+
+
+
     </script>
     <style>
         .icons{
             font-size: 30px;
             margin-left: 40px;
         }
+
+
+
 
     </style>
 </head>
@@ -35,29 +41,36 @@
     <div class="weui-c-inner">
         <div class="weui-c-content">
             <!--标题-->
-            <h2 class="weui-c-title" th:text="${communityArticle.title}">Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面</h2>
+            <h2 class="weui-c-title" th:text="${communityArticle.title}">
+                Flutter是谷歌的移动UI框架，可以快速在iOS和Android上构建高质量的原生用户界面</h2>
             <div class="weui-c-meta">
                 <!--作者-->
                 <input type="hidden" id="hidden" th:value="${communityArticle.id}">
                 <div th:if="${not #lists.isEmpty(session.WechatUserInfoSession)}">
-                <input type="hidden" id="userId" th:value="${session.WechatUserInfoSession.id}">
-                <input type="hidden" id="userName" th:value="${session.WechatUserInfoSession.nickName}">
+                    <input type="hidden" id="userId" th:value="${session.WechatUserInfoSession.id}">
+                    <input type="hidden" id="userName" th:value="${session.WechatUserInfoSession.nickName}">
                 </div>
-                <span class="weui-c-nickname"><a href="javascript:;" th:text="${communityArticle.author}">Yoby开发者</a></span>
+                <span class="weui-c-nickname"><a href="javascript:;"
+                                                 th:text="${communityArticle.author}">Yoby开发者</a></span>
                 <!--时间-->
-                <em class="weui-c-nickname"  th:text="${#dates.format(communityArticle.publicationTime,'yyyy-MM-dd')}">2018-10-10 10:10</em>
+                <em class="weui-c-nickname" th:text="${#dates.format(communityArticle.publicationTime,'yyyy-MM-dd')}">2018-10-10
+                    10:10</em>
                 <span th:if="${session.login_phone}">
-                <span  th:if=" ${ session.login_phone.roleId == 3 || session.login_phone.roleId == 4}">
+                <span th:if=" ${ session.login_phone.roleId == 3 || session.login_phone.roleId == 4}">
                 <span th:if="${communityArticle.sort} eq 0">
-                    <span class="icon icons icon-8" th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
+                    <span class="icon icons icon-8"
+                          th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
                 </span>
                 <span th:if="${communityArticle.sort} eq 1">
-                    <span class="icon icons icon-8" th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
+                    <span class="icon icons icon-8"
+                          th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
                 </span>
                 <span th:if="${communityArticle.sort} eq 2">
-                    <span class="icon icons icon-6 top"  th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
+                    <span class="icon icons icon-6 top"
+                          th:onclick="'javascript:fungetone(\''+${communityArticle.id}+'\')'"></span>
                 </span>
-                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="icon icons icon-95"  th:onclick="'javascript:fungetDelete(\''+${communityArticle.id}+'\')'"></span>
+                    &nbsp;&nbsp;&nbsp;&nbsp;<span class="icon icons icon-95"
+                                                  th:onclick="'javascript:fungetDelete(\''+${communityArticle.id}+'\')'"></span>
                 </span>
             </span>
             </div>
@@ -93,41 +106,43 @@
                         <div class="weui-comment-msg" th:text="${aclist.message}"> 睡过头了，老师.</div>
                         <p class="time" th:text="${#dates.format(aclist.version, 'yyyy-MM-dd HH:mm')}">今天早上</p></div>
                 </div>
-            <!--主留言-->
+                <!--主留言-->
                 <div class="weui-comment-li" th:if="${aclist.id} eq ${aclist.pid}">
                 <span th:if="${session.login_phone}">
-                <span  th:if=" ${session.login_phone.roleId == 3 || session.login_phone.roleId == 4}">
+                <span th:if=" ${session.login_phone.roleId == 3 || session.login_phone.roleId == 4}">
                     <span th:if="${aclist.sort} eq 0">
-                    <span class="icon iconc icon-8" th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\',1)'"></span>
-                </span>
-                <span th:if="${aclist.sort} eq 1">
-                    <span class="icon iconc icon-6 top" th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\',0)'"></span>
-                </span>
+                    <span class="icon iconc icon-8"
+                          th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\','+${aclist.communityArticlesId}+',2)'"></span>
+                    </span>
+                    <span th:if="${aclist.sort} eq 2">
+                    <span class="icon iconc icon-6 top"
+                          th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\','+${aclist.communityArticlesId}+',0)'"></span>
+                    </span>
                 </span>
                 </span>
                 </div>
                 <div id="fand" th:if="${aclist.id} eq ${aclist.pid}">
-            <div class="userinfo">
-                <!--pid-->
-                <input type="hidden" class="pid" th:value="${aclist.pid}">
-                <!--昵称-->
-                <strong class="nickname" th:text="${aclist.userName}">老师</strong>
-                <!--头像-->
-                <img class="avatar" th:src="@{${aclist.image}}">
-            </div>
-            <div class="weui-comment-msg"><span class="status"></span>
+                    <div class="userinfo">
+                        <!--pid-->
+                        <input type="hidden" class="pid" th:value="${aclist.pid}">
+                        <!--昵称-->
+                        <strong class="nickname" th:text="${aclist.userName}">老师</strong>
+                        <!--头像-->
+                        <img class="avatar" th:src="@{${aclist.image}}">
+                    </div>
+                    <div class="weui-comment-msg"><span class="status"></span>
 
-                <!--内容-->
-                <span  th:text="${aclist.message}"> 为什么上课迟到?</span></div>
-            <p class="time" th:text="${#dates.format(aclist.version, 'yyyy-MM-dd HH:mm')}">昨天 </p>
-            </div>
+                        <!--内容-->
+                        <span th:text="${aclist.message}"> 为什么上课迟到?</span></div>
+                    <p class="time" th:text="${#dates.format(aclist.version, 'yyyy-MM-dd HH:mm')}">昨天 </p>
+                </div>
 
 
             </div>
         </li>
     </ul>
     <div class="page-bd-15">
-    <a href="javascript:;" class="weui-btn weui-btn_primary" id="sd3">请留言</a>
+        <a href="javascript:;" class="weui-btn weui-btn_primary" id="sd3">请留言</a>
     </div>
 </div>
 

@@ -49,7 +49,7 @@ public interface ForumManager {
 	/**
 	 * 更新评论排序
 	 */
-	int updateForumbySort(Long communityArticlesId,Integer sort);
+	int updateForumbySort(Long communityArticlesId,Long communityArticleId,Integer sort);
 
 	/**
 	 * 删除帖子

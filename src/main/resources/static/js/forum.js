@@ -114,19 +114,15 @@ function saveForum(input,pid){
           }
       });
   }
-  function forumCheck(uid,usort){
-//      if($(".iconc").hasClass("top")){
-//          usort = 0;
-//      }else{
-//          usort = 1;
-//      }
+  function forumCheck(uid,communityId,usort){
       $.ajax({
           url: "/forum/checktop",
           type: 'get',
           contentType:'application/json;charset=utf-8',
           data:{
               id:uid,
-              sort:usort
+              communityArticleId:communityId,
+              sort : usort
           },
           success: function (data) {
               if (data.code == '1000002') {
