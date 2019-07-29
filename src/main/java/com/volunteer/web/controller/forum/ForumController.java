@@ -140,7 +140,7 @@ public class ForumController {
         }
         articleMessageBoard.setVersion(new Date());
         UserInfo userInfo = (UserInfo)request.getSession().getAttribute(UserConstant.LOGIN_PHONE);
-        if(userInfo.getRoleId().equals(2)){
+        if(userInfo.getRoleId().equals(2L)){
             articleMessageBoard.setSort(1);
         }else {
             articleMessageBoard.setSort(0);
