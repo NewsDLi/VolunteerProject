@@ -101,13 +101,23 @@ public class ForumManagerImpl implements ForumManager{
 
 	@Override
 	public int updateForumbySort(Long id, Long communityArticleId,Integer sort) {
+//		if( sort.equals(3)){
+//			//教授顶置
+//			ArticleMessageBoardExample articleMessageBoardExample2 = new ArticleMessageBoardExample();
+//			articleMessageBoardExample2.createCriteria().andCommunityArticlesIdEqualTo(communityArticleId).andSortEqualTo(3);
+//			ArticleMessageBoard articleMessageBoard2 = new ArticleMessageBoard();
+//			articleMessageBoard2.setSort(1);
+//			articleMessageBoardMapper.updateByExampleSelective(articleMessageBoard2,articleMessageBoardExample2);
+//
+//		}
+
 		//取消旧置顶
 		if(sort.equals(2)){
-		ArticleMessageBoardExample articleMessageBoardExample2 = new ArticleMessageBoardExample();
-		articleMessageBoardExample2.createCriteria().andCommunityArticlesIdEqualTo(communityArticleId).andSortEqualTo(2);
-		ArticleMessageBoard articleMessageBoard2 = new ArticleMessageBoard();
-		articleMessageBoard2.setSort(0);
-		articleMessageBoardMapper.updateByExampleSelective(articleMessageBoard2,articleMessageBoardExample2);
+			ArticleMessageBoardExample articleMessageBoardExample2 = new ArticleMessageBoardExample();
+			articleMessageBoardExample2.createCriteria().andCommunityArticlesIdEqualTo(communityArticleId).andSortEqualTo(2);
+			ArticleMessageBoard articleMessageBoard2 = new ArticleMessageBoard();
+			articleMessageBoard2.setSort(0);
+			articleMessageBoardMapper.updateByExampleSelective(articleMessageBoard2,articleMessageBoardExample2);
 		}
 		//新的置顶
 		ArticleMessageBoardExample articleMessageBoardExample = new ArticleMessageBoardExample();
@@ -116,6 +126,7 @@ public class ForumManagerImpl implements ForumManager{
 		articleMessageBoard.setSort(sort);
 		int i = articleMessageBoardMapper.updateByExampleSelective(articleMessageBoard, articleMessageBoardExample);
 		return i;
+
 	}
 
 	@Override

@@ -114,9 +114,17 @@
                     <span class="icon iconc icon-8"
                           th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\','+${aclist.communityArticlesId}+',2)'"></span>
                     </span>
+                    <span th:if="${aclist.sort} eq 3">
+                    <span class="icon iconc icon-8"
+                          th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\','+${aclist.communityArticlesId}+',1)'"></span>
+                    </span>
                     <span th:if="${aclist.sort} eq 2">
                     <span class="icon iconc icon-6 top"
                           th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\','+${aclist.communityArticlesId}+',0)'"></span>
+                    </span>
+                    <span th:if="${aclist.sort} eq 1">
+                    <span class="icon iconc icon-6 top"
+                          th:onclick="'javascript:forumCheck(\''+${aclist.id}+'\','+${aclist.communityArticlesId}+',3)'"></span>
                     </span>
                 </span>
                 </span>
