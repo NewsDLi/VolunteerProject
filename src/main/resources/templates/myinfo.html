@@ -80,8 +80,8 @@ function uploadImg(element, tag, cla) {
 			<div class="show">
 				<div class="info_message">	
 					<div class="main_aside">
-						<img th:if="${userInfo.userPic != null}" th:src="${userInfo.userPic}" width="150px;" alt="头像" />
-						<img th:if="${userInfo.userPic == null}" src="images/common/1555840770.jpg" width="150px;" alt="头像" />
+						<img style="width: 100%;height: 100%;" th:if="${userInfo.userPic != null}" th:src="${userInfo.userPic}" width="150px;" alt="头像" />
+						<img style="width: 100%;height: 100%;" th:if="${userInfo.userPic == null}" src="images/common/1555840770.jpg" width="150px;" alt="头像" />
 					</div>
 					<div class="main_content">
 						<h2 class="name"><span th:text="${userInfo.name}"></span></h2>
