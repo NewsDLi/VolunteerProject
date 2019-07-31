@@ -24,6 +24,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         // 排除路径
         loginRegistry.excludePathPatterns("/");
         loginRegistry.excludePathPatterns("/login.json");
+        loginRegistry.excludePathPatterns("/tourist/visit");
         loginRegistry.excludePathPatterns("/homepage.htm");
         loginRegistry.excludePathPatterns("/forum.htm");
         loginRegistry.excludePathPatterns("/communityPage.htm");

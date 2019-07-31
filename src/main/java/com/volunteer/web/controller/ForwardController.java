@@ -14,6 +14,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import java.util.Enumeration;
 import java.util.List;
 
 /**
@@ -112,6 +115,17 @@ public class ForwardController {
         return "weui";
     }
 
+    // 游客登录第一件事清空所有session
+    @RequestMapping("/tourist/visit")
+    public String tourist(HttpServletRequest request) {
+    	HttpSession session = request.getSession();
+    	Enumeration em = session.getAttributeNames();
+		while(em.hasMoreElements()){
+		   session.removeAttribute(em.nextElement().toString());
+		}
+        return "redirect:/homepage.htm";
+    }
+    
     /**
      * 主页
      */
