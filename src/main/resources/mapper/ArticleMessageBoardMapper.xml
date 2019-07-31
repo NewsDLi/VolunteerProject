@@ -157,7 +157,7 @@
         #{communityArticlesId,jdbcType=BIGINT},
       </if>
       <if test="message != null" >
-        #{message,jdbcType=VARCHAR},
+        <![CDATA[ #{message}, ]]>
       </if>
       <if test="version != null" >
         #{version,jdbcType=TIMESTAMP},
