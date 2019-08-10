@@ -1,15 +1,12 @@
 @media {
 	.main_content {
 		float: left;
-		width: 52%;
+		width: auto;
 		height: 200px;
 	}
 	.main_aside {
 		float: left;
-		width: 40%;
-		height: 200px;
-		padding-left: 4%;
-		padding-right: 4%;
+		width: auto;
 	}
 	.info_message {
 		height: auto;

@@ -301,7 +301,7 @@ function plusOne(id){
 </script>
 <style>
 .info_message p{
-	text-indent: 2em;
+	text-indent: 1.5em;
 }
 .person_info input{
 	text-indent: 1em;
@@ -309,6 +309,10 @@ function plusOne(id){
 }
 .hidden{
 	display: none;
+}
+.showInfo{
+	padding-left: 15px;
+    padding-right: 15px;
 }
 .showInfo h2{
 	text-align: center;
@@ -344,8 +348,8 @@ display: none;
 					</div>
 				</div>
 				<p class="person_info">工作岗位：<span th:text="${userInfo.worker}"></span></p>
-				<p class="person_info">兴趣爱好：<span th:text="${userInfo.hobby}"></span></p>
-				<p class="person_info">自我介绍：<span th:text="${userInfo.descption}"></span></p>
+				<p class="person_info clean_float"><span class="per_left">兴趣爱好：</span><span class="per_right" th:text="${userInfo.hobby}"></span></p>
+				<p class="person_info clean_float"><span class="per_left">自我介绍：</span><span class="per_right" th:text="${userInfo.descption}"></span></p>
 				<p class="person_info" th:if="${userInfo.isGroupLeader}">是否组长：<span>是</span></p>
 				<p class="person_info" th:if="${userInfo.isMessageBoard}">是否可查留言板：<span>是</span></p>
 				<p class="person_info">角色：<span th:if="${userInfo.roleId eq 1}">义工</span><span th:if="${userInfo.roleId eq 2}">教授</span><span th:if="${userInfo.roleId eq 3}">管理员</span></p>
@@ -515,6 +519,24 @@ display: none;
 	    padding: 0px 5px;
 	    float: right;
 	    cursor: pointer;
+	}
+	.per_left{
+		display: block;
+	    height: auto;
+	    width: auto;
+	    float: left;
+	}
+	.per_right{
+		display: block;
+	    float: left;
+	    height: auto;
+	    width: 66%;
+	    text-indent: 0;
+	}
+	.clean_float::after{
+	    content: '';
+	    display: block;
+	    clear: both;
 	}
 }
 </style>
